@@ -4,6 +4,8 @@
 int main(void)
 {
     char opcionIni;
+    char back;
+    char passAdmin[8];
     char* str;
     char dni[9];
     char* name;
@@ -28,6 +30,19 @@ int main(void)
             case '2':
                 break;
             case '3':
+                do{
+                    printf("Introduzca la contraseña de administrador: \n");
+                    fflush(stdout);
+                    fgets(str, 8, stdin);
+                    sscanf(str, "%s", passAdmin);
+                    if(passAdmin == "ALPHARUNNERS"){
+                        printf("\nMENU ADMINISTRADOR\n");
+                        printf("------------------\n");
+                    }else{
+                        printf("¿Desea volver atrás? S/N");
+                        back = getchar();
+                    }
+                }while(back != 'S' || back != 's');
                 break;
             case '4':
                 printf("\nREGISTRO\n");
