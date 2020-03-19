@@ -4,6 +4,11 @@
 int main(void)
 {
     char opcionIni;
+    char* str;
+    char dni[9];
+    char* name;
+    char* email;
+    char* birthdate;
     
     do{
         printf("INICIO DE SESION\n");
@@ -12,12 +17,12 @@ int main(void)
         printf("1.- Corredor.\n");
         printf("2.- Trabajador.\n");
         printf("3.- Administrador.\n");
-        printf("4.- Registarse como corredor.\n")
+        printf("4.- Registarse como corredor.\n");
         printf("Pulsar 'q' para salir.\n");
         fflush(stdout);
 
         opcionIni = getchar();
-        switch(c){
+        switch(opcionIni){
             case '1':
                 break;
             case '2':
@@ -25,25 +30,23 @@ int main(void)
             case '3':
                 break;
             case '4':
-                char* name;
-                char* email;
-                char* birthdate;
-
-                printf("REGISTRO\n");
+                printf("\nREGISTRO\n");
                 printf("--------\n");
+                printf("DNI: \n");
+                fgets(str, 9, stdin);
+                sscanf(str, "%s", dni);
                 printf("Nombre y apellidos:\n");
                 fflush(stdout);
-                name = getchar();
+                scanf("%s", name);
                 printf("Email:\n");
                 fflush(stdout);
-                name = getchar();
+                scanf("%s", email);
                 printf("Fecha de nacimiento (AAAA/MM/DD): \n");
                 fflush(stdout);
-                birthdate = getchar();
+                scanf("%s", birthdate);
 
-                FILE* f;
-                f = fopen("corredores.dat", "w");
-                fprintf("%s, %s, %s", name, email, birthdate);
+                FILE* f = fopen("corredores.txt", "a");
+                fprintf(f, "%s; %s; %s; %s\n", dni, name, email, birthdate);
                 fclose(f);
 
                 break;
