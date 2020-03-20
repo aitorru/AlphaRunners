@@ -1,17 +1,26 @@
 #include <stdio.h>
+#include <string.h>
 #include "Runner/Runner.h"
 
 int main(void)
 {
+    //Variables para navegar a traves de los menus
     char opcionIni;
+    char opcionAdmin;
     char back;
+
+    //Variable para iniciar sesion como Admin
     char passAdmin[8];
-    char* str;
+
+    //Variable para no leer caracteres de más
+    char* str = "";
+
+    //Variables para que los corredores se registres
     char dni[9];
-    char* name;
-    char* email;
-    char* birthdate;
-    
+    char* name = "";
+    char* email = "";
+    char* birthdate = "";
+
     do{
         printf("INICIO DE SESION\n");
         printf("----------------\n");
@@ -35,11 +44,30 @@ int main(void)
                     fflush(stdout);
                     fgets(str, 8, stdin);
                     sscanf(str, "%s", passAdmin);
-                    if(passAdmin == "ALPHARUNNERS"){
-                        printf("\nMENU ADMINISTRADOR\n");
-                        printf("------------------\n");
+                    if(strcmp(passAdmin, "ALPHARUNNERS") != 0){
+                        do{
+                            printf("\nMENU ADMINISTRADOR\n");
+                            printf("------------------\n");
+                            printf("1.- Administrar carreras.\n");
+                            printf("2.- Administrar corredores.\n");
+                            printf("3.- Administrar trabajadores.\n");
+                            printf("4.- Atrás.");
+                            opcionAdmin = getchar();
+                            switch(opcionAdmin){
+                                case '1':
+                                    break;
+                                case '2':
+                                    break;
+                                case '3':
+                                    break;
+                                case '4':
+                                    break;
+                                default:
+                                    printf("ERROR. La opcion elegida no es correcta.\n");
+                            }
+                        }while(opcionAdmin != '4');
                     }else{
-                        printf("¿Desea volver atrás? S/N");
+                        printf("¿Desea volver al menú inicial? S/N");
                         back = getchar();
                     }
                 }while(back != 'S' || back != 's');
@@ -70,7 +98,8 @@ int main(void)
             default:
             printf("ERROR. La opcion elegida no es correcta.\n");
         }
-        printf("\n");     
+        printf("\n");
     }while(opcionIni != 'q' );
     return 0;
 }
+
