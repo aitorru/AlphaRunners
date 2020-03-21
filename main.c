@@ -20,6 +20,7 @@ int main(void)
     char* name = "";
     char* email = "";
     char* birthdate = "";
+    char* password = "";
 
     do{
         printf("INICIO DE SESION\n");
@@ -59,6 +60,26 @@ int main(void)
                                 case '2':
                                     break;
                                 case '3':
+                                    do{
+                                        printf("\nADMINISTRACION DE TRABAJADORES\n");
+                                        printf("------------------------------\n");
+                                        printf("1.- Dar de alta a un trabajador.\n");
+                                        printf("2.- Dar de baja a un trabajador.\n");
+                                        printf("3.- Atrás.");
+
+                                        fflush(stdout);
+                                        opcionAdmin = getchar();
+                                        switch(opcionAdmin){
+                                            case '1':
+                                                break;
+                                            case '2':
+                                                break;
+                                            case '3':
+                                                break;
+                                            default:
+                                                printf("ERROR. La opcion elegida no es correcta.\n");
+                                        }
+                                    }while(opcionAdmin != '3');
                                     break;
                                 case '4':
                                     break;
@@ -87,9 +108,20 @@ int main(void)
                 printf("Fecha de nacimiento (AAAA/MM/DD): \n");
                 fflush(stdout);
                 scanf("%s", birthdate);
+                printf("Introduzca una contraseña: \n");
+                fflush(stdout);
+                scanf("%s", password);
 
-                FILE* f = fopen("corredores.txt", "a");
-                fprintf(f, "%s; %s; %s; %s\n", dni, name, email, birthdate);
+                Runner r;
+                strcpy(r.dni, dni);
+                r.name = name;
+                r.email = email;
+                r.birthdate = birthdate;
+                r.password = password;
+                Runner runners[1];
+                runners[0] = r;
+	            FILE* f = fopen("runners.dat", "ab");
+                fwrite(runners, sizeof(Runner), 1, f);
                 fclose(f);
 
                 break;

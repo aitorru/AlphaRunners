@@ -8,6 +8,6 @@ typedef struct
     char* email;
     char* birthdate;
     char* password;
-} Runnner;
+} Runner;
 
 #endif
