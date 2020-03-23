@@ -15,7 +15,10 @@ int main(void)
     //Variable para no leer caracteres de más
     char* str = "";
 
-    //Variables para que los corredores se registres
+    //Variables para alta/baja de un trabajador
+    int id;
+
+    //Variables para que los corredores se registren
     char dni[9];
     char* name = "";
     char* email = "";
@@ -73,6 +76,16 @@ int main(void)
                                             case '1':
                                                 break;
                                             case '2':
+                                                printf("Introduzca el número identificativo del trabajador:");
+                                                fflush(stdout);
+                                                scanf("%i", &id);
+
+                                                FILE* f = fopen("employees.dat", "rb");
+                                                int num = fgetc(f);
+                                                Employee *employees = (Employee*) malloc(num* sizeof(Employee));
+                                                fread(employees, sizeof(Employee), num, f);
+                                                fclose(f);
+
                                                 break;
                                             case '3':
                                                 break;
@@ -120,7 +133,10 @@ int main(void)
                 r.password = password;
                 Runner runners[1];
                 runners[0] = r;
-	            FILE* f = fopen("runners.dat", "ab");
+
+	            FILE* f = fopen("runners.dat", "r+b");
+                int num = fgetc(f);
+                fputc(num+1, f);
                 fwrite(runners, sizeof(Runner), 1, f);
                 fclose(f);
 
