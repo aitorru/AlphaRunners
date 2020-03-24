@@ -72,8 +72,98 @@ void runnerRegister (void)
     free(runners2);
 }
 
-int main(void)
+void modifyRunner(char dni[9])
 {
+    char option;
+    char* str = "";
+    char newDni[9];
+    char* name = "";
+    int tlfn;
+    char* email = "";
+    char* birthdate = "";
+    char* password = "";
+
+    int r = -1;
+
+    FILE* f = fopen("runners.dat", "rb");
+    int num = fgetc(f);
+    Runner* runners = (Runner*) malloc(num* sizeof(Runner));
+    fread(runners, sizeof(Runner), num, f);
+
+    for(int i = 0; i < num; i++)
+    {
+        if(strcmp(runners[i].dni, dni) != 0)
+        {
+            r = i;
+            break;
+        }
+    }
+    if(r != -1)
+    {
+        do{
+            printf("\nMODIFICACION DE DATOS DE CORREDOR\n");
+            printf("---------------------------------\n");
+            printf("1.- Cambiar DNI.\n");
+            printf("2.- Cambiar el nombre.\n");
+            printf("3.- Cambiar el telefono.\n");
+            printf("4.- Cambiar la fecha de nacimiento.\n");
+            printf("5.- Cambiar el email.\n");
+            printf("6.- Cambiar la contraseña.\n");
+            printf("7.- Atrás.");
+
+            fflush(stdout);
+            option = getchar();
+
+            switch(option){
+                case '1':
+                    printf("Introduzca el dni nuevo: \n");
+                    fgets(str, 9, stdin);
+                    sscanf(str, "%s", newDni);
+                    strcpy(runners[r].dni, newDni);
+                    break;
+                case '2':
+                    printf("Introduzca el nombre nuevo: \n");
+                    scanf("%s", name);
+                    runners[r].name = name;
+                    break;
+                case '3':
+                    printf("Introduzca el nuevo número de telefono: \n");
+                    scanf("%i", &tlfn);
+                    runners[r].tlfn = tlfn;
+                    break;
+                case '4':
+                    printf("Introduzca la nueva fecha de nacimiento: \n");
+                    scanf("%s", birthdate);
+                    runners[r].birthdate = birthdate;
+                    break;
+                case '5':
+                    printf("Introduzca el email nuevo: \n");
+                    scanf("%s", email);
+                    runners[r].email = email;
+                    break;
+                case '6':
+                    printf("Introduzca la nueva contraseña: \n");
+                    scanf("%s", password);
+                    runners[r].password = password;
+                    break;
+                case '7':
+                    break;
+                default:
+                    printf("ERROR. La opcion elegida no es correcta.\n");
+            }
+        }while(option != '7');
+        
+        fclose(f);
+        f = fopen("runners.dat", "wb");
+        fputc(num, f);
+        fwrite(runners, sizeof(Runner), num, f);
+        fclose(f);
+        free(runners);
+    }
+}
+
+
+int main(void){
     //Variables para los ficheros
     FILE* f;
     int num;
@@ -92,6 +182,9 @@ int main(void)
     //Variable para no leer caracteres de más
     char* str = "";
 
+    //Variable para modificación de datos del corredor
+    char dni[9];
+
     //Variables para alta/baja de un trabajador
     int uniqueId = 0;
     int id;
@@ -102,7 +195,7 @@ int main(void)
     Employee *employees2;
 
     do{
-        printf("INICIO DE SESION\n");
+        printf("\nINICIO DE SESION\n");
         printf("----------------\n");
         printf("Iniciar sesion como:\n");
         printf("1.- Corredor.\n");
@@ -121,7 +214,7 @@ int main(void)
                 fflush(stdout);
                 fgets(str, 8, stdin);
                 sscanf(str, "%s", passRunner);
-                //WIP (Se podria leer una base de datos con contraseñas(alias))
+                //WIP (Se podria leer una base de datos con contraseñas(alias)) 
                 if(strcmp(passAdmin, "ALPHARUNNERS") != 0){
                         do{
                             printf("\nMENU CORREDORES\n");
@@ -136,6 +229,8 @@ int main(void)
                             {
 
                             }
+                        }while(0);
+                }
                 break;
             case '3':
                 do{
@@ -154,7 +249,7 @@ int main(void)
                             opcionAdmin = getchar();
                             switch(opcionAdmin){
                                 case '1':
-                                    /*do{
+                                    do{
                                         printf("\nADMINISTRACION DE CARRERAS\n");
                                         printf("--------------------------\n");
                                         printf("1.- Crear una carrera.\n");
@@ -177,7 +272,7 @@ int main(void)
                                             default:
                                                 printf("ERROR. La opcion elegida no es correcta.\n");
                                         }
-                                    }while(opcionAdmin != '3');*/
+                                    }while(opcionAdmin != '3');
                                     break;
                                 case '2':
                                     do{
@@ -194,7 +289,10 @@ int main(void)
                                                 runnerRegister();
                                                 break;
                                             case '2':
-                                                
+                                                printf("Introduzca el DNI del corredor del que quieres modificar sus datos: \n");
+                                                fgets(str, 9, stdin);
+                                                sscanf(str, "%s", dni);
+                                                modifyRunner(dni);
                                                 break;
                                             case '3':
                                                 break;
@@ -303,9 +401,8 @@ int main(void)
             case 'q':
                 break;
             default:
-            printf("ERROR. La opcion elegida no es correcta.\n");
+                printf("ERROR. La opcion elegida no es correcta.\n");
         }
-        printf("\n");
     }while(opcionIni != 'q' );
     return 0;
 }
