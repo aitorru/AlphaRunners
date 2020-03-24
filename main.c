@@ -86,6 +86,9 @@ int main(void)
     //Variable para iniciar sesion como Admin
     char passAdmin[8];
 
+    //Variable para la contraseña de corredor
+    char passRunner[8];
+
     //Variable para no leer caracteres de más
     char* str = "";
 
@@ -114,6 +117,25 @@ int main(void)
             case '1':
                 break;
             case '2':
+                printf("Introduzca la contraseña de corredor: \n");
+                fflush(stdout);
+                fgets(str, 8, stdin);
+                sscanf(str, "%s", passRunner);
+                //WIP (Se podria leer una base de datos con contraseñas(alias))
+                if(strcmp(passAdmin, "ALPHARUNNERS") != 0){
+                        do{
+                            printf("\nMENU CORREDORES\n");
+                            printf("------------------\n");
+                            printf("1.- Apuntarte a carrera.\n");
+                            printf("2.- Desapuntarte a carrera.\n");
+                            printf("3.- Editar tus datos.\n");
+                            printf("4.- Ver tus estadisticas.\n");
+                            printf("5.- Atrás.");
+                            opcionAdmin = getchar();
+                            switch(opcionAdmin)
+                            {
+
+                            }
                 break;
             case '3':
                 do{
