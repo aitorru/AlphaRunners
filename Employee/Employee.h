@@ -3,8 +3,10 @@
 
 typedef struct{
     int id;
-    char *nss;
+    int nss;
     char *name;
+    int salary;
+    char *state;
 } Employee;
 
 #endif

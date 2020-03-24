@@ -5,8 +5,10 @@ typedef struct
 {
     char dni[8];
     char* name;
-    char* email;
+    int tlfn;
     char* birthdate;
+    char* email;
+    int number;
     char* password;
 } Runner;
 
