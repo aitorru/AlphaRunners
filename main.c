@@ -112,7 +112,7 @@ void modifyRunner(char dni[9])
             printf("7.- Atrás.");
 
             fflush(stdout);
-            option = getchar();
+            scanf("%c", &option);
 
             switch(option){
                 case '1':
@@ -205,7 +205,7 @@ int main(void){
         printf("Pulsar 'q' para salir.\n");
         fflush(stdout);
 
-        opcionIni = getchar();
+        scanf("%c", &opcionIni);
         switch(opcionIni){
             case '1':
                 printf("Introduzca la contraseña de corredor: \n");
@@ -222,7 +222,7 @@ int main(void){
                             printf("3.- Editar tus datos.\n");
                             printf("4.- Ver tus estadisticas.\n");
                             printf("5.- Atrás.");
-                            opcionAdmin = getchar();
+                            scanf("%c", &opcionAdmin);
                             switch(opcionAdmin)
                             {
                                 case '5':
@@ -249,7 +249,7 @@ int main(void){
                             printf("4.- Solicitar cambio de tarea.\n");
                             printf("5.- Introducir resultados de carreras.\n");
                             printf("6.- Atrás.");
-                            opcionAdmin = getchar();
+                            scanf("%c", &opcionAdmin);
                             switch(opcionAdmin)
                             {
                                 case '6':
@@ -274,7 +274,7 @@ int main(void){
                             printf("2.- Administrar corredores.\n");
                             printf("3.- Administrar trabajadores.\n");
                             printf("4.- Atrás.");
-                            opcionAdmin = getchar();
+                            scanf("%c", &opcionAdmin);
                             switch(opcionAdmin){
                                 case '1':
                                     do{
@@ -287,7 +287,7 @@ int main(void){
                                         printf("5.- Atrás.");
 
                                         fflush(stdout);
-                                        opcionAdmin = getchar();
+                                        scanf("%c", &opcionAdmin);
                                         switch(opcionAdmin){
                                             case '1':
                                                 
@@ -311,7 +311,7 @@ int main(void){
                                         printf("3.- Atrás.");
 
                                         fflush(stdout);
-                                        opcionAdmin = getchar();
+                                        scanf("%c", &opcionAdmin);
                                         switch(opcionAdmin){
                                             case '1':
                                                 runnerRegister();
@@ -338,7 +338,7 @@ int main(void){
                                         printf("3.- Atrás.");
 
                                         fflush(stdout);
-                                        opcionAdmin = getchar();
+                                        scanf("%c", &opcionAdmin);
                                         switch(opcionAdmin){
                                             case '1':
                                                 printf("\nALTA DE TRABAJADOR\n");
@@ -419,7 +419,7 @@ int main(void){
                         }while(opcionAdmin != '4');
                     }else{
                         printf("¿Desea volver al menú inicial? S/N");
-                        back = getchar();
+                        scanf("%c", &back);
                     }
                 }while(back != 'S' || back != 's');
                 break;
