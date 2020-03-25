@@ -1,0 +1,6 @@
+language: c
+install: make
+compiler: gcc
+os: linux
+script:
+    - make build
