@@ -208,8 +208,6 @@ int main(void){
         opcionIni = getchar();
         switch(opcionIni){
             case '1':
-                break;
-            case '2':
                 printf("Introduzca la contraseña de corredor: \n");
                 fflush(stdout);
                 fgets(str, 8, stdin);
@@ -227,7 +225,37 @@ int main(void){
                             opcionAdmin = getchar();
                             switch(opcionAdmin)
                             {
-
+                                case '5':
+                                    break;
+                                default:
+                                    printf("ERROR. La opcion elegida no es correcta.\n");
+                            }
+                        }while(0);
+                }
+                break;
+            case '2':
+                printf("Introduzca la contraseña de corredor: \n");
+                fflush(stdout);
+                fgets(str, 8, stdin);
+                sscanf(str, "%s", passRunner);
+                //WIP (Se podria leer una base de datos con contraseñas(alias)) 
+                if(strcmp(passAdmin, "ALPHARUNNERS") != 0){
+                        do{
+                            printf("\nMENU TRABAJADOR\n");
+                            printf("------------------\n");
+                            printf("1.- Ver tu tarea.\n");
+                            printf("2.- DNotificar baja.\n");
+                            printf("3.- Editar tus datos.\n");
+                            printf("4.- Solicitar cambio de tarea.\n");
+                            printf("5.- Introducir resultados de carreras.\n");
+                            printf("6.- Atrás.");
+                            opcionAdmin = getchar();
+                            switch(opcionAdmin)
+                            {
+                                case '6':
+                                    break;
+                                default:
+                                    printf("ERROR. La opcion elegida no es correcta.\n");
                             }
                         }while(0);
                 }
