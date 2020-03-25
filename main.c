@@ -9,7 +9,7 @@ void runnerRegister (void)
     FILE* f;
     int num;
     char* str = "";
-    char dni[9];
+    char dni[10];
     char* name = "";
     int tlfn;
     char* email = "";
@@ -20,9 +20,9 @@ void runnerRegister (void)
 
     printf("\nREGISTRO DE CORREDOR\n");
     printf("--------------------\n");
-    printf("DNI: \n");
-    fgets(str, 9, stdin);
-    sscanf(str, "%s", dni);
+    /*printf("DNI: \n");
+    fgets(str, 10, stdin);
+    sscanf(str, "%s", dni);*/
     printf("Nombre y apellidos:\n");
     fflush(stdout);
     scanf("%s", name);
@@ -58,7 +58,7 @@ void runnerRegister (void)
             runners2[i].birthdate = runners1[i].birthdate;
             runners2[i].password = runners1[i].password;
         }else{
-            strcpy(runners2[i].dni, dni);
+            //strcpy(runners2[i].dni, dni);
             runners2[i].name = name;
             runners2[i].tlfn = tlfn;
             runners2[i].email = email;
@@ -72,11 +72,11 @@ void runnerRegister (void)
     free(runners2);
 }
 
-void modifyRunner(char dni[9])
+void modifyRunner(char dni[10])
 {
     char option;
     char* str = "";
-    char newDni[9];
+    char newDni[10];
     char* name = "";
     int tlfn;
     char* email = "";
@@ -117,7 +117,7 @@ void modifyRunner(char dni[9])
             switch(option){
                 case '1':
                     printf("Introduzca el dni nuevo: \n");
-                    fgets(str, 9, stdin);
+                    fgets(str, 10, stdin);
                     sscanf(str, "%s", newDni);
                     strcpy(runners[r].dni, newDni);
                     break;
@@ -183,7 +183,7 @@ int main(void){
     char* str = "";
 
     //Variable para modificación de datos del corredor
-    char dni[9];
+    char dni[10];
 
     //Variables para alta/baja de un trabajador
     int uniqueId = 0;
@@ -318,7 +318,7 @@ int main(void){
                                                 break;
                                             case '2':
                                                 printf("Introduzca el DNI del corredor del que quieres modificar sus datos: \n");
-                                                fgets(str, 9, stdin);
+                                                fgets(str, 10, stdin);
                                                 sscanf(str, "%s", dni);
                                                 modifyRunner(dni);
                                                 break;

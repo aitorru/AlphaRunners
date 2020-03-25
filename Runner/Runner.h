@@ -3,7 +3,7 @@
 
 typedef struct
 {
-    char dni[8];
+    char dni[10];
     char* name;
     int tlfn;
     char* birthdate;
