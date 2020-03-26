@@ -8,7 +8,7 @@ void runnerRegister (void)
 {
     FILE* f;
     int num;
-    char* str;
+    char str[50];
     char dni[10];
     char name[20];
     int tlfn;
@@ -21,6 +21,7 @@ void runnerRegister (void)
     printf("\nREGISTRO DE CORREDOR\n");
     printf("--------------------\n");
     printf("DNI: \n");
+    fflush(stdin);
     fflush(stdout);
     fgets(str, 10, stdin);
     sscanf(str, "%s", dni);
