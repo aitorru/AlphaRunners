@@ -12,4 +12,7 @@ typedef struct
     int number;
 } Runner;
 
+void runnerRegister (void);
+void modifyRunner(char dni[10]);
+
 #endif
