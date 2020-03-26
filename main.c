@@ -51,11 +51,14 @@ void runnerRegister (void)
     fgets(str, 10, stdin);
     sscanf(str, "%s", password);
 
-	f = fopen("runners.dat", "rb");
-    num = fgetc(f);
-    runners1 = (Runner*) malloc(num* sizeof(Runner));
-    fread(runners1, sizeof(Runner), num, f);
-    fclose(f);
+    if((f = fopen("runners.dat", "rb")) != NULL){
+        num = fgetc(f);
+        runners1 = (Runner*) malloc(num* sizeof(Runner));
+        fread(runners1, sizeof(Runner), num, f);
+        fclose(f);
+    }else{
+        num = 0;
+    }
 
     f = fopen("runners.dat", "wb");
     fputc(num+1, f);
@@ -97,10 +100,15 @@ void modifyRunner(char dni[10])
 
     int r = -1;
 
-    FILE* f = fopen("runners.dat", "rb");
-    int num = fgetc(f);
-    Runner* runners = (Runner*) malloc(num* sizeof(Runner));
-    fread(runners, sizeof(Runner), num, f);
+    FILE* f;
+    int num = 0;
+    Runner* runners;
+    if((f = fopen("runners.dat", "rb"))!=NULL)
+    {
+        num = fgetc(f);
+        runners = (Runner*) malloc(num* sizeof(Runner));
+        fread(runners, sizeof(Runner), num, f);
+    }
 
     for(int i = 0; i < num; i++)
     {
@@ -373,7 +381,7 @@ int main(void){
                                                 printf("Salario: \n");
                                                 scanf("%d", &salary);
                                                 
-                                                f = fopen("employees.dat", "rb");
+                                                f = fopen("employees.dat", "");
                                                 num = fgetc(f);
                                                 employees1 = (Employee*) malloc(num* sizeof(Employee));
                                                 fread(employees1, sizeof(Employee), num, f);
@@ -409,7 +417,7 @@ int main(void){
                                                 fflush(stdout);
                                                 scanf("%i", &id);
 
-                                                f = fopen("employees.dat", "rb");
+                                                f = fopen("employees.dat", "");
                                                 int num = fgetc(f);
                                                 Employee *employees = (Employee*) malloc(num* sizeof(Employee));
                                                 fread(employees, sizeof(Employee), num, f);
