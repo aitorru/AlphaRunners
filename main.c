@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio_ext.h>
 #include "Runner/Runner.h"
 #include "Employee/Employee.h"
 
@@ -21,27 +22,32 @@ void runnerRegister (void)
     printf("\nREGISTRO DE CORREDOR\n");
     printf("--------------------\n");
     printf("DNI: \n");
-    fflush(stdin);
     fflush(stdout);
+    __fpurge(stdin);
     fgets(str, 10, stdin);
     sscanf(str, "%s", dni);
     printf("Nombre y apellidos:\n");
     fflush(stdout);
+    __fpurge(stdin);
     fgets(str, 20, stdin);
     sscanf(str, "%s", name);
     printf("Número de telefono:\n");
     fflush(stdout);
+    __fpurge(stdin);
     scanf("%d", &tlfn);
     printf("Email:\n");
     fflush(stdout);
+    __fpurge(stdin);
     fgets(str, 30, stdin);
     sscanf(str, "%s", email);
     printf("Fecha de nacimiento (AAAA/MM/DD): \n");
     fflush(stdout);
+    __fpurge(stdin);
     fgets(str, 11, stdin);
     sscanf(str, "%s", birthdate);
     printf("Introduzca una contraseña: \n");
     fflush(stdout);
+    __fpurge(stdin);
     fgets(str, 10, stdin);
     sscanf(str, "%s", password);
 
