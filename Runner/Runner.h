@@ -9,7 +9,8 @@ typedef struct
     char email[30];
     char birthdate[11];
     char password[10];
-    int number;
+    int number, position;
+    float time;
 } Runner;
 
 void runnerRegister (void);
