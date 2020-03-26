@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdio_ext.h>
 #include "Runner/Runner.h"
 #include "Employee/Employee.h"
 
@@ -10,12 +9,12 @@ void runnerRegister (void)
     FILE* f;
     int num;
     char str[50];
-    char dni[10];
+    char dni[20];
     char name[20];
-    int tlfn;
+    char tlfn[9];
     char email[30];
     char birthdate[11];
-    char password[10];
+    char password[20];
     Runner *runners1;
     Runner *runners2;
 
@@ -23,33 +22,35 @@ void runnerRegister (void)
     printf("--------------------\n");
     printf("DNI: \n");
     fflush(stdout);
-    __fpurge(stdin);
-    fgets(str, 10, stdin);
-    sscanf(str, "%s", dni);
+    fflush(stdin);
+    fgets(dni, 100, stdin);
+    strtok(dni, "\n");
+    printf("%s\n", dni);
     printf("Nombre y apellidos:\n");
     fflush(stdout);
-    __fpurge(stdin);
-    fgets(str, 20, stdin);
-    sscanf(str, "%s", name);
+    fgets(name, 100, stdin);
+    strtok(name, "\n");
+    printf("%s\n", name);
     printf("Número de telefono:\n");
     fflush(stdout);
-    __fpurge(stdin);
-    scanf("%d", &tlfn);
+    fgets(tlfn, 100, stdin);
+    strtok(tlfn, "\n");
+    printf("%s\n", tlfn);
     printf("Email:\n");
     fflush(stdout);
-    __fpurge(stdin);
-    fgets(str, 30, stdin);
-    sscanf(str, "%s", email);
+    fgets(email, 100, stdin);
+    strtok(email, "\n");
+    printf("%s\n", email);
     printf("Fecha de nacimiento (AAAA/MM/DD): \n");
     fflush(stdout);
-    __fpurge(stdin);
-    fgets(str, 11, stdin);
-    sscanf(str, "%s", birthdate);
+    fgets(birthdate, 100, stdin);
+    strtok(birthdate, "\n");
+    printf("%s\n", birthdate);
     printf("Introduzca una contraseña: \n");
     fflush(stdout);
-    __fpurge(stdin);
-    fgets(str, 10, stdin);
-    sscanf(str, "%s", password);
+    fgets(password, 100, stdin);
+    strtok(password, "\n");
+    printf("%s\n", password);
 
     if((f = fopen("runners.dat", "rb")) != NULL){
         num = fgetc(f);
@@ -68,14 +69,14 @@ void runnerRegister (void)
         if(i != num){
             strcpy(runners2[i].dni, runners1[i].dni);
             strcpy(runners2[i].name, runners1[i].name);
-            runners2[i].tlfn = runners1[i].tlfn;
+            strcpy(runners2[i].tlfn, runners1[i].tlfn);
             strcpy(runners2[i].email, runners1[i].email);
             strcpy(runners2[i].birthdate, runners1[i].birthdate);
             strcpy(runners2[i].password, runners1[i].password);
         }else{
             strcpy(runners2[i].dni, dni);
             strcpy(runners2[i].name, name);
-            runners2[i].tlfn = tlfn;
+            strcpy(runners2[i].tlfn, tlfn);
             strcpy(runners2[i].email, email);
             strcpy(runners2[i].birthdate, birthdate);
             strcpy(runners2[i].password, password);
@@ -93,7 +94,7 @@ void modifyRunner(char dni[10])
     char* str = "";
     char newDni[10];
     char name[20];
-    int tlfn;
+    char tlfn[9];
     char email[30];
     char birthdate[11];
     char password[10];
@@ -151,8 +152,9 @@ void modifyRunner(char dni[10])
                     break;
                 case '3':
                     printf("Introduzca el nuevo número de telefono: \n");
-                    scanf("%i", &tlfn);
-                    runners[r].tlfn = tlfn;
+                    fgets(str, 20, stdin);
+                    sscanf(str, "%s", tlfn);
+                    strcpy(runners[r].tlfn, tlfn);
                     break;
                 case '4':
                     printf("Introduzca la nueva fecha de nacimiento: \n");
