@@ -7,14 +7,17 @@ TREE=Debug/
 OUTPUT=a.
 WINEXT=exe
 UNIXEXT=out
-PLATFORM := $(shell uname) # WIP OS detect
-ifeq  ($(PLATFORM),Linux)
-	EXT=out
+PLATFORM = $(shell uname -s) # WIP OS detect
+EXT = $(osdetected)
+ifeq  ($(OS),Windows_NT)
+	PLATFORM = Windows
+	osdetected = exe
 else
-	EXT=exe
+	osdetected = out
 endif
 
 build: main.c Employee/Employee.c Runner/Runner.c
+	echo Target build: $(PLATFORM) Using ext: $(EXT)
 	$(CC) -o $(TREE)$(OUTPUT)$(EXT) $(MAINC) $(EMPLOY) $(RUNNER) $(CFLAGS)
 	
 
