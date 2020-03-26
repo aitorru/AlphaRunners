@@ -380,13 +380,19 @@ int main(void){
                                                 scanf("%s", name);
                                                 printf("Salario: \n");
                                                 scanf("%d", &salary);
-                                                
-                                                f = fopen("employees.dat", "");
-                                                num = fgetc(f);
-                                                employees1 = (Employee*) malloc(num* sizeof(Employee));
-                                                fread(employees1, sizeof(Employee), num, f);
-                                                fclose(f);
 
+                                                num = 0;
+                                                Employee *employees;    
+
+                                                if((f = fopen("employees.dat", "rb"))!=NULL{
+                                                    num = fgetc(f);
+                                                    employees1 = (Employee*) malloc(num* sizeof(Employee));
+                                                    fread(employees1, sizeof(Employee), num, f);
+                                                }else{
+                                                    printf("No se ha encontrado el fichero de empleados.\n");
+                                                }                                               
+                                                fclose(f);
+                                                
                                                 f = fopen("employees.dat", "wb");
                                                 fputc(num+1, f);
                                                 employees2 = (Employee*) malloc((num+1)* sizeof(Employee));
@@ -417,10 +423,16 @@ int main(void){
                                                 fflush(stdout);
                                                 scanf("%i", &id);
 
-                                                f = fopen("employees.dat", "");
-                                                int num = fgetc(f);
-                                                Employee *employees = (Employee*) malloc(num* sizeof(Employee));
-                                                fread(employees, sizeof(Employee), num, f);
+                                                num = 0;
+                                                Employee *employees;    
+
+                                                if((f = fopen("employees.dat", "rb"))!=NULL{
+                                                    num = fgetc(f);
+                                                    employees = (Employee*) malloc(num* sizeof(Employee));
+                                                    fread(employees, sizeof(Employee), num, f);
+                                                }else{
+                                                    printf("No se ha encontrado el fichero de empleados.\n");
+                                                }                                               
                                                 fclose(f);
 
                                                 for(int i = 0; i < num; i++)
@@ -430,8 +442,17 @@ int main(void){
                                                         employees[i].state = "BAJA";
                                                         printf("Se ha dado de baja correctamemte al trabajador %s.\n", employees[i].name);
                                                         break;
+                                                    }else{
+                                                        printf("No se ha podido encontrar al trabajador.\n");
                                                     }
                                                 }
+
+                                                f = fopen("employees.dat", "wb");
+                                                fputc(num, f);
+                                                fwrite(employees, sizeof(Employee), num, f);
+                                                fclose(f);
+                                                free(employees);
+
                                                 break;
                                             case '3':
                                                 break;
