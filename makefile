@@ -3,6 +3,7 @@ CFLAGS=
 MAINC=main.c
 EMPLOY=Employee/Employee.c
 RUNNER=Runner/Runner.c
+RACE=Race/race.c
 TREE=Debug/
 OUTPUT=a.
 WINEXT=exe
@@ -18,11 +19,11 @@ endif
 
 build: main.c Employee/Employee.c Runner/Runner.c
 	echo Target build: $(PLATFORM) Using ext: $(EXT)
-	$(CC) -o $(TREE)$(OUTPUT)$(EXT) $(MAINC) $(EMPLOY) $(RUNNER) $(CFLAGS)
+	$(CC) -o $(TREE)$(OUTPUT)$(EXT) $(MAINC) $(EMPLOY) $(RUNNER) $(RACE) $(CFLAGS)
 	
 
 buildT: main.c Employee/Employee.c Runner/Runner.c
-	$(CC) -o $(OUTPUT)$(EXT) $(MAINC) $(EMPLOY) $(RUNNER) $(CFLAGS)
+	$(CC) -o $(OUTPUT)$(EXT) $(MAINC) $(EMPLOY) $(RUNNER) $(RACE) $(CFLAGS)
 
 
 run: 
