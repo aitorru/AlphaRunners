@@ -9,7 +9,7 @@ void runnerRegister (void)
     FILE* f;
     int num;
     char str[50];
-    char dni[20];
+    char dni[10];
     char name[20];
     char tlfn[9];
     char email[30];
@@ -23,34 +23,34 @@ void runnerRegister (void)
     printf("DNI: \n");
     fflush(stdout);
     fflush(stdin);
-    fgets(dni, 100, stdin);
-    strtok(dni, "\n");
-    printf("%s\n", dni);
+    fgets(str, 50, stdin);
+    strtok(str, "\n");
+    strcpy(dni, str);
     printf("Nombre y apellidos:\n");
     fflush(stdout);
-    fgets(name, 100, stdin);
-    strtok(name, "\n");
-    printf("%s\n", name);
+    fgets(str, 50, stdin);
+    strtok(str, "\n");
+    strcpy(name, str);
     printf("Número de telefono:\n");
     fflush(stdout);
-    fgets(tlfn, 100, stdin);
-    strtok(tlfn, "\n");
-    printf("%s\n", tlfn);
+    fgets(str, 50, stdin);
+    strtok(str, "\n");
+    strcpy(tlfn, str);
     printf("Email:\n");
     fflush(stdout);
-    fgets(email, 100, stdin);
-    strtok(email, "\n");
-    printf("%s\n", email);
+    fgets(str, 50, stdin);
+    strtok(str, "\n");
+    strcpy(email, str);
     printf("Fecha de nacimiento (AAAA/MM/DD): \n");
     fflush(stdout);
-    fgets(birthdate, 100, stdin);
-    strtok(birthdate, "\n");
-    printf("%s\n", birthdate);
+    fgets(str, 50, stdin);
+    strtok(str, "\n");
+    strcpy(birthdate, str);
     printf("Introduzca una contraseña: \n");
     fflush(stdout);
-    fgets(password, 100, stdin);
-    strtok(password, "\n");
-    printf("%s\n", password);
+    fgets(str, 50, stdin);
+    strtok(str, "\n");
+    strcpy(password, str);
 
     if((f = fopen("runners.dat", "rb")) != NULL){
         num = fgetc(f);
@@ -139,42 +139,42 @@ void modifyRunner(char dni[10])
                 case '1':
                     printf("Introduzca el dni nuevo: \n");
                     fflush(stdout);
-                    fgets(str, 10, stdin);
-                    sscanf(str, "%s", newDni);
+                    fgets(newDni, 100, stdin);
+                    strtok(newDni, "\n");
                     strcpy(runners[r].dni, newDni);
                     break;
                 case '2':
                     printf("Introduzca el nombre nuevo: \n");
                     fflush(stdout);
-                    fgets(str, 20, stdin);
-                    sscanf(str, "%s", name);
+                    fgets(name, 100, stdin);
+                    strtok(name, "\n");
                     strcpy(runners[r].name, name);
                     break;
                 case '3':
                     printf("Introduzca el nuevo número de telefono: \n");
-                    fgets(str, 20, stdin);
-                    sscanf(str, "%s", tlfn);
+                    fgets(tlfn, 100, stdin);
+                    strtok(tlfn, "\n");
                     strcpy(runners[r].tlfn, tlfn);
                     break;
                 case '4':
                     printf("Introduzca la nueva fecha de nacimiento: \n");
                     fflush(stdout);
-                    fgets(str, 11, stdin);
-                    sscanf(str, "%s", birthdate);
+                    fgets(birthdate, 100, stdin);
+                    strtok(birthdate, "\n");
                     strcpy(runners[r].birthdate, birthdate);
                     break;
                 case '5':
                     printf("Introduzca el email nuevo: \n");
                     fflush(stdout);
-                    fgets(str, 30, stdin);
-                    sscanf(str, "%s", email);
+                    fgets(email, 100, stdin);
+                    strtok(email, "\n");
                     strcpy(runners[r].email, email);
                     break;
                 case '6':
                     printf("Introduzca la nueva contraseña: \n");
                     fflush(stdout);
-                    fgets(str, 10, stdin);
-                    sscanf(str, "%s", password);
+                    fgets(password, 100, stdin);
+                    strtok(password, "\n");
                     strcpy(runners[r].password, password);
                     break;
                 case '7':
@@ -219,8 +219,8 @@ int main(void){
     //Variables para alta/baja de un trabajador
     int uniqueId = 0;
     int id;
-    int nss;
-    char *name;
+    char nss[12];
+    char name[20];
     int salary;
     Employee *employees1;
     Employee *employees2;
@@ -295,8 +295,8 @@ int main(void){
                 do{
                     printf("Introduzca la contraseña de administrador: \n");
                     fflush(stdout);
-                    fgets(str, 13, stdin);
-                    sscanf(str, "%s", passAdmin);
+                    fgets(passAdmin, 100, stdin);
+                    strtok(passAdmin, "\n");
                     if(strcmp(passAdmin, "ALPHARUNNERS") != 0){
                         do{
                             printf("\nMENU ADMINISTRADOR\n");
@@ -304,7 +304,9 @@ int main(void){
                             printf("1.- Administrar carreras.\n");
                             printf("2.- Administrar corredores.\n");
                             printf("3.- Administrar trabajadores.\n");
-                            printf("4.- Atrás.");
+                            printf("4.- Atrás.\n");
+                            fflush(stdout);
+                            fflush(stdin);
                             scanf("%c", &opcionAdmin);
                             switch(opcionAdmin){
                                 case '1':
@@ -315,9 +317,10 @@ int main(void){
                                         printf("2.- Modificar carrera.");
                                         printf("3.- Eliminar una carrera.\n");
                                         printf("4.- Añadir resultados de una carrera.\n");
-                                        printf("5.- Atrás.");
+                                        printf("5.- Atrás.\n");
 
                                         fflush(stdout);
+                                        fflush(stdin);
                                         scanf("%c", &opcionAdmin);
                                         switch(opcionAdmin){
                                             case '1':
@@ -338,10 +341,11 @@ int main(void){
                                         printf("\nADMINISTRACION DE CORREDORES\n");
                                         printf("--------------------------\n");
                                         printf("1.- Registrar un corredor.\n");
-                                        printf("2.- Modificar un corredor.");
-                                        printf("3.- Atrás.");
+                                        printf("2.- Modificar un corredor.\n");
+                                        printf("3.- Atrás.\n");
 
                                         fflush(stdout);
+                                        fflush(stdin);
                                         scanf("%c", &opcionAdmin);
                                         switch(opcionAdmin){
                                             case '1':
@@ -349,8 +353,8 @@ int main(void){
                                                 break;
                                             case '2':
                                                 printf("Introduzca el DNI del corredor del que quieres modificar sus datos: \n");
-                                                fgets(str, 10, stdin);
-                                                sscanf(str, "%s", dni);
+                                                fgets(dni, 100, stdin);
+                                                strtok(dni, "\n");
                                                 modifyRunner(dni);
                                                 break;
                                             case '3':
@@ -366,27 +370,28 @@ int main(void){
                                         printf("------------------------------\n");
                                         printf("1.- Dar de alta a un trabajador.\n");
                                         printf("2.- Dar de baja a un trabajador.\n");
-                                        printf("3.- Atrás.");
+                                        printf("3.- Atrás.\n");
 
                                         fflush(stdout);
+                                        fflush(stdin);
                                         scanf("%c", &opcionAdmin);
                                         switch(opcionAdmin){
                                             case '1':
                                                 printf("\nALTA DE TRABAJADOR\n");
                                                 printf("------------------\n");
                                                 printf("NSS: \n");
-                                                fgets(str, 11, stdin);
-                                                sscanf(str, "%d", &nss);
+                                                fgets(nss, 100, stdin);
+                                                strtok(nss, "\n");
                                                 printf("Nombre y apellidos:\n");
-                                                fflush(stdout);
-                                                scanf("%s", name);
+                                                fgets(name, 100, stdin);
+                                                strtok(name, "\n");
                                                 printf("Salario: \n");
                                                 scanf("%d", &salary);
 
                                                 num = 0;
-                                                Employee *employees;    
+                                                Employee *employees1;    
 
-                                                if((f = fopen("employees.dat", "rb"))!=NULL{
+                                                if((f = fopen("employees.dat", "rb"))!=NULL){
                                                     num = fgetc(f);
                                                     employees1 = (Employee*) malloc(num* sizeof(Employee));
                                                     fread(employees1, sizeof(Employee), num, f);
@@ -402,16 +407,16 @@ int main(void){
                                                 {
                                                     if(i != num){
                                                         employees2[i].id = employees1[i].id;
-                                                        employees2[i].nss = employees1[i].nss;
-                                                        employees2[i].name = employees1[i].name;
+                                                        strcpy(employees2[i].nss, employees1[i].nss);
+                                                        strcpy(employees2[i].name, employees1[i].name);
                                                         employees2[i].salary = employees1[i].salary;                    
                                                     }else{
                                                         employees2[i].id = uniqueId++;
-                                                        employees2[i].nss = nss;
-                                                        employees2[i].name = name;
+                                                        strcpy(employees2[i].nss, nss);
+                                                        strcpy(employees2[i].name, name);
                                                         employees2[i].salary = salary;
                                                     }
-                                                    employees2[i].state = "ALTA";
+                                                    strcpy(employees2[i].state, "ALTA");
                                                 }
                                                 fwrite(employees2, sizeof(Employee), num+1, f);
                                                 fclose(f);
@@ -428,7 +433,7 @@ int main(void){
                                                 num = 0;
                                                 Employee *employees;    
 
-                                                if((f = fopen("employees.dat", "rb"))!=NULL{
+                                                if((f = fopen("employees.dat", "rb"))!=NULL){
                                                     num = fgetc(f);
                                                     employees = (Employee*) malloc(num* sizeof(Employee));
                                                     fread(employees, sizeof(Employee), num, f);
@@ -441,7 +446,7 @@ int main(void){
                                                 {
                                                     if(employees[i].id == id)
                                                     {
-                                                        employees[i].state = "BAJA";
+                                                        strcpy(employees[i].state, "BAJA");
                                                         printf("Se ha dado de baja correctamemte al trabajador %s.\n", employees[i].name);
                                                         break;
                                                     }else{
@@ -471,6 +476,8 @@ int main(void){
                         }while(opcionAdmin != '4');
                     }else{
                         printf("¿Desea volver al menú inicial? S/N");
+                        fflush(stdout);
+                        fflush(stdin);
                         scanf("%c", &back);
                     }
                 }while(back != 'S' || back != 's');
