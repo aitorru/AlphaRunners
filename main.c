@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "Runner/Runner.h"
 #include "Employee/Employee.h"
+#include "Race/race.h"
 
 int main(void){
     //Variables para los ficheros
