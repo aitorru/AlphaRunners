@@ -4,12 +4,12 @@
 typedef struct
 {
     char dni[10];
-    char* name;
+    char name[20];
     int tlfn;
-    char* birthdate;
-    char* email;
+    char email[30];
+    char birthdate[11];
+    char password[10];
     int number;
-    char* password;
 } Runner;
 
 #endif

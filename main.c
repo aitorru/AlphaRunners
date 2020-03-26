@@ -8,36 +8,41 @@ void runnerRegister (void)
 {
     FILE* f;
     int num;
-    char* str = "";
+    char* str;
     char dni[10];
-    char* name = "";
+    char name[20];
     int tlfn;
-    char* email = "";
-    char* birthdate = "";
-    char* password = "";
+    char email[30];
+    char birthdate[11];
+    char password[10];
     Runner *runners1;
     Runner *runners2;
 
     printf("\nREGISTRO DE CORREDOR\n");
     printf("--------------------\n");
-    /*printf("DNI: \n");
+    printf("DNI: \n");
+    fflush(stdout);
     fgets(str, 10, stdin);
-    sscanf(str, "%s", dni);*/
+    sscanf(str, "%s", dni);
     printf("Nombre y apellidos:\n");
     fflush(stdout);
-    scanf("%s", name);
+    fgets(str, 20, stdin);
+    sscanf(str, "%s", name);
     printf("Número de telefono:\n");
     fflush(stdout);
     scanf("%d", &tlfn);
     printf("Email:\n");
     fflush(stdout);
-    scanf("%s", email);
+    fgets(str, 30, stdin);
+    sscanf(str, "%s", email);
     printf("Fecha de nacimiento (AAAA/MM/DD): \n");
     fflush(stdout);
-    scanf("%s", birthdate);
+    fgets(str, 11, stdin);
+    sscanf(str, "%s", birthdate);
     printf("Introduzca una contraseña: \n");
     fflush(stdout);
-    scanf("%s", password);
+    fgets(str, 10, stdin);
+    sscanf(str, "%s", password);
 
 	f = fopen("runners.dat", "rb");
     num = fgetc(f);
@@ -52,18 +57,18 @@ void runnerRegister (void)
     {
         if(i != num){
             strcpy(runners2[i].dni, runners1[i].dni);
-            runners2[i].name = runners1[i].name;
+            strcpy(runners2[i].name, runners1[i].name);
             runners2[i].tlfn = runners1[i].tlfn;
-            runners2[i].email = runners1[i].email;
-            runners2[i].birthdate = runners1[i].birthdate;
-            runners2[i].password = runners1[i].password;
+            strcpy(runners2[i].email, runners1[i].email);
+            strcpy(runners2[i].birthdate, runners1[i].birthdate);
+            strcpy(runners2[i].password, runners1[i].password);
         }else{
-            //strcpy(runners2[i].dni, dni);
-            runners2[i].name = name;
+            strcpy(runners2[i].dni, dni);
+            strcpy(runners2[i].name, name);
             runners2[i].tlfn = tlfn;
-            runners2[i].email = email;
-            runners2[i].birthdate = birthdate;
-            runners2[i].password = password;
+            strcpy(runners2[i].email, email);
+            strcpy(runners2[i].birthdate, birthdate);
+            strcpy(runners2[i].password, password);
         }                
     }   
     fwrite(runners2, sizeof(Runner), num+1, f);
@@ -77,11 +82,11 @@ void modifyRunner(char dni[10])
     char option;
     char* str = "";
     char newDni[10];
-    char* name = "";
+    char name[20];
     int tlfn;
-    char* email = "";
-    char* birthdate = "";
-    char* password = "";
+    char email[30];
+    char birthdate[11];
+    char password[10];
 
     int r = -1;
 
@@ -117,14 +122,17 @@ void modifyRunner(char dni[10])
             switch(option){
                 case '1':
                     printf("Introduzca el dni nuevo: \n");
+                    fflush(stdout);
                     fgets(str, 10, stdin);
                     sscanf(str, "%s", newDni);
                     strcpy(runners[r].dni, newDni);
                     break;
                 case '2':
                     printf("Introduzca el nombre nuevo: \n");
-                    scanf("%s", name);
-                    runners[r].name = name;
+                    fflush(stdout);
+                    fgets(str, 20, stdin);
+                    sscanf(str, "%s", name);
+                    strcpy(runners[r].name, name);
                     break;
                 case '3':
                     printf("Introduzca el nuevo número de telefono: \n");
@@ -133,18 +141,24 @@ void modifyRunner(char dni[10])
                     break;
                 case '4':
                     printf("Introduzca la nueva fecha de nacimiento: \n");
-                    scanf("%s", birthdate);
-                    runners[r].birthdate = birthdate;
+                    fflush(stdout);
+                    fgets(str, 11, stdin);
+                    sscanf(str, "%s", birthdate);
+                    strcpy(runners[r].birthdate, birthdate);
                     break;
                 case '5':
                     printf("Introduzca el email nuevo: \n");
-                    scanf("%s", email);
-                    runners[r].email = email;
+                    fflush(stdout);
+                    fgets(str, 30, stdin);
+                    sscanf(str, "%s", email);
+                    strcpy(runners[r].email, email);
                     break;
                 case '6':
                     printf("Introduzca la nueva contraseña: \n");
-                    scanf("%s", password);
-                    runners[r].password = password;
+                    fflush(stdout);
+                    fgets(str, 10, stdin);
+                    sscanf(str, "%s", password);
+                    strcpy(runners[r].password, password);
                     break;
                 case '7':
                     break;
@@ -174,7 +188,7 @@ int main(void){
     char back;
 
     //Variable para iniciar sesion como Admin
-    char passAdmin[8];
+    char passAdmin[13];
 
     //Variable para la contraseña de corredor
     char passRunner[8];
@@ -264,7 +278,7 @@ int main(void){
                 do{
                     printf("Introduzca la contraseña de administrador: \n");
                     fflush(stdout);
-                    fgets(str, 8, stdin);
+                    fgets(str, 13, stdin);
                     sscanf(str, "%s", passAdmin);
                     if(strcmp(passAdmin, "ALPHARUNNERS") != 0){
                         do{
@@ -396,7 +410,7 @@ int main(void){
 
                                                 for(int i = 0; i < num; i++)
                                                 {
-                                                    if(employees[i].id = id)
+                                                    if(employees[i].id == id)
                                                     {
                                                         employees[i].state = "BAJA";
                                                         printf("Se ha dado de baja correctamemte al trabajador %s.\n", employees[i].name);
