@@ -5,7 +5,7 @@ typedef struct
 {
     char dni[10];
     char name[20];
-    int tlfn;
+    char tlfn[9];
     char email[30];
     char birthdate[11];
     char password[10];

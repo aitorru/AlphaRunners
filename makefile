@@ -1,19 +1,29 @@
 CC=gcc
 CFLAGS=
 MAINC=main.c
-EMPLOY=Employee.c
-RUNNER=Runner.c
-OUTPUT=a.out
+EMPLOY=Employee/Employee.c
+RUNNER=Runner/Runner.c
+TREE=Debug/
+OUTPUT=a.
+WINEXT=exe
+UNIXEXT=out
+PLATFORM := $(shell uname) # WIP OS detect
+ifeq  ($(PLATFORM),Linux)
+	EXT=out
+else
+	EXT=exe
+endif
 
 build: main.c Employee/Employee.c Runner/Runner.c
-	$(CC) -o Debug/$(OUTPUT) $(MAINC) Employee/$(EMPLOY) Runner/$(RUNNER) $(CFLAGS)
+	$(CC) -o $(TREE)$(OUTPUT)$(EXT) $(MAINC) $(EMPLOY) $(RUNNER) $(CFLAGS)
+	
 
 buildT: main.c Employee/Employee.c Runner/Runner.c
-	$(CC) -o $(OUTPUT) $(MAINC) Employee/$(EMPLOY) Runner/$(RUNNER) $(CFLAGS)
+	$(CC) -o $(OUTPUT)$(EXT) $(MAINC) $(EMPLOY) $(RUNNER) $(CFLAGS)
 
 
 run: 
-	./Debug/a.out
+	./$(TREE)$(OUTPUT)$(EXT)
 
 clean:
 	rm -fr Debug/*
