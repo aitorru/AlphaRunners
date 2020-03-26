@@ -27,6 +27,7 @@
 *.so
 *.so.*
 *.dylib
+*.dat
 
 # Executables
 Debug/*.exe
