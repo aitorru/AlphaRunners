@@ -124,11 +124,8 @@ int main(void){
                     fflush(stdin);
                     fgets(str, 50, stdin);
                     strtok(str, "\n");
-                    printf(" STR %s.", str);
                     strcpy(passAdmin, str);
-                    printf(" passAdmin %s.", str);
-                    fflush(stdout);
-                    if(strcmp(passAdmin, "ALPHARUNNERS") != 0){
+                    if(strcmp(passAdmin, "ALPHARUNNERS\n") != 0){
                         do{
                             printf("\nMENU ADMINISTRADOR\n");
                             printf("------------------\n");
@@ -155,156 +152,20 @@ int main(void){
                                         scanf("%c", &opcionAdmin);
                                         switch(opcionAdmin){
                                             case '1':
-                                                printf("\nCREACION DE CARRERA\n");
-                                                printf("--------------------\n");
-                                                printf("Nombre de la carrera: \n");
-                                                fflush(stdout);
-                                                fflush(stdin);
-                                                fgets(str, 50, stdin);
-                                                strtok(str, "\n");
-                                                strcpy(name, str);
-                                                printf("Fecha:\n");
-                                                fflush(stdout);
-                                                fgets(str, 50, stdin);
-                                                strtok(str, "\n");
-                                                strcpy(date, str);
-                                                printf("Hora:\n");
-                                                fflush(stdout);
-                                                fgets(str, 50, stdin);
-                                                strtok(str, "\n");
-                                                strcpy(time, str);
-                                                printf("Lugar:\n");
-                                                fflush(stdout);
-                                                fgets(str, 50, stdin);
-                                                strtok(str, "\n");
-                                                strcpy(location, str);
-                                                printf("Duración en kilometros: \n");
-                                                fflush(stdout);
-                                                scanf("%i", &km);
-                                                printf("Introduzca el nss del trabajador organizador de la carrera: \n");
-                                                fflush(stdout);
-                                                fgets(str, 50, stdin);
-                                                strtok(str, "\n");
-                                                strcpy(nss, str);
-
-                                                if((f = fopen("employees.dat", "rb")) != NULL){
-                                                    num = fgetc(f);
-                                                    employees1 = (Employee*) malloc(num* sizeof(Employee));
-                                                    fread(employees1, sizeof(Employee), num, f);
-                                                    fclose(f);
-                                                }else
-                                                {
-                                                    num = 0;
-                                                }
-
-                                                for(int i = 0; i<num; i++)
-                                                {
-                                                    if(strcmp(employees1[i].nss, nss) != 0)
-                                                    {
-                                                        organizer = employees1[i];
-                                                    }
-                                                }
-
-                                                printf("Introduzca el numero de trabajadores que se asignarán a esta carrera: \n");
-                                                fflush(stdout);
-                                                scanf("%i", nW);
-                                                workers = (Employee*) malloc(sizeof(Employee)*nW);
-                                                for(int i = 0; i < nW; i++)
-                                                {
-                                                    printf("Introduzca el nss del trabajador organizador de la carrera: \n");
-                                                    fflush(stdout);
-                                                    fgets(str, 50, stdin);
-                                                    strtok(str, "\n");
-                                                    strcpy(nss, str);
-                                                    for(int i = 0; i<num; i++)
-                                                    {
-                                                        if(strcmp(employees1[i].nss, nss) != 0)
-                                                        {
-                                                            workers[i] = employees1[i];
-                                                        }
-                                                    }
-                                                }
-                                                free(employees1);
-
-                                                if((f = fopen("runners.dat", "rb")) != NULL){
-                                                    num = fgetc(f);
-                                                    runners = (Runner*) malloc(num* sizeof(Runner));
-                                                    fread(runners, sizeof(Runner), num, f);
-                                                    fclose(f);
-                                                }else
-                                                {
-                                                    num = 0;
-                                                }
-                                                printf("Introduzca el numero máximo de participantes: \n");
-                                                fflush(stdout);
-                                                scanf("%i", nP);
-                                                participants = (Runner*) malloc(sizeof(Runner)*nP);
-                                                for(int i = 0; i < nP; i++)
-                                                {
-                                                    printf("Introduzca el dni del participante: \n");
-                                                    fflush(stdout);
-                                                    fgets(str, 50, stdin);
-                                                    strtok(str, "\n");
-                                                    strcpy(dni, str);
-                                                    for(int i = 0; i<num; i++)
-                                                    {
-                                                        if(strcmp(runners[i].dni, dni) != 0)
-                                                        {
-                                                            participants[i] = runners[i];
-                                                        }
-                                                    }
-                                                    printf("Desea introducir otro participante? (S/N)\n");
-                                                    fflush(stdout);
-                                                    scanf("%c", back);
-                                                    if(back == 'S' || back == 's') break;
-                                                }
-
-                                                if((f = fopen("races.dat", "rb")) != NULL){
-                                                    num = fgetc(f);
-                                                    races1 = (Race*) malloc(num* sizeof(Race));
-                                                    fread(races1, sizeof(Race), num, f);
-                                                    fclose(f);
-                                                }else{
-                                                    num = 0;
-                                                }
-
-                                                f = fopen("races.dat", "wb");
-                                                fputc(num+1, f);
-                                                races2 = (Race*) malloc((num+1)* sizeof(Race));
-                                                for(int i = 0; i < num+1; i++)
-                                                {
-                                                    if(i != num){
-                                                        races2[i].id = races1[i].id;
-                                                        strcpy(races2[i].name, races1[i].name);
-                                                        strcpy(races2[i].date, races1[i].date);
-                                                        strcpy(races2[i].time, races1[i].time);
-                                                        strcpy(races2[i].location, races1[i].location);
-                                                        races2[i].km = races1[i].km;
-                                                        races2[i].organizer = races1[i].organizer;
-                                                        races2[i].workers = races1[i].workers;
-                                                        races2[i].participants = races1[i].participants;
-                                                    }else{
-                                                        races2[i].id = id;
-                                                        strcpy(races2[i].name, name);
-                                                        strcpy(races2[i].date, date);
-                                                        strcpy(races2[i].time, time);
-                                                        strcpy(races2[i].location, location);
-                                                        races2[i].km = km;
-                                                        races2[i].organizer = organizer;
-                                                        races2[i].workers = workers;
-                                                        races2[i].participants = participants;
-                                                    }                
-                                                }   
-                                                fwrite(races2, sizeof(Race), num+1, f);
-                                                fclose(f);
-                                                free(races1);
-                                                free(races2);
+                                                createRace();
                                                 break;
                                             case '2':
-                                                
+                                                printf("Introduzca el id de la carrera de la que quieres modificar sus datos: \n");
+                                                fflush(stdout);
+                                                fflush(stdin);
+                                                scanf("%i", id);
+                                                modifyRace(id);
                                                 break;
                                             case '3':
-
+                                                printf("Introduzca el id de la carrera del que quieres modificar sus datos: \n");
+                                                fflush(stdout);
+                                                fflush(stdin);
+                                                scanf("%i", id);
                                                 break;
                                             case '4':
                                             
@@ -358,57 +219,14 @@ int main(void){
                                         scanf("%c", &opcionAdmin);
                                         switch(opcionAdmin){
                                             case '1':
-                                                printf("\nALTA DE TRABAJADOR\n");
-                                                printf("------------------\n");
-                                                printf("NSS: \n");
-                                                fgets(str, 50, stdin);
-                                                strtok(str, "\n");
-                                                strcpy(nss, str);
-                                                printf("Nombre y apellidos:\n");
-                                                fgets(str, 50, stdin);
-                                                strtok(str, "\n");
-                                                strcpy(name, str);
-                                                printf("Salario: \n");
-                                                scanf("%d", &salary);
-
-                                                num = 0;
-                                                Employee *employees1;    
-
-                                                if((f = fopen("employees.dat", "rb"))!=NULL){
-                                                    num = fgetc(f);
-                                                    employees1 = (Employee*) malloc(num* sizeof(Employee));
-                                                    fread(employees1, sizeof(Employee), num, f);
-                                                }else{
-                                                    printf("No se ha encontrado el fichero de empleados.\n");
-                                                }                                               
-                                                fclose(f);
-                                                
-                                                f = fopen("employees.dat", "wb");
-                                                fputc(num+1, f);
-                                                employees2 = (Employee*) malloc((num+1)* sizeof(Employee));
-                                                for(int i = 0; i < num+1; i++)
-                                                {
-                                                    if(i != num){
-                                                        strcpy(employees2[i].nss, employees1[i].nss);
-                                                        strcpy(employees2[i].name, employees1[i].name);
-                                                        employees2[i].salary = employees1[i].salary;                    
-                                                    }else{
-                                                        strcpy(employees2[i].nss, nss);
-                                                        strcpy(employees2[i].name, name);
-                                                        employees2[i].salary = salary;
-                                                    }
-                                                    strcpy(employees2[i].state, "ALTA");
-                                                }
-                                                fwrite(employees2, sizeof(Employee), num+1, f);
-                                                fclose(f);
-                                                free(employees1);
-                                                free(employees2);
+                                                registerEmployee();
                                                 break;
                                             case '2':
                                                 printf("\nBAJA DE TRABAJADOR\n");
                                                 printf("------------------\n");
                                                 printf("Introduzca el nss del trabajador:\n");
                                                 fflush(stdout);
+                                                fflush(stdin);
                                                 fgets(str, 50, stdin);
                                                 strtok(str, "\n");
                                                 strcpy(nss, str);
@@ -430,7 +248,7 @@ int main(void){
                                                     if(strcmp(employees[i].nss, nss) != 0)
                                                     {
                                                         strcpy(employees[i].state, "BAJA");
-                                                        printf("Se ha dado de baja correctamemte al trabajador %s.\n", employees[i].name);
+                                                        printf("Se ha dado de baja correctamente al trabajador %s.\n", employees[i].name);
                                                         break;
                                                     }else{
                                                         printf("No se ha podido encontrar al trabajador.\n");
@@ -463,7 +281,7 @@ int main(void){
                         fflush(stdin);
                         scanf("%c", &back);
                     }
-                }while(back != 'S' || back != 's');
+                }while(back != 'S' && back != 's');
                 break;
             case '4':
                 runnerRegister();

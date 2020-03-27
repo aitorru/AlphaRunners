@@ -14,4 +14,7 @@ typedef struct
     Runner* participants;
 } Race;
 
+void createRace(void);
+void modifyRace(int id);
+
 #endif

@@ -8,4 +8,6 @@ typedef struct{
     char state[5];
 } Employee;
 
+void registerEmployee(void);
+
 #endif
