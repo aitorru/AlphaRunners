@@ -38,13 +38,13 @@ int main(void){
     int nW;
     Employee* workers;
     int nP;
+    Runner* runners;
     Runner* participants;
     Race* races1;
     Race* races2;
 
     //Variables para alta/baja de un trabajador
     int uniqueIdT = 0;
-    int id;
     char nss[12];
     char name[20];
     int salary;
@@ -180,9 +180,7 @@ int main(void){
                                                 strcpy(location, str);
                                                 printf("Duración en kilometros: \n");
                                                 fflush(stdout);
-                                                fgets(str, 50, stdin);
-                                                strtok(str, "\n");
-                                                strcpy(km, str);
+                                                scanf("%i", &km);
                                                 printf("Introduzca el nss del trabajador organizador de la carrera: \n");
                                                 fflush(stdout);
                                                 fgets(str, 50, stdin);
@@ -363,11 +361,13 @@ int main(void){
                                                 printf("\nALTA DE TRABAJADOR\n");
                                                 printf("------------------\n");
                                                 printf("NSS: \n");
-                                                fgets(nss, 100, stdin);
-                                                strtok(nss, "\n");
+                                                fgets(str, 50, stdin);
+                                                strtok(str, "\n");
+                                                strcpy(nss, str);
                                                 printf("Nombre y apellidos:\n");
-                                                fgets(name, 100, stdin);
-                                                strtok(name, "\n");
+                                                fgets(str, 50, stdin);
+                                                strtok(str, "\n");
+                                                strcpy(name, str);
                                                 printf("Salario: \n");
                                                 scanf("%d", &salary);
 
@@ -389,12 +389,10 @@ int main(void){
                                                 for(int i = 0; i < num+1; i++)
                                                 {
                                                     if(i != num){
-                                                        employees2[i].id = employees1[i].id;
                                                         strcpy(employees2[i].nss, employees1[i].nss);
                                                         strcpy(employees2[i].name, employees1[i].name);
                                                         employees2[i].salary = employees1[i].salary;                    
                                                     }else{
-                                                        employees2[i].id = uniqueIdT++;
                                                         strcpy(employees2[i].nss, nss);
                                                         strcpy(employees2[i].name, name);
                                                         employees2[i].salary = salary;
@@ -409,9 +407,11 @@ int main(void){
                                             case '2':
                                                 printf("\nBAJA DE TRABAJADOR\n");
                                                 printf("------------------\n");
-                                                printf("Introduzca el número identificativo del trabajador:\n");
+                                                printf("Introduzca el nss del trabajador:\n");
                                                 fflush(stdout);
-                                                scanf("%i", &id);
+                                                fgets(str, 50, stdin);
+                                                strtok(str, "\n");
+                                                strcpy(nss, str);
 
                                                 num = 0;
                                                 Employee *employees;    
@@ -427,7 +427,7 @@ int main(void){
 
                                                 for(int i = 0; i < num; i++)
                                                 {
-                                                    if(employees[i].id == id)
+                                                    if(strcmp(employees[i].nss, nss) != 0)
                                                     {
                                                         strcpy(employees[i].state, "BAJA");
                                                         printf("Se ha dado de baja correctamemte al trabajador %s.\n", employees[i].name);
