@@ -18,7 +18,7 @@ else
 endif
 
 build: main.c Employee/Employee.c Runner/Runner.c
-	echo Target build: $(PLATFORM) Using ext: $(EXT)
+	@echo Target build: $(PLATFORM) Using ext: $(EXT)
 	$(CC) -o $(TREE)$(OUTPUT)$(EXT) $(MAINC) $(EMPLOY) $(RUNNER) $(RACE) $(CFLAGS)
 	
 
