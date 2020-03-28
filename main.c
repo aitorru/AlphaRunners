@@ -61,6 +61,7 @@ int main(void){
         printf("4.- Registarse como corredor.\n");
         printf("Pulsar 'q' para salir.\n");
         fflush(stdout);
+        fflush(stdin);
 
         scanf("%c", &opcionIni);
         switch(opcionIni){
@@ -70,7 +71,7 @@ int main(void){
                 fgets(str, 8, stdin);
                 sscanf(str, "%s", passRunner);
                 //WIP (Se podria leer una base de datos con contraseñas(alias)) 
-                if(strcmp(passAdmin, "ALPHARUNNERS") != 0){
+                if(strcmp(passAdmin, "ALPHARUNNERS") == 0){
                         do{
                             printf("\nMENU CORREDORES\n");
                             printf("------------------\n");
@@ -96,7 +97,7 @@ int main(void){
                 fgets(str, 8, stdin);
                 sscanf(str, "%s", passRunner);
                 //WIP (Se podria leer una base de datos con contraseñas(alias)) 
-                if(strcmp(passAdmin, "ALPHARUNNERS") != 0){
+                if(strcmp(passAdmin, "ALPHARUNNERS") == 0){
                         do{
                             printf("\nMENU TRABAJADOR\n");
                             printf("------------------\n");
@@ -122,10 +123,9 @@ int main(void){
                     printf("Introduzca la contraseña de administrador: \n");
                     fflush(stdout);
                     fflush(stdin);
-                    fgets(str, 50, stdin);
-                    strtok(str, "\n");
-                    strcpy(passAdmin, str);
-                    if(strcmp(passAdmin, "ALPHARUNNERS\n") != 0){
+                    scanf("%12s", passAdmin);
+                    char key[] = "alpharunners";
+                    if(strcmp(key, passAdmin) == 0){
                         do{
                             printf("\nMENU ADMINISTRADOR\n");
                             printf("------------------\n");
@@ -142,7 +142,7 @@ int main(void){
                                         printf("\nADMINISTRACION DE CARRERAS\n");
                                         printf("--------------------------\n");
                                         printf("1.- Crear una carrera.\n");
-                                        printf("2.- Modificar carrera.");
+                                        printf("2.- Modificar carrera.\n");
                                         printf("3.- Eliminar una carrera.\n");
                                         printf("4.- Añadir resultados de una carrera.\n");
                                         printf("5.- Atrás.\n");
@@ -158,14 +158,15 @@ int main(void){
                                                 printf("Introduzca el id de la carrera de la que quieres modificar sus datos: \n");
                                                 fflush(stdout);
                                                 fflush(stdin);
-                                                scanf("%i", id);
+                                                scanf("%i", &id);
                                                 modifyRace(id);
                                                 break;
                                             case '3':
-                                                printf("Introduzca el id de la carrera del que quieres modificar sus datos: \n");
+                                                printf("Introduzca el id de la carrera del que quieres eliminar sus datos: \n");
                                                 fflush(stdout);
                                                 fflush(stdin);
-                                                scanf("%i", id);
+                                                scanf("%i", &id);
+                                                deleteRace(id);
                                                 break;
                                             case '4':
                                             
@@ -175,7 +176,7 @@ int main(void){
                                             default:
                                                 printf("ERROR. La opcion elegida no es correcta.\n");
                                         }
-                                    }while(opcionAdmin != '3');
+                                    }while(opcionAdmin != '5');
                                     break;
                                 case '2':
                                     do{
@@ -194,6 +195,8 @@ int main(void){
                                                 break;
                                             case '2':
                                                 printf("Introduzca el DNI del corredor del que quieres modificar sus datos: \n");
+                                                fflush(stdout);
+                                                fflush(stdin);
                                                 fgets(str, 50, stdin);
                                                 strtok(str, "\n");
                                                 strcpy(dni, str);
@@ -243,9 +246,11 @@ int main(void){
                                                 }                                               
                                                 fclose(f);
 
+                                                
+
                                                 for(int i = 0; i < num; i++)
                                                 {
-                                                    if(strcmp(employees[i].nss, nss) != 0)
+                                                    if(strcmp(employees[i].nss, nss) == 0)
                                                     {
                                                         strcpy(employees[i].state, "BAJA");
                                                         printf("Se ha dado de baja correctamente al trabajador %s.\n", employees[i].name);
@@ -276,11 +281,12 @@ int main(void){
                             }
                         }while(opcionAdmin != '4');
                     }else{
-                        printf("¿Desea volver al menú inicial? S/N");
-                        fflush(stdout);
-                        fflush(stdin);
-                        scanf("%c", &back);
+                        printf("Contraseña erronea.\n");
                     }
+                    printf("¿Desea volver al menú inicial? S/N");
+                    fflush(stdout);
+                    fflush(stdin);
+                    scanf("%c", &back);                    
                 }while(back != 'S' && back != 's');
                 break;
             case '4':

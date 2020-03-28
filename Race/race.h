@@ -16,5 +16,6 @@ typedef struct
 
 void createRace(void);
 void modifyRace(int id);
+void deleteRace(int id);
 
 #endif

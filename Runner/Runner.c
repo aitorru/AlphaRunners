@@ -90,7 +90,7 @@ void runnerRegister (void)
 void modifyRunner(char dni[10])
 {
     char option;
-    char* str = "";
+    char str[50];
     char newDni[10];
     char name[20];
     char tlfn[9];
@@ -112,7 +112,7 @@ void modifyRunner(char dni[10])
 
     for(int i = 0; i < num; i++)
     {
-        if(strcmp(runners[i].dni, dni) != 0)
+        if(strcmp(runners[i].dni, dni) == 0)
         {
             r = i;
             break;
@@ -132,12 +132,14 @@ void modifyRunner(char dni[10])
             printf("7.- Atrás.");
 
             fflush(stdout);
+            fflush(stdin);
             scanf("%c", &option);
 
             switch(option){
                 case '1':
                     printf("Introduzca el dni nuevo: \n");
                     fflush(stdout);
+                    fflush(stdin);
                     fgets(str, 50, stdin);
                     strtok(str, "\n");
                     strcpy(newDni, str);
@@ -146,6 +148,7 @@ void modifyRunner(char dni[10])
                 case '2':
                     printf("Introduzca el nombre nuevo: \n");
                     fflush(stdout);
+                    fflush(stdin);
                     fgets(str, 50, stdin);
                     strtok(str, "\n");
                     strcpy(name, str);
@@ -154,6 +157,7 @@ void modifyRunner(char dni[10])
                 case '3':
                     printf("Introduzca el nuevo número de telefono: \n");
                     fflush(stdout);
+                    fflush(stdin);
                     fgets(str, 50, stdin);
                     strtok(str, "\n");
                     strcpy(tlfn, str);
@@ -162,6 +166,7 @@ void modifyRunner(char dni[10])
                 case '4':
                     printf("Introduzca la nueva fecha de nacimiento: \n");
                     fflush(stdout);
+                    fflush(stdin);
                     fgets(str, 50, stdin);
                     strtok(str, "\n");
                     strcpy(birthdate, str);
@@ -170,6 +175,7 @@ void modifyRunner(char dni[10])
                 case '5':
                     printf("Introduzca el email nuevo: \n");
                     fflush(stdout);
+                    fflush(stdin);
                     fgets(str, 50, stdin);
                     strtok(str, "\n");
                     strcpy(email, str);
@@ -178,6 +184,7 @@ void modifyRunner(char dni[10])
                 case '6':
                     printf("Introduzca la nueva contraseña: \n");
                     fflush(stdout);
+                    fflush(stdin);
                     fgets(str, 50, stdin);
                     strtok(str, "\n");
                     strcpy(password, str);
