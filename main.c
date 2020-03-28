@@ -22,6 +22,7 @@ int main(void){
     char passRunner[8];
     int intentosRunner = 0;
     char opcionCorredor;
+    char dniTemp[10];
 
     //Variable para contraseña de trabajador
     char passWorker[8];
@@ -84,23 +85,32 @@ int main(void){
                     if (strcmp(passRunner, "ALPHARUNNERS") != 0){
                             do{
                                printf("\nMENU CORREDORES\n");
-                            printf("------------------\n");
-                            printf("1.- Apuntarte a carrera.\n");
-                            printf("2.- Desapuntarte a carrera.\n");
-                            printf("3.- Editar tus datos.\n");
-                            printf("4.- Ver tus estadisticas.\n");
-                            printf("5.- Atrás.\n");
-                            fflush(stdout);
-                            fflush(stdin);
-                            scanf("%c", &opcionCorredor);
-                            switch(opcionCorredor)
-                            {
-                                case '5':
-                                    intentosRunner = 3;
-                                    break;
-                                default:
-                                    printf("ERROR. La opcion elegida no es correcta.\n");
-                            }
+                                printf("------------------\n");
+                                printf("1.- Apuntarte a carrera.\n");
+                                printf("2.- Desapuntarte a carrera.\n");
+                                printf("3.- Editar tus datos.\n");
+                                printf("4.- Ver tus estadisticas.\n");
+                                printf("5.- Atrás.\n");
+                                fflush(stdout);
+                                fflush(stdin);
+                                scanf("%c", &opcionCorredor);
+                                switch(opcionCorredor)
+                                {   
+                                    case '1':
+                                        break;
+                                    case '3':
+                                        fflush(stdout);
+                                        fflush(stdin);
+                                        fgets(dniTemp, 8, stdin);
+                                        strtok(passRunner, "\n");
+                                        modifyRunner(dniTemp);
+                                        break;
+                                    case '5':
+                                        intentosRunner = 3;
+                                        break;
+                                    default:
+                                        printf("ERROR. La opcion elegida no es correcta.\n");
+                                }
                             }while(opcionCorredor!='5');
                     }else
                     {
@@ -175,7 +185,6 @@ int main(void){
                                         printf("3.- Eliminar una carrera.\n");
                                         printf("4.- Añadir resultados de una carrera.\n");
                                         printf("5.- Atrás.\n");
-
                                         fflush(stdout);
                                         fflush(stdin);
                                         scanf("%c", &opcionAdmin);

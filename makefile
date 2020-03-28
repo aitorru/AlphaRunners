@@ -17,12 +17,12 @@ else
 	osdetected = out
 endif
 
-build: main.c Employee/Employee.c Runner/Runner.c
+build:  $(MAINC) $(EMPLOY) $(RUNNER) $(RACE)
 	@echo Target build: $(PLATFORM) Using ext: $(EXT)
 	$(CC) -o $(TREE)$(OUTPUT)$(EXT) $(MAINC) $(EMPLOY) $(RUNNER) $(RACE) $(CFLAGS)
 	
 
-buildT: main.c Employee/Employee.c Runner/Runner.c
+buildT: $(MAINC) $(EMPLOY) $(RUNNER) $(RACE)
 	$(CC) -o $(OUTPUT)$(EXT) $(MAINC) $(EMPLOY) $(RUNNER) $(RACE) $(CFLAGS)
 
 
