@@ -1,4 +1,5 @@
 #include "Runner.h"
+#include "../Race/race.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -85,6 +86,81 @@ void runnerRegister (void)
     fclose(f);
     free(runners1);
     free(runners2);
+}
+
+void apuntarteACarrera(char dni[10])
+{
+    char option;
+    char str[50];
+    char newDni[10];
+    char name[20];
+    char tlfn[9];
+    char email[30];
+    char birthdate[11];
+    char password[10];
+    char registro;
+    
+
+    int r = -1;
+
+    FILE* f;
+    int num = 0;
+    Runner* runners;
+    if((f = fopen("runners.dat", "rb"))!=NULL)
+    {
+        num = fgetc(f);
+        runners = (Runner*) malloc(num* sizeof(Runner));
+        fread(runners, sizeof(Runner), num, f);
+    }
+
+    for(int i = 0; i < num; i++)
+    {
+        if(strcmp(runners[i].dni, dni) == 0)
+        {
+            r = i;
+            break;
+        }
+    }
+    FILE* ff;
+    Race* races;
+
+    if (r != -1)
+    {
+        printf("\nMENU REGISTRO\n");
+        printf("------------------\n");
+        printf("1.- Listado de carreras.\n");
+        printf("2.- Apuntarse a carrera.\n");
+        printf("3.- Atrás.\n");
+        fflush(stdout);
+        fflush(stdin);
+        scanf("%c", &registro);
+        switch(registro)
+        {
+            case 1:
+                
+                if((ff = fopen("races.dat", "rb"))!=NULL)
+                {
+                    num = fgetc(f);
+                    races = (Race*) malloc(num* sizeof(Race));
+                    fread(races, sizeof(Race), num, f);
+                }
+
+                for(int i = 0; i < num; i++)
+                {
+                    printf("Carrera N%i: %s\n", i, races[i].name);
+                    break;   
+                }
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+        }
+    }
+    else
+    {
+        printf("DNI no encontrado");
+    }
 }
 
 void modifyRunner(char dni[10])

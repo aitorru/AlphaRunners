@@ -70,7 +70,6 @@ int main(void){
         printf("Pulsar 'q' para salir.\n");
         fflush(stdout);
         fflush(stdin);
-
         scanf("%c", &opcionIni);
         switch(opcionIni){
             case '1':
@@ -84,7 +83,7 @@ int main(void){
                     strtok(passRunner, "\n");
                     if (strcmp(passRunner, "ALPHARUNNERS") != 0){
                             do{
-                               printf("\nMENU CORREDORES\n");
+                                printf("\nMENU CORREDORES\n");
                                 printf("------------------\n");
                                 printf("1.- Apuntarte a carrera.\n");
                                 printf("2.- Desapuntarte a carrera.\n");
@@ -97,11 +96,20 @@ int main(void){
                                 switch(opcionCorredor)
                                 {   
                                     case '1':
-                                        break;
-                                    case '3':
+                                        printf("Introduce tu dni:");
                                         fflush(stdout);
                                         fflush(stdin);
-                                        fgets(dniTemp, 8, stdin);
+                                        memset(passRunner, 0, 10);
+                                        fgets(dniTemp, 10, stdin);
+                                        strtok(passRunner, "\n");
+                                        apuntarteACarrera(dniTemp);
+                                        break;
+                                    case '3':
+                                        printf("Introduce tu dni");
+                                        fflush(stdout);
+                                        fflush(stdin);
+                                        memset(passRunner, 0, 10);
+                                        fgets(dniTemp, 10, stdin);
                                         strtok(passRunner, "\n");
                                         modifyRunner(dniTemp);
                                         break;
