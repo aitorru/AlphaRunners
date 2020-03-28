@@ -20,8 +20,13 @@ int main(void){
 
     //Variable para la contraseña de corredor
     char passRunner[8];
-    int intentos = 0;
+    int intentosRunner = 0;
     char opcionCorredor;
+
+    //Variable para contraseña de trabajador
+    char passWorker[8];
+    int intentosWorker = 0;
+    char opcionWorker;
 
     //Variable para no leer caracteres de más
     char str[50];
@@ -68,33 +73,7 @@ int main(void){
         scanf("%c", &opcionIni);
         switch(opcionIni){
             case '1':
-                printf("Introduzca la contraseña de corredor: \n");
-                fflush(stdout);
-                fgets(str, 8, stdin);
-                sscanf(str, "%s", passRunner);
-                //WIP (Se podria leer una base de datos con contraseñas(alias)) 
-                if(strcmp(passAdmin, "ALPHARUNNERS") == 0){
-                        do{
-                            printf("\nMENU CORREDORES\n");
-                            printf("------------------\n");
-                            printf("1.- Apuntarte a carrera.\n");
-                            printf("2.- Desapuntarte a carrera.\n");
-                            printf("3.- Editar tus datos.\n");
-                            printf("4.- Ver tus estadisticas.\n");
-                            printf("5.- Atrás.");
-                            scanf("%c", &opcionAdmin);
-                            switch(opcionAdmin)
-                            {
-                                case '5':
-                                    break;
-                                default:
-                                    printf("ERROR. La opcion elegida no es correcta.\n");
-                            }
-                        }while(0);
-                }
-                break;
-            case '2':
-                while (intentos!=3 || opcionCorredor!='6')
+                while (intentosRunner!=3 || opcionCorredor!='5')
                 {
                     printf("\nIntroduzca la contraseña de corredor: \n");
                     fflush(stdout);
@@ -103,6 +82,43 @@ int main(void){
                     fgets(passRunner, 8, stdin);
                     strtok(passRunner, "\n");
                     if (strcmp(passRunner, "ALPHARUNNERS") != 0){
+                            do{
+                               printf("\nMENU CORREDORES\n");
+                            printf("------------------\n");
+                            printf("1.- Apuntarte a carrera.\n");
+                            printf("2.- Desapuntarte a carrera.\n");
+                            printf("3.- Editar tus datos.\n");
+                            printf("4.- Ver tus estadisticas.\n");
+                            printf("5.- Atrás.\n");
+                            fflush(stdout);
+                            fflush(stdin);
+                            scanf("%c", &opcionCorredor);
+                            switch(opcionCorredor)
+                            {
+                                case '5':
+                                    intentosRunner = 3;
+                                    break;
+                                default:
+                                    printf("ERROR. La opcion elegida no es correcta.\n");
+                            }
+                            }while(opcionCorredor!='5');
+                    }else
+                    {
+                        printf("Contraseña incorrecta.");
+                    }
+                    if(intentosRunner!=3) intentosRunner++;
+                }
+                break;
+            case '2':
+                while (intentosWorker!=3 || opcionCorredor!='6')
+                {
+                    printf("\nIntroduzca la contraseña de trabajador: \n");
+                    fflush(stdout);
+                    fflush(stdin);
+                    memset(passWorker, 0, 8);
+                    fgets(passWorker, 8, stdin);
+                    strtok(passWorker, "\n");
+                    if (strcmp(passWorker, "ALPHARUNNERS") != 0){
                             do{
                                 printf("\nMENU TRABAJADOR\n");
                                 printf("------------------\n");
@@ -114,21 +130,21 @@ int main(void){
                                 printf("6.- Atrás.\n");
                                 fflush(stdout);
                                 fflush(stdin);
-                                scanf("%c", &opcionCorredor);
-                                switch(opcionCorredor)
+                                scanf("%c", &opcionWorker);
+                                switch(opcionWorker)
                                 {
                                     case '6':
-                                        intentos = 3;
+                                        intentosWorker = 3;
                                         break;
                                     default:
                                         printf("ERROR. La opcion elegida no es correcta.\n");
                                 }
-                            }while(opcionCorredor!='6');
+                            }while(opcionWorker!='6');
                     }else
                     {
                         printf("Contraseña incorrecta.");
                     }
-                    if(intentos!=3) intentos++;
+                    if(intentosWorker!=3) intentosWorker++;
                 }
                 break;
             case '3':
