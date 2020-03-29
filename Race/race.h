@@ -10,12 +10,15 @@ typedef struct
     char location[20];
     int km;
     Employee organizer;
+    int nW;
     Employee* workers;
+    int nP;
     Runner* participants;
 } Race;
 
 void createRace(void);
 void modifyRace(int id);
 void deleteRace(int id);
+void introduceResults(int id);
 
 #endif

@@ -30,6 +30,9 @@ void createRace(void)
     Race* races1;
     Race* races2;
 
+    bool findW;
+    bool findP;
+
     printf("\nCREACION DE CARRERA\n");
     printf("--------------------\n");
     printf("Identificativo de la carrera: \n");
@@ -76,9 +79,11 @@ void createRace(void)
         employees1 = (Employee*) malloc(num* sizeof(Employee));
         fread(employees1, sizeof(Employee), num, f);
         fclose(f);
+        findW = true;
     }else
     {
         num = 0;
+        findW = false;
     }
 
     for(int i = 0; i<num; i++)
@@ -89,66 +94,75 @@ void createRace(void)
         }
     }
 
-    printf("Introduzca el numero de trabajadores que se asignarán a esta carrera: \n");
-    fflush(stdout);
-    fflush(stdin);
-    fgets(str, 50, stdin);
-    strtok(str, "\n");
-    sscanf(str, "%i", &nW);
-    workers = (Employee*) malloc(sizeof(Employee)*nW);
-    for(int i = 0; i < nW; i++)
+    if(findW)
     {
-        printf("Introduzca el nss del trabajador organizador de la carrera: \n");
+        printf("Introduzca el numero de trabajadores que se asignarán a esta carrera: \n");
         fflush(stdout);
+        fflush(stdin);
         fgets(str, 50, stdin);
         strtok(str, "\n");
-        strcpy(nss, str);
-        for(int i = 0; i<num; i++)
+        sscanf(str, "%i", &nW);
+        workers = (Employee*) malloc(sizeof(Employee)*nW);
+        for(int i = 0; i < nW; i++)
         {
-            if(strcmp(employees1[i].nss, nss) == 0)
+            printf("Introduzca el nss del trabajador: \n");
+            fflush(stdout);
+            fgets(str, 50, stdin);
+            strtok(str, "\n");
+            strcpy(nss, str);
+            for(int i = 0; i<num; i++)
             {
-                workers[i] = employees1[i];
+                if(strcmp(employees1[i].nss, nss) == 0)
+                {
+                    workers[i] = employees1[i];
+                }
             }
         }
+        free(employees1);
     }
-    free(employees1);
 
     if((f = fopen("runners.dat", "rb")) != NULL){
         num = fgetc(f);
         runners = (Runner*) malloc(num* sizeof(Runner));
         fread(runners, sizeof(Runner), num, f);
         fclose(f);
+        findP = true;
     }else
     {
         num = 0;
+        findP = false;
     }
-    printf("Introduzca el numero máximo de participantes: \n");
-    fflush(stdout);
-    scanf("%i", &nP);
-    participants = (Runner*) malloc(sizeof(Runner)*nP);
-    for(int i = 0; i < nP; i++)
+
+    if(findP)
     {
-        printf("Introduzca el dni del participante: \n");
+        printf("Introduzca el numero máximo de participantes: \n");
         fflush(stdout);
-        fflush(stdin);
-        fgets(str, 50, stdin);
-        strtok(str, "\n");
-        strcpy(dni, str);
-        for(int i = 0; i<num; i++)
+        scanf("%i", &nP);
+        participants = (Runner*) malloc(sizeof(Runner)*nP);
+        for(int i = 0; i < nP; i++)
         {
-            if(strcmp(runners[i].dni, dni) == 0)
+            printf("Introduzca el dni del participante: \n");
+            fflush(stdout);
+            fflush(stdin);
+            fgets(str, 50, stdin);
+            strtok(str, "\n");
+            strcpy(dni, str);
+            for(int i = 0; i<num; i++)
             {
-                printf("Introduzca el número del dorsal de %s:", runners[i].name);
-                fflush(stdout);
-                fflush(stdin);
-                scanf("%i", runners[i].number);
-                participants[i] = runners[i];
+                if(strcmp(runners[i].dni, dni) == 0)
+                {
+                    printf("Introduzca el número del dorsal de %s:", runners[i].name);
+                    fflush(stdout);
+                    fflush(stdin);
+                    scanf("%i", runners[i].number);
+                    participants[i] = runners[i];
+                }
             }
+            printf("Desea introducir otro participante? (S/N)\n");
+            fflush(stdout);
+            scanf("%c", &back);
+            if(back != 'S' && back != 's') break;
         }
-        printf("Desea introducir otro participante? (S/N)\n");
-        fflush(stdout);
-        scanf("%c", &back);
-        if(back != 'S' && back != 's') break;
     }
 
     if((f = fopen("races.dat", "rb")) != NULL){
@@ -173,7 +187,9 @@ void createRace(void)
             strcpy(races2[i].location, races1[i].location);
             races2[i].km = races1[i].km;
             races2[i].organizer = races1[i].organizer;
+            races2[i].nW = races1[i].nW;
             races2[i].workers = races1[i].workers;
+            races2[i].nP = races1[i].nP;
             races2[i].participants = races1[i].participants;
         }else{
             races2[i].id = id;
@@ -182,9 +198,17 @@ void createRace(void)
             strcpy(races2[i].time, time);
             strcpy(races2[i].location, location);
             races2[i].km = km;
-            races2[i].organizer = organizer;
-            races2[i].workers = workers;
-            races2[i].participants = participants;
+            if(findW)
+            {
+                races2[i].organizer = organizer;
+                races2[i].nW = nW;
+                races2[i].workers = workers;
+            }
+            if(findP)
+            {
+                races2[i].nP = nP;
+                races2[i].participants = participants;
+            }            
         }                
     }   
     fwrite(races2, sizeof(Race), num+1, f);
@@ -354,6 +378,7 @@ void modifyRace(int id)
                         }
                     }
                     free(employees);
+                    races[r].nW = nW;
                     races[r].workers = workers;
                     free(workers);
                     break;
@@ -378,6 +403,7 @@ void modifyRace(int id)
                                 fflush(stdout);
                                 fflush(stdin);
                                 scanf("%i", runners[i].number);
+                                races[r].nP = nP;
                                 participants[i] = runners[i];
                             }
                         }
@@ -451,4 +477,54 @@ void deleteRace(int id)
     fclose(f);
     free(races1);
     free(races2);
+}
+
+void introduceResults(int id)
+{
+    char str[50];
+    bool find = false;
+    Race* races;
+    int num = 0;
+    FILE* f;
+    if((f = fopen("races.dat", "rb"))!= NULL) 
+    {
+        int num = fgetc(f);
+        races = (Race*) malloc(sizeof(Race)*num);
+        fread(races, sizeof(Race), num, f);
+        find = true;
+    }else{
+        printf("No se ha encontrado el fichero de carreras.\n");
+    }
+
+    fclose(f);
+    if(find)
+    {
+        for(int i = 0; i < num; i++)
+        {
+            if(races[i].id == id)
+            {
+                Runner* runners = races[i].participants;
+                for(int j = 0; j < races[i].nP; j++)
+                {
+                    printf("Corredor %s:\n", runners[j].name);
+                    printf("Introduzca la posición en la que llego el corredor: \n");
+                    fflush(stdout);
+                    fflush(stdin);
+                    scanf("%i", &runners[j].number);
+                    printf("Introduzca el tiempo que hizo (hh:mm:ss): \n");
+                    fflush(stdout);
+                    fflush(stdin);
+                    fgets(str, 50, stdin);
+                    strtok(str, "\n");
+                    strcpy(runners[j].time, str);
+                }
+            }
+        }
+
+        f = fopen("races.dat", "wb");
+        fputc(num, f);
+        fwrite(races, sizeof(Race), num, f);
+        fclose(f);
+        free(races);
+    }
 }

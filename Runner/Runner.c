@@ -1,4 +1,5 @@
 #include "Runner.h"
+#include "../Employee/Employee.h"
 #include "../Race/race.h"
 #include <stdio.h>
 #include <string.h>
@@ -159,7 +160,7 @@ void apuntarteACarrera(char dni[10])
     }
     else
     {
-        printf("DNI no encontrado");
+        printf("DNI no encontrado.\n");
     }
 }
 
@@ -279,5 +280,7 @@ void modifyRunner(char dni[10])
         fwrite(runners, sizeof(Runner), num, f);
         fclose(f);
         free(runners);
+    }else{
+        printf("No se ha encontrado el corredor.\n");
     }
 }

@@ -10,10 +10,11 @@ typedef struct
     char birthdate[11];
     char password[10];
     int number, position;
-    float time;
+    char time[9];
 } Runner;
 
 void runnerRegister (void);
 void modifyRunner(char dni[10]);
+void apuntarteACarrera(char dni[10]);
 
 #endif

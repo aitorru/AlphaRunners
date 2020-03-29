@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "Runner/Runner.h"
 #include "Employee/Employee.h"
 #include "Race/race.h"
@@ -9,6 +10,8 @@ int main(void){
     //Variables para los ficheros
     FILE* f;
     int num;
+    bool find = false;
+    int cont = 0;
 
     //Variables para navegar a traves de los menus
     char opcionIni;
@@ -151,6 +154,70 @@ int main(void){
                                 scanf("%c", &opcionWorker);
                                 switch(opcionWorker)
                                 {
+                                    case '1':
+                                        printf("Introduzca su nss: \n");
+                                        fflush(stdout);
+                                        fflush(stdin);
+                                        fgets(str, 50, stdin);
+                                        strtok(str, "\n");
+                                        strcpy(nss, str);
+
+                                        if((f = fopen("races.dat", "rb"))!= NULL)
+                                        {
+                                            num = fgetc(f);
+                                            races1 = (Race*) malloc(sizeof(Race)*num);
+                                            fread(races1, sizeof(Race), num, f);
+                                            find = true;
+                                        }else{
+                                            printf("No se te ha asignado ninguna tarea.\n");
+                                            find = false;
+                                        }
+
+                                        cont = 0;
+
+                                        if(find)
+                                        {
+                                            for(int i = 0;i < num; i++)
+                                            {
+                                                if(strcmp(races1[i].organizer.nss, nss) == 0)
+                                                {
+                                                    printf("%i.- Organizador de la carrera %s (%s).\n", cont, races1[i].name, races1[i].date);
+                                                    cont++;
+                                                }
+                                                employees1 = (Employee*) malloc(sizeof(Employee)*races1[i].nW);
+                                                employees1 = races1[i].workers;
+                                                for(int j = 0; j < races1[i].nW; j++)
+                                                {
+                                                    if(strcmp(employees1[j].nss, nss) == 0)
+                                                    {
+                                                        printf("%i.- Empleado en la carrera %s (%s).\n", cont, races1[i].name, races1[i].date);
+                                                        cont++;
+                                                    }
+                                                }
+                                                free(employees1);
+                                            }
+                                        }
+                                        free(races1);                                        
+                                        break;
+                                    case '2':
+                                        break;
+                                    case '3':
+                                        printf("Introduzca el nss del trabajador:\n");
+                                        fflush(stdout);
+                                        fflush(stdin);
+                                        fgets(str, 50, stdin);
+                                        strtok(str, "\n");
+                                        strcpy(nss, str);
+                                        modifyEmployee(nss);
+                                    case '4':
+                                        break;
+                                    case '5':
+                                        printf("Introduzca el id de la carrera: \n");
+                                        fflush(stdout);
+                                        fflush(stdin);
+                                        scanf("%i", &id);
+                                        introduceResults(id);
+                                        break;
                                     case '6':
                                         intentosWorker = 3;
                                         break;
@@ -201,21 +268,25 @@ int main(void){
                                                 createRace();
                                                 break;
                                             case '2':
-                                                printf("Introduzca el id de la carrera de la que quieres modificar sus datos: \n");
+                                                printf("Introduzca el id de la carrera: \n");
                                                 fflush(stdout);
                                                 fflush(stdin);
                                                 scanf("%i", &id);
                                                 modifyRace(id);
                                                 break;
                                             case '3':
-                                                printf("Introduzca el id de la carrera del que quieres eliminar sus datos: \n");
+                                                printf("Introduzca el id de la carrera: \n");
                                                 fflush(stdout);
                                                 fflush(stdin);
                                                 scanf("%i", &id);
                                                 deleteRace(id);
                                                 break;
                                             case '4':
-                                            
+                                                printf("Introduzca el id de la carrera: \n");
+                                                fflush(stdout);
+                                                fflush(stdin);
+                                                scanf("%i", &id);
+                                                introduceResults(id);
                                                 break;
                                             case '5':
                                                 break;
@@ -260,8 +331,9 @@ int main(void){
                                         printf("\nADMINISTRACION DE TRABAJADORES\n");
                                         printf("------------------------------\n");
                                         printf("1.- Dar de alta a un trabajador.\n");
-                                        printf("2.- Dar de baja a un trabajador.\n");
-                                        printf("3.- Atrás.\n");
+                                        printf("2.- Modificar datos de trabajador.\n");
+                                        printf("3.- Dar de baja a un trabajador.\n");
+                                        printf("4.- Atrás.\n");
 
                                         fflush(stdout);
                                         fflush(stdin);
@@ -271,6 +343,15 @@ int main(void){
                                                 registerEmployee();
                                                 break;
                                             case '2':
+                                                printf("Introduzca el nss del trabajador:\n");
+                                                fflush(stdout);
+                                                fflush(stdin);
+                                                fgets(str, 50, stdin);
+                                                strtok(str, "\n");
+                                                strcpy(nss, str);
+                                                modifyEmployeeA(nss);
+                                                break;
+                                            case '3':
                                                 printf("\nBAJA DE TRABAJADOR\n");
                                                 printf("------------------\n");
                                                 printf("Introduzca el nss del trabajador:\n");
@@ -287,38 +368,42 @@ int main(void){
                                                     num = fgetc(f);
                                                     employees = (Employee*) malloc(num* sizeof(Employee));
                                                     fread(employees, sizeof(Employee), num, f);
+                                                    find = true;
                                                 }else{
                                                     printf("No se ha encontrado el fichero de empleados.\n");
+                                                    find = false;
                                                 }                                               
                                                 fclose(f);
-
                                                 
-
-                                                for(int i = 0; i < num; i++)
+                                                if(find)
                                                 {
-                                                    if(strcmp(employees[i].nss, nss) == 0)
+                                                    for(int i = 0; i < num; i++)
                                                     {
-                                                        strcpy(employees[i].state, "BAJA");
-                                                        printf("Se ha dado de baja correctamente al trabajador %s.\n", employees[i].name);
-                                                        break;
-                                                    }else{
-                                                        printf("No se ha podido encontrar al trabajador.\n");
+                                                        if(strcmp(employees[i].nss, nss) == 0)
+                                                        {
+                                                            strcpy(employees[i].state, "BAJA");
+                                                            printf("Se ha dado de baja correctamente al trabajador %s.\n", employees[i].name);
+                                                            break;
+                                                        }else{
+                                                            printf("No se ha podido encontrar al trabajador.\n");
+                                                        }
                                                     }
+
+                                                    f = fopen("employees.dat", "wb");
+                                                    fputc(num, f);
+                                                    fwrite(employees, sizeof(Employee), num, f);
+                                                    fclose(f);
+                                                    free(employees);
                                                 }
 
-                                                f = fopen("employees.dat", "wb");
-                                                fputc(num, f);
-                                                fwrite(employees, sizeof(Employee), num, f);
-                                                fclose(f);
-                                                free(employees);
-
                                                 break;
-                                            case '3':
+                                            case '4':
                                                 break;
                                             default:
                                                 printf("ERROR. La opcion elegida no es correcta.\n");
                                         }
-                                    }while(opcionAdmin != '3');
+                                    }while(opcionAdmin != '4');
+                                    opcionAdmin = '3';
                                     break;
                                 case '4':
                                     break;

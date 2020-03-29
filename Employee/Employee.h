@@ -9,5 +9,7 @@ typedef struct{
 } Employee;
 
 void registerEmployee(void);
+void modifyEmployee(char nss[12]);
+void modifyEmployeeA(char nss[12]);
 
 #endif
