@@ -105,6 +105,9 @@ void apuntarteACarrera(char dni[10])
     char birthdate[11];
     char password[10];
     char registro;
+
+    //Variable para guardar temporales
+    int idtmp;
     
 
     int r = -1;
@@ -153,11 +156,39 @@ void apuntarteACarrera(char dni[10])
 
                 for(int i = 0; i < num; i++)
                 {
-                    printf("Carrera N%i: %s\n", i, races[i].name);
+                    printf("Carrera N%i: %s con ID: %i\n", i, races[i].name, races[i].id);
                     break;   
                 }
                 break;
             case 2:
+                printf("Cual es el id de la carrera a la que te quieres apuntar:");
+                fflush(stdout);
+                fflush(stdin);
+                scanf("%i", &idtmp);
+                if((ff = fopen("races.dat", "rb"))!=NULL)
+                {
+                    num = fgetc(f);
+                    races = (Race*) malloc(num* sizeof(Race));
+                    fread(races, sizeof(Race), num, f);
+
+                    for(int i = 0; i < num; i++)
+                    {
+                        if(races[i].id == idtmp);
+                        {
+                            races[i].participants;
+                            Runner participantes[races[i].nP+1];
+                            memcpy(&participantes, &races[i].participants, sizeof(Runner));
+                            participantes[races[i].nP+1] = runners[r]; //Guardar el nuevo participante en la nueva posición
+                            memcpy(races[i].participants, participantes, sizeof(Runner));
+                            races[i].nP = races[i].nP+1;
+                            printf("\nSe ha añadido correctamente.\n");
+                            fflush(stdout);
+                        }   
+                    }
+                } else
+                {
+                    printf("Error al leer el archivo.");
+                }
                 break;
             case 3:
                 break;
