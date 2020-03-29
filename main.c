@@ -116,6 +116,9 @@ int main(void){
                                         strtok(passRunner, "\n");
                                         modifyRunner(dniTemp);
                                         break;
+                                    case '4':
+                                        printf("\nEn espera de c++\n");
+                                        break;
                                     case '5':
                                         intentosRunner = 3;
                                         break;
