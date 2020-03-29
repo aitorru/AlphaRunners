@@ -49,16 +49,19 @@ void createRace(void)
     strcpy(name, str);
     printf("Fecha:\n");
     fflush(stdout);
+    fflush(stdin);
     fgets(str, 50, stdin);
     strtok(str, "\n");
     strcpy(date, str);
     printf("Hora:\n");
     fflush(stdout);
+    fflush(stdin);
     fgets(str, 50, stdin);
     strtok(str, "\n");
     strcpy(time, str);
     printf("Lugar:\n");
     fflush(stdout);
+    fflush(stdin);
     fgets(str, 50, stdin);
     strtok(str, "\n");
     strcpy(location, str);
@@ -70,6 +73,7 @@ void createRace(void)
     sscanf(str, "%i", &km);
     printf("Introduzca el nss del trabajador organizador de la carrera: \n");
     fflush(stdout);
+    fflush(stdin);
     fgets(str, 50, stdin);
     strtok(str, "\n");
     strcpy(nss, str);
@@ -107,6 +111,7 @@ void createRace(void)
         {
             printf("Introduzca el nss del trabajador: \n");
             fflush(stdout);
+            fflush(stdin);
             fgets(str, 50, stdin);
             strtok(str, "\n");
             strcpy(nss, str);
@@ -137,6 +142,7 @@ void createRace(void)
     {
         printf("Introduzca el numero máximo de participantes: \n");
         fflush(stdout);
+        fflush(stdin);
         scanf("%i", &nP);
         participants = (Runner*) malloc(sizeof(Runner)*nP);
         for(int i = 0; i < nP; i++)
@@ -154,12 +160,13 @@ void createRace(void)
                     printf("Introduzca el número del dorsal de %s:", runners[i].name);
                     fflush(stdout);
                     fflush(stdin);
-                    scanf("%i", runners[i].number);
+                    scanf("%i", &runners[i].number);
                     participants[i] = runners[i];
                 }
             }
             printf("Desea introducir otro participante? (S/N)\n");
             fflush(stdout);
+            fflush(stdin);
             scanf("%c", &back);
             if(back != 'S' && back != 's') break;
         }
@@ -359,6 +366,7 @@ void modifyRace(int id)
                 case '8':
                     printf("Introduzca el numero de trabajadores que se asignarán a esta carrera: \n");
                     fflush(stdout);
+                    fflush(stdin);
                     scanf("%i", &nW);
                     workers = (Employee*) malloc(sizeof(Employee)*nW);
                     for(int i = 0; i < nW; i++)
@@ -385,6 +393,7 @@ void modifyRace(int id)
                 case '9':
                     printf("Introduzca el numero máximo de participantes: \n");
                     fflush(stdout);
+                    fflush(stdin);
                     scanf("%i", &nP);
                     participants = (Runner*) malloc(sizeof(Runner)*nP);
                     for(int i = 0; i < nP; i++)
@@ -402,7 +411,7 @@ void modifyRace(int id)
                                 printf("Introduzca el número del dorsal de %s:", runners[i].name);
                                 fflush(stdout);
                                 fflush(stdin);
-                                scanf("%i", runners[i].number);
+                                scanf("%i", &runners[i].number);
                                 races[r].nP = nP;
                                 participants[i] = runners[i];
                             }
