@@ -386,10 +386,16 @@ int main(void){
                                                         {
                                                             strcpy(employees[i].state, "BAJA");
                                                             printf("Se ha dado de baja correctamente al trabajador %s.\n", employees[i].name);
+                                                            find = true;
                                                             break;
                                                         }else{
-                                                            printf("No se ha podido encontrar al trabajador.\n");
+                                                            find = false;
                                                         }
+                                                    }
+
+                                                    if(!find)
+                                                    {
+                                                        printf("No se ha podido encontrar al trabajador.\n");
                                                     }
 
                                                     f = fopen("employees.dat", "wb");
