@@ -207,7 +207,7 @@ void apuntarteACarrera(char dni[10])
     }
 }
 
-void despuntarteDeCarrera(char dni[10])
+void desapuntarteDeCarrera(char dni[10])
 {
     char option;
     char str[50];
@@ -271,7 +271,7 @@ void despuntarteDeCarrera(char dni[10])
                 {
                     for(int j = 0; j < races[i].nP; j++)
                     {
-                        if(strcmp(races[i].participants[j].dni, dni)) == 0)
+                        if((strcmp(races[i].participants[j].dni, dni)) == 0)
                         {
                             printf("Carrera N%i: %s con ID: %i\n", i, races[i].name, races[i].id);
                         }
@@ -288,7 +288,7 @@ void despuntarteDeCarrera(char dni[10])
                 fflush(stdout);
                 fflush(stdin);
                 scanf("%i", &idtmp);
-                Race* races
+                Race* races;
                 if((ff = fopen("races.dat", "rb"))!=NULL)
                 {
                     num = fgetc(f);
@@ -299,18 +299,19 @@ void despuntarteDeCarrera(char dni[10])
                     {
                         if(races[i].id == idtmp);
                         {
-                            Runner* runners[races[i].nP-1];
+                            Runner* runners = (Runner*) malloc(sizeof(Runner)*races[i].nP-1);
                             int cont = 0;
-                            for(int j = 0; j < nP; j++)
+                            for(int j = 0; j < races[i].nP; j++)
                             {
-                                if(strcmp(races[i].participants[j].dni, dni)) != 0)
+                                if((strcmp(races[i].participants[j].dni, dni)) != 0)
                                 {
-                                    runners[cont] = races[i].partcipants[j];
+                                    runners[cont] = races[i].participants[j];
                                     cont++;
                                 }
                             }
                             races[i].participants = runners;
                         }   
+                        free(runners);
                     }
                     fclose(ff);
                     ff = fopen("races.dat", "wb");
