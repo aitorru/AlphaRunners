@@ -159,6 +159,7 @@ void apuntarteACarrera(char dni[10])
                     printf("Carrera N%i: %s con ID: %i\n", i, races[i].name, races[i].id);
                     break;   
                 }
+                free(races);
                 break;
             case 2:
                 printf("Cual es el id de la carrera a la que te quieres apuntar:");
@@ -177,7 +178,7 @@ void apuntarteACarrera(char dni[10])
                         {
                             races[i].participants;
                             Runner participantes[races[i].nP+1];
-                            memcpy(&participantes, &races[i].participants, sizeof(Runner));
+                            memcpy(participantes, races[i].participants, sizeof(Runner));
                             participantes[races[i].nP+1] = runners[r]; //Guardar el nuevo participante en la nueva posición
                             memcpy(races[i].participants, participantes, sizeof(Runner));
                             races[i].nP = races[i].nP+1;
@@ -185,10 +186,141 @@ void apuntarteACarrera(char dni[10])
                             fflush(stdout);
                         }   
                     }
+                    free(races);
+                    fclose(ff);
+                    ff = fopen("races.dat", "wb");
+                    fputc(num, ff);
+                    fwrite(races, sizeof(Race), num, ff);
+                    fclose(ff);
                 } else
                 {
                     printf("Error al leer el archivo.");
                 }
+                break;
+            case 3:
+                break;
+        }
+    }
+    else
+    {
+        printf("DNI no encontrado.\n");
+    }
+}
+
+void despuntarteDeCarrera(char dni[10])
+{
+    char option;
+    char str[50];
+    char newDni[10];
+    char name[20];
+    char tlfn[9];
+    char email[30];
+    char birthdate[11];
+    char password[10];
+    char registro;
+
+    //Variable para guardar temporales
+    int idtmp;
+    
+
+    int r = -1;
+
+    FILE* f;
+    int num = 0;
+    Runner* runners;
+    if((f = fopen("runners.dat", "rb"))!=NULL)
+    {
+        num = fgetc(f);
+        runners = (Runner*) malloc(num* sizeof(Runner));
+        fread(runners, sizeof(Runner), num, f);
+    }
+
+    for(int i = 0; i < num; i++)
+    {
+        if(strcmp(runners[i].dni, dni) == 0)
+        {
+            r = i;
+            break;
+        }
+    }
+    FILE* ff;
+    Race* races;
+
+    if (r != -1)
+    {
+        printf("\nMENU\n");
+        printf("----\n");
+        printf("1.- Listado de carreras.\n");
+        printf("2.- Desapuntarse de carrera.\n");
+        printf("3.- Atrás.\n");
+        fflush(stdout);
+        fflush(stdin);
+        scanf("%c", &registro);
+        switch(registro)
+        {
+            case 1:
+                num = 0;
+                if((ff = fopen("races.dat", "rb"))!=NULL)
+                {
+                    num = fgetc(f);
+                    races = (Race*) malloc(num* sizeof(Race));
+                    fread(races, sizeof(Race), num, f);
+                }
+
+                for(int i = 0; i < num; i++)
+                {
+                    for(int j = 0; j < races[i].nP; j++)
+                    {
+                        if(strcmp(races[i].participants[j].dni, dni)) == 0)
+                        {
+                            printf("Carrera N%i: %s con ID: %i\n", i, races[i].name, races[i].id);
+                        }
+                    }
+                    break;   
+                }
+                if(num != 0)
+                {
+                    free(races);
+                }
+                break;
+            case 2:
+                printf("Cual es el id de la carrera a la que te quieres desapuntar:");
+                fflush(stdout);
+                fflush(stdin);
+                scanf("%i", &idtmp);
+                Race* races
+                if((ff = fopen("races.dat", "rb"))!=NULL)
+                {
+                    num = fgetc(f);
+                    races = (Race*) malloc(num* sizeof(Race));
+                    fread(races, sizeof(Race), num, f);
+
+                    for(int i = 0; i < num; i++)
+                    {
+                        if(races[i].id == idtmp);
+                        {
+                            Runner* runners[races[i].nP-1];
+                            int cont = 0;
+                            for(int j = 0; j < nP; j++)
+                            {
+                                if(strcmp(races[i].participants[j].dni, dni)) != 0)
+                                {
+                                    runners[cont] = races[i].partcipants[j];
+                                    cont++;
+                                }
+                            }
+                            races[i].participants = runners;
+                        }   
+                    }
+                    fclose(ff);
+                    ff = fopen("races.dat", "wb");
+                    fputc(num, ff);
+                    fwrite(races, sizeof(Race), num, ff);
+                    fclose(ff);
+                } else
+                {
+                    printf("Error al leer el archivo.");
+                }               
                 break;
             case 3:
                 break;

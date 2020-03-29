@@ -107,6 +107,15 @@ int main(void){
                                         strtok(passRunner, "\n");
                                         apuntarteACarrera(dniTemp);
                                         break;
+                                    case '2':
+                                        printf("Introduce tu dni:");
+                                        fflush(stdout);
+                                        fflush(stdin);
+                                        memset(passRunner, 0, 10);
+                                        fgets(dniTemp, 10, stdin);
+                                        strtok(passRunner, "\n");
+                                        desapuntarteDeCarrera(dniTemp);
+                                        break;
                                     case '3':
                                         printf("Introduce tu dni");
                                         fflush(stdout);

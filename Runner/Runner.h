@@ -16,5 +16,6 @@ typedef struct
 void runnerRegister (void);
 void modifyRunner(char dni[10]);
 void apuntarteACarrera(char dni[10]);
+void desapuntarteDeCarrera(char dni[10]);
 
 #endif
