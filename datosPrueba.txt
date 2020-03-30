@@ -1,0 +1,19 @@
+DATOS DE PRUEBA
+---------------
+Corredores:
+DNI: 11111111A; Nombre: Amaia Pikatza; Tlfn: 600000000; email: amaia@gmail.com; f_ncto: 2000/09/13; pass: amaia
+DNI: 22222222B; Nombre: Sergio Salgado; Tlfn: 611111111; email: sergio@gmail.com; f_ncto: 1999/05/25; pass: sergio
+DNI: 33333333C; Nombre: Aitor Ruiz; Tlfn: 622222222; email: aitor@gmail.com; f_ncto: 2000/09/12; pass: aitor
+DNI: 44444444D; Nombre: Miguel Urquijo; Tlfn: 633333333; email: miguel@gmail.com; f_ncto: 1997/11/12; pass: miguel
+
+Trabajadores:
+NSS: 55555555555; Nombre: Pepe Perez; Salario: 1500;
+NSS: 66666666666; Nombre: Juan Jimenez; Salario: 1700;
+NSS: 77777777777; Nombre: Ana Arribas; Salario: 2000;
+NSS: 88888888888; Nombre: Paz Palencia; Salario: 1500;
+NSS: 99999999999; Nombre: Jorge Sol; Salario: 1700;
+NSS: 00000000000; Nombre: Luis Lorenzo; Salario: 2000;
+
+Carreras:
+ID: 15; Nombre: Decathlon; Fecha: 2020/09/05; Hora: 12:00; Localización: Bilbao; Km: 2; Organizador: 77777777777; nW: 2; Empleados: [55555555555, 66666666666]; nP: 5; Participantes: [11111111A(22), 22222222B(99)];
+ID: 16; Nombre: Maraton; Fecha: 2020/12/12; Hora: 16:00; Localización: Madrid; Km: 50; Organizador: 00000000000; nW: 5; Empleados: [55555555555, 66666666666, 77777777777, 88888888888, 9999999999]; nP: 5; Participantes: [33333333C(45), 44444444D(85)];

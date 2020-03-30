@@ -7,11 +7,13 @@
 #include "Race/race.h"
 
 int main(void){
+
     //Variables para los ficheros
     FILE* f;
     int num;
     bool find = false;
     int cont = 0;
+    int r = -1;
 
     //Variables para navegar a traves de los menus
     char opcionIni;
@@ -39,7 +41,6 @@ int main(void){
     char dni[10];
 
     //Variables para la creación/modificación/eliminación de carreras
-    int uniqueIdR = 0;
     int id;
     char date[11];
     char time[6];
@@ -50,12 +51,13 @@ int main(void){
     Employee* workers;
     int nP;
     Runner* runners;
+    Runner* runners1;
     Runner* participants;
+    Race* races;
     Race* races1;
     Race* races2;
 
     //Variables para alta/baja de un trabajador
-    int uniqueIdT = 0;
     char nss[12];
     char name[20];
     int salary;
@@ -76,6 +78,7 @@ int main(void){
         scanf("%c", &opcionIni);
         switch(opcionIni){
             case '1':
+                intentosRunner = 0;
                 while (intentosRunner!=3 || opcionCorredor!='5')
                 {
                     printf("\nIntroduzca la contraseña de corredor: \n");
@@ -99,22 +102,232 @@ int main(void){
                                 switch(opcionCorredor)
                                 {   
                                     case '1':
+                                        r = -1;
                                         printf("Introduce tu dni:");
                                         fflush(stdout);
                                         fflush(stdin);
                                         memset(passRunner, 0, 10);
-                                        fgets(dniTemp, 10, stdin);
+                                        fgets(dni, 10, stdin);
                                         strtok(passRunner, "\n");
-                                        apuntarteACarrera(dniTemp);
+                                        if((f = fopen("runners.dat", "rb"))!=NULL)
+                                        {
+                                            num = fgetc(f);
+                                            runners = (Runner*) malloc(num* sizeof(Runner));
+                                            fread(runners, sizeof(Runner), num, f);
+                                        }
+
+                                        for(int i = 0; i < num; i++)
+                                        {
+                                            if(strcmp(runners[i].dni, dni) == 0)
+                                            {
+                                                r = i;
+                                                break;
+                                            }
+                                        }
+
+                                        if (r != -1)
+                                        {
+                                            do{
+                                                printf("\nMENU\n");
+                                                printf("----\n");
+                                                printf("1.- Listado de carreras.\n");
+                                                printf("2.- Apuntarse de carrera.\n");
+                                                printf("3.- Atrás.\n");
+                                                fflush(stdout);
+                                                fflush(stdin);
+                                                scanf("%c", &opcionCorredor);
+                                                switch(opcionCorredor)
+                                                {
+                                                    case '1':
+                                                        num = 0;
+                                                        if((f = fopen("races.dat", "rb"))!=NULL)
+                                                        {
+                                                            num = fgetc(f);
+                                                            races = (Race*) malloc(num* sizeof(Race));
+                                                            fread(races, sizeof(Race), num, f);
+                                                            fclose(f);
+                                                        }
+                                                        
+                                                        for(int i = 0; i < num; i++)
+                                                        {
+                                                            printf("Carrera N.%i: %s(id:%i)\n", i, races[i].name, races[i].id);
+                                                            fflush(stdout);
+                                                        } 
+                                                        if(num != 0)
+                                                        {
+                                                            free(races);
+                                                        }
+                                                        break;
+                                                    case '2':
+                                                        printf("Cual es el id de la carrera a la que te quieres apuntar:");
+                                                        fflush(stdout);
+                                                        fflush(stdin);
+                                                        scanf("%i", &id);
+                                                        if((f = fopen("races.dat", "rb"))!=NULL)
+                                                        {
+                                                            num = fgetc(f);
+                                                            races = (Race*) malloc(num* sizeof(Race));
+                                                            fread(races, sizeof(Race), num, f);
+                                                            fclose(f);
+
+                                                            for(int i = 0; i < num; i++)
+                                                            {
+                                                                if(races[i].id == id);
+                                                                {
+                                                                    runners1 = (Runner*) malloc(sizeof(Runner)*races[i].nP+1);
+                                                                    for(int j = 0; j < races[i].nP+1; j++)
+                                                                    {
+                                                                        if(j != races[i].nP){
+                                                                            strcpy(runners1[j].dni, races[i].participants[j].dni);
+                                                                            strcpy(runners1[j].name, races[i].participants[j].name);
+                                                                            strcpy(runners1[j].tlfn, races[i].participants[j].tlfn);
+                                                                            strcpy(runners1[j].email, races[i].participants[j].email);
+                                                                            strcpy(runners1[j].birthdate, races[i].participants[j].birthdate);
+                                                                            strcpy(runners1[j].password, races[i].participants[j].password);
+                                                                        }else{
+                                                                            strcpy(runners1[j].dni, runners[r].dni);
+                                                                            strcpy(runners1[j].name, runners[r].name);
+                                                                            strcpy(runners1[j].tlfn, runners[r].tlfn);
+                                                                            strcpy(runners1[j].email, runners[r].email);
+                                                                            strcpy(runners1[j].birthdate, runners[r].birthdate);
+                                                                            strcpy(runners1[j].password, runners[r].password);
+                                                                        }                
+                                                                    }   
+                                                                    printf("\nSe ha añadido correctamente.\n");
+                                                                    fflush(stdout);
+                                                                    races[i].nP += 1;
+                                                                    races[i].participants = runners1;
+                                                                }   
+                                                            }                                                            
+                                                            f = fopen("races.dat", "wb");
+                                                            fputc(num, f);
+                                                            fwrite(races, sizeof(Race), num, f);
+                                                            fclose(f);
+                                                            free(races);
+                                                            free(runners1);
+                                                        } else
+                                                        {
+                                                            printf("Error al leer el archivo.");
+                                                        }
+                                                        break;
+                                                    case '3':
+                                                        break;
+                                                }
+                                            }while(opcionCorredor != '3');
+                                        }
+                                        else
+                                        {
+                                            printf("DNI no encontrado.\n");
+                                        }
                                         break;
                                     case '2':
+                                        r = -1;
                                         printf("Introduce tu dni:");
                                         fflush(stdout);
                                         fflush(stdin);
                                         memset(passRunner, 0, 10);
-                                        fgets(dniTemp, 10, stdin);
+                                        fgets(dni, 10, stdin);
                                         strtok(passRunner, "\n");
-                                        desapuntarteDeCarrera(dniTemp);
+                                        if((f = fopen("runners.dat", "rb"))!=NULL)
+                                        {
+                                            num = fgetc(f);
+                                            runners = (Runner*) malloc(num* sizeof(Runner));
+                                            fread(runners, sizeof(Runner), num, f);
+                                        }
+
+                                        for(int i = 0; i < num; i++)
+                                        {
+                                            if(strcmp(runners[i].dni, dni) == 0)
+                                            {
+                                                r = i;
+                                                break;
+                                            }
+                                        }
+                                        FILE* ff;
+                                        Race* races;
+
+                                        if (r != -1)
+                                        {
+                                            do{
+                                                printf("\nMENU\n");
+                                                printf("----\n");
+                                                printf("1.- Listado de carreras.\n");
+                                                printf("2.- Desapuntarse de carrera.\n");
+                                                printf("3.- Atrás.\n");
+                                                fflush(stdout);
+                                                fflush(stdin);
+                                                scanf("%c", &opcionCorredor);
+                                                switch(opcionCorredor)
+                                                {
+                                                    case '1':
+                                                        num = 0;
+                                                        if((ff = fopen("races.dat", "rb"))!=NULL)
+                                                        {
+                                                            num = fgetc(ff);
+                                                            races = (Race*) malloc(num* sizeof(Race));
+                                                            fread(races, sizeof(Race), num, ff);
+                                                            fclose(ff);
+                                                        }
+                                                        
+                                                        for(int i = 0; i < num; i++)
+                                                        {
+                                                            printf("Carrera N.%i: %s(id:%i)\n", i, races[i].name, races[i].id);
+                                                            fflush(stdout);
+                                                        } 
+                                                        if(num != 0)
+                                                        {
+                                                            free(races);
+                                                        }
+                                                        break;
+                                                    case '2':
+                                                        printf("Cual es el id de la carrera a la que te quieres desapuntar:");
+                                                        fflush(stdout);
+                                                        fflush(stdin);
+                                                        scanf("%i", &id);
+                                                        Race* races;
+                                                        if((ff = fopen("races.dat", "rb"))!=NULL)
+                                                        {
+                                                            num = fgetc(f);
+                                                            races = (Race*) malloc(num* sizeof(Race));
+                                                            fread(races, sizeof(Race), num, f);
+
+                                                            for(int i = 0; i < num; i++)
+                                                            {
+                                                                if(races[i].id == id);
+                                                                {
+                                                                    runners = (Runner*) malloc(sizeof(Runner)*races[i].nP-1);
+                                                                    int cont = 0;
+                                                                    for(int j = 0; j < races[i].nP; j++)
+                                                                    {
+                                                                        if((strcmp(races[i].participants[j].dni, dni)) != 0)
+                                                                        {
+                                                                            runners[cont] = races[i].participants[j];
+                                                                            cont++;
+                                                                        }
+                                                                    }
+                                                                    races[i].participants = runners;
+                                                                }   
+                                                                free(runners);
+                                                            }
+                                                            fclose(ff);
+                                                            ff = fopen("races.dat", "wb");
+                                                            fputc(num, ff);
+                                                            fwrite(races, sizeof(Race), num, ff);
+                                                            fclose(ff);
+                                                        } else
+                                                        {
+                                                            printf("Error al leer el archivo.");
+                                                        }               
+                                                        break;
+                                                    case '3':
+                                                        break;
+                                                }
+                                            }while(opcionCorredor != '3');
+                                        }
+                                        else
+                                        {
+                                            printf("DNI no encontrado.\n");
+                                        }
                                         break;
                                     case '3':
                                         printf("Introduce tu dni");
@@ -143,106 +356,145 @@ int main(void){
                 }
                 break;
             case '2':
-                while (intentosWorker!=3 || opcionCorredor!='6')
-                {
-                    printf("\nIntroduzca la contraseña de trabajador: \n");
-                    fflush(stdout);
-                    fflush(stdin);
-                    memset(passWorker, 0, 8);
-                    fgets(passWorker, 8, stdin);
-                    strtok(passWorker, "\n");
-                    if (strcmp(passWorker, "ALPHARUNNERS") != 0){
-                            do{
-                                printf("\nMENU TRABAJADOR\n");
-                                printf("------------------\n");
-                                printf("1.- Ver tu tarea.\n");
-                                printf("2.- Notificar baja.\n");
-                                printf("3.- Editar tus datos.\n");
-                                printf("4.- Solicitar cambio de tarea.\n");
-                                printf("5.- Introducir resultados de carreras.\n");
-                                printf("6.- Atrás.\n");
+                printf("\nIntroduzca la contraseña de trabajador: \n");
+                fflush(stdout);
+                fflush(stdin);
+                memset(passWorker, 0, 8);
+                fgets(passWorker, 8, stdin);
+                strtok(passWorker, "\n");
+                if (strcmp(passWorker, "ALPHARUNNERS") != 0){
+                    do{
+                        printf("\nMENU TRABAJADOR\n");
+                        printf("------------------\n");
+                        printf("1.- Ver tu tarea.\n");
+                        printf("2.- Notificar baja.\n");
+                        printf("3.- Editar tus datos.\n");
+                        printf("4.- Solicitar cambio de tarea.\n");
+                        printf("5.- Introducir resultados de carreras.\n");
+                        printf("6.- Atrás.\n");
+                        fflush(stdout);
+                        fflush(stdin);
+                        scanf("%c", &opcionWorker);
+                        switch(opcionWorker)
+                        {
+                            case '1':
+                                printf("Introduzca su nss: \n");
                                 fflush(stdout);
                                 fflush(stdin);
-                                scanf("%c", &opcionWorker);
-                                switch(opcionWorker)
+                                fgets(str, 50, stdin);
+                                strtok(str, "\n");
+                                strcpy(nss, str);
+
+                                printf("\nTarea\n");
+                                printf("-----\n");
+
+                                if((f = fopen("races.dat", "rb"))!= NULL)
                                 {
-                                    case '1':
-                                        printf("Introduzca su nss: \n");
-                                        fflush(stdout);
-                                        fflush(stdin);
-                                        fgets(str, 50, stdin);
-                                        strtok(str, "\n");
-                                        strcpy(nss, str);
+                                    num = fgetc(f);
+                                    races1 = (Race*) malloc(sizeof(Race)*num);
+                                    fread(races1, sizeof(Race), num, f);
+                                    find = true;
+                                }else{
+                                    printf("No se te ha asignado ninguna tarea.\n");
+                                    find = false;
+                                }
 
-                                        if((f = fopen("races.dat", "rb"))!= NULL)
+                                cont = 0;
+
+                                if(find)
+                                {
+                                    for(int i = 0; i < num; i++)
+                                    {
+                                        if(strcmp(races1[i].organizer.nss, nss) == 0)
                                         {
-                                            num = fgetc(f);
-                                            races1 = (Race*) malloc(sizeof(Race)*num);
-                                            fread(races1, sizeof(Race), num, f);
-                                            find = true;
-                                        }else{
-                                            printf("No se te ha asignado ninguna tarea.\n");
-                                            find = false;
+                                            printf("%i.- Organizador de la carrera %s (%s).\n", cont, races1[i].name, races1[i].date);
+                                            cont++;
                                         }
-
-                                        cont = 0;
-
-                                        if(find)
+                                        for(int j = 0; j < races1[i].nW; j++)
                                         {
-                                            for(int i = 0;i < num; i++)
+                                            if(strcmp(races1[i].workers[j].nss, nss) == 0)
                                             {
-                                                if(strcmp(races1[i].organizer.nss, nss) == 0)
-                                                {
-                                                    printf("%i.- Organizador de la carrera %s (%s).\n", cont, races1[i].name, races1[i].date);
-                                                    cont++;
-                                                }
-                                                employees1 = (Employee*) malloc(sizeof(Employee)*races1[i].nW);
-                                                employees1 = races1[i].workers;
-                                                for(int j = 0; j < races1[i].nW; j++)
-                                                {
-                                                    if(strcmp(employees1[j].nss, nss) == 0)
-                                                    {
-                                                        printf("%i.- Empleado en la carrera %s (%s).\n", cont, races1[i].name, races1[i].date);
-                                                        cont++;
-                                                    }
-                                                }
-                                                free(employees1);
+                                                printf("%i.- Empleado en la carrera %s (%s).\n", cont, races1[i].name, races1[i].date);
+                                                cont++;
                                             }
                                         }
-                                        free(races1);                                        
-                                        break;
-                                    case '2':
-                                        break;
-                                    case '3':
-                                        printf("Introduzca el nss del trabajador:\n");
-                                        fflush(stdout);
-                                        fflush(stdin);
-                                        fgets(str, 50, stdin);
-                                        strtok(str, "\n");
-                                        strcpy(nss, str);
-                                        modifyEmployee(nss);
-                                    case '4':
-                                        break;
-                                    case '5':
-                                        printf("Introduzca el id de la carrera: \n");
-                                        fflush(stdout);
-                                        fflush(stdin);
-                                        scanf("%i", &id);
-                                        introduceResults(id);
-                                        break;
-                                    case '6':
-                                        intentosWorker = 3;
-                                        break;
-                                    default:
-                                        printf("ERROR. La opcion elegida no es correcta.\n");
+                                    }
                                 }
-                            }while(opcionWorker!='6');
-                    }else
-                    {
-                        printf("Contraseña incorrecta.");
-                    }
-                    if(intentosWorker!=3) intentosWorker++;
-                }
+                                free(races1);                                        
+                                break;
+                            case '2':
+                                break;
+                            case '3':
+                                printf("Introduzca el nss del trabajador:\n");
+                                fflush(stdout);
+                                fflush(stdin);
+                                fgets(str, 50, stdin);
+                                strtok(str, "\n");
+                                strcpy(nss, str);
+                                modifyEmployee(nss);
+                            case '4':
+                                break;
+                            case '5':
+                                printf("Introduzca el id de la carrera: \n");
+                                fflush(stdout);
+                                fflush(stdin);
+                                scanf("%i", &id);
+                                find = false;
+                                num = 0;
+                                if((f = fopen("races.dat", "rb"))!= NULL) 
+                                {
+                                    int num = fgetc(f);
+                                    races = (Race*) malloc(sizeof(Race)*num);
+                                    fread(races, sizeof(Race), num, f);
+                                    find = true;
+                                }else{
+                                    printf("No se ha encontrado el fichero de carreras.\n");
+                                }
+
+                                fclose(f);
+                                if(find)
+                                {
+                                    for(int i = 0; i < num; i++)
+                                    {
+                                        if(races[i].id == id)
+                                        {
+                                            Runner* runners = races[i].participants;
+                                            for(int j = 0; j < races[i].nP; j++)
+                                            {
+                                                printf("Corredor %s:\n", runners[j].name);
+                                                printf("Introduzca la posición en la que llego el corredor: \n");
+                                                fflush(stdout);
+                                                fflush(stdin);
+                                                scanf("%i", &runners[j].number);
+                                                printf("Introduzca el tiempo que hizo (hh:mm:ss): \n");
+                                                fflush(stdout);
+                                                fflush(stdin);
+                                                fgets(str, 50, stdin);
+                                                strtok(str, "\n");
+                                                strcpy(runners[j].time, str);
+                                            }
+                                        }
+                                    }
+
+                                    f = fopen("races.dat", "wb");
+                                    fputc(num, f);
+                                    fwrite(races, sizeof(Race), num, f);
+                                    fclose(f);
+                                    free(races);
+                                }
+                                break;
+                            case '6':
+                                intentosWorker = 3;
+                                break;
+                            default:
+                                printf("ERROR. La opcion elegida no es correcta.\n");
+                        }
+                    }while(opcionWorker!='6'||intentosWorker!=3);
+            }else
+            {
+                printf("Contraseña incorrecta.");
+            }
+                if(intentosWorker!=3) intentosWorker++;
                 break;
             case '3':
                 do{

@@ -120,6 +120,7 @@ void apuntarteACarrera(char dni[10])
         num = fgetc(f);
         runners = (Runner*) malloc(num* sizeof(Runner));
         fread(runners, sizeof(Runner), num, f);
+        fclose(f);
     }
 
     for(int i = 0; i < num; i++)
@@ -248,84 +249,82 @@ void desapuntarteDeCarrera(char dni[10])
 
     if (r != -1)
     {
-        printf("\nMENU\n");
-        printf("----\n");
-        printf("1.- Listado de carreras.\n");
-        printf("2.- Desapuntarse de carrera.\n");
-        printf("3.- Atrás.\n");
-        fflush(stdout);
-        fflush(stdin);
-        scanf("%c", &registro);
-        switch(registro)
-        {
-            case 1:
-                num = 0;
-                if((ff = fopen("races.dat", "rb"))!=NULL)
-                {
-                    num = fgetc(f);
-                    races = (Race*) malloc(num* sizeof(Race));
-                    fread(races, sizeof(Race), num, f);
-                }
-
-                for(int i = 0; i < num; i++)
-                {
-                    for(int j = 0; j < races[i].nP; j++)
+        do{
+            printf("\nMENU\n");
+            printf("----\n");
+            printf("1.- Listado de carreras.\n");
+            printf("2.- Desapuntarse de carrera.\n");
+            printf("3.- Atrás.\n");
+            fflush(stdout);
+            fflush(stdin);
+            scanf("%c", &registro);
+            switch(registro)
+            {
+                case '1':
+                    num = 0;
+                    if((ff = fopen("races.dat", "rb"))!=NULL)
                     {
-                        if((strcmp(races[i].participants[j].dni, dni)) == 0)
-                        {
-                            printf("Carrera N%i: %s con ID: %i\n", i, races[i].name, races[i].id);
-                        }
+                        num = fgetc(ff);
+                        races = (Race*) malloc(num* sizeof(Race));
+                        fread(races, sizeof(Race), num, ff);
+                        fclose(ff);
+                        printf("Se han enocntrado las carreras.");
                     }
-                    break;   
-                }
-                if(num != 0)
-                {
-                    free(races);
-                }
-                break;
-            case 2:
-                printf("Cual es el id de la carrera a la que te quieres desapuntar:");
-                fflush(stdout);
-                fflush(stdin);
-                scanf("%i", &idtmp);
-                Race* races;
-                if((ff = fopen("races.dat", "rb"))!=NULL)
-                {
-                    num = fgetc(f);
-                    races = (Race*) malloc(num* sizeof(Race));
-                    fread(races, sizeof(Race), num, f);
-
+                    
                     for(int i = 0; i < num; i++)
                     {
-                        if(races[i].id == idtmp);
-                        {
-                            Runner* runners = (Runner*) malloc(sizeof(Runner)*races[i].nP-1);
-                            int cont = 0;
-                            for(int j = 0; j < races[i].nP; j++)
-                            {
-                                if((strcmp(races[i].participants[j].dni, dni)) != 0)
-                                {
-                                    runners[cont] = races[i].participants[j];
-                                    cont++;
-                                }
-                            }
-                            races[i].participants = runners;
-                        }   
-                        free(runners);
+                        printf("Carrera nº%i: %s(id:%i)\n", i, races[i].name, races[i].id);
+                        fflush(stdout);
+                    } 
+                    if(num != 0)
+                    {
+                        free(races);
                     }
-                    fclose(ff);
-                    ff = fopen("races.dat", "wb");
-                    fputc(num, ff);
-                    fwrite(races, sizeof(Race), num, ff);
-                    fclose(ff);
-                } else
-                {
-                    printf("Error al leer el archivo.");
-                }               
-                break;
-            case 3:
-                break;
-        }
+                    break;
+                case '2':
+                    printf("Cual es el id de la carrera a la que te quieres desapuntar:");
+                    fflush(stdout);
+                    fflush(stdin);
+                    scanf("%i", &idtmp);
+                    Race* races;
+                    if((ff = fopen("races.dat", "rb"))!=NULL)
+                    {
+                        num = fgetc(f);
+                        races = (Race*) malloc(num* sizeof(Race));
+                        fread(races, sizeof(Race), num, f);
+
+                        for(int i = 0; i < num; i++)
+                        {
+                            if(races[i].id == idtmp);
+                            {
+                                Runner* runners = (Runner*) malloc(sizeof(Runner)*races[i].nP-1);
+                                int cont = 0;
+                                for(int j = 0; j < races[i].nP; j++)
+                                {
+                                    if((strcmp(races[i].participants[j].dni, dni)) != 0)
+                                    {
+                                        runners[cont] = races[i].participants[j];
+                                        cont++;
+                                    }
+                                }
+                                races[i].participants = runners;
+                            }   
+                            free(runners);
+                        }
+                        fclose(ff);
+                        ff = fopen("races.dat", "wb");
+                        fputc(num, ff);
+                        fwrite(races, sizeof(Race), num, ff);
+                        fclose(ff);
+                    } else
+                    {
+                        printf("Error al leer el archivo.");
+                    }               
+                    break;
+                case '3':
+                    break;
+            }
+        }while(registro != '3');
     }
     else
     {

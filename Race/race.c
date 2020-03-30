@@ -157,7 +157,7 @@ void createRace(void)
             {
                 if(strcmp(runners[i].dni, dni) == 0)
                 {
-                    printf("Introduzca el número del dorsal de %s:", runners[i].name);
+                    printf("Introduzca el número de su dorsal:");
                     fflush(stdout);
                     fflush(stdin);
                     scanf("%i", &runners[i].number);
@@ -263,7 +263,7 @@ void modifyRace(int id)
     {
         if(races[i].id == id)
         {
-            printf("Encontrada!! %s", races[i].name);
+            printf("Encontrada: %s", races[i].name);
             r = i;
             break;
         }
