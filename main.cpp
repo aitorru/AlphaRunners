@@ -53,29 +53,15 @@ int main(void) {
 
 	//Variables para la creación/modificación/eliminación de carreras
 	int id;
-	char date[11];
-	char time[6];
-	char location[20];
-	int km;
 	Employee organizer;
-	int nW;
-	Employee *workers;
-	int nP;
 	Participant *par1;
 	Participant *par;
 	Runner *runners;
-	Runner *runners1;
-	Runner *participants;
 	Race * races;
 	Race * races1;
-	Race * races2;
 
 	//Variables para alta/baja de un trabajador
 	char nss[12];
-	char name[20];
-	int salary;
-	Employee *employees1;
-	Employee *employees2;
 
 	do {
 		printf("\nINICIO DE SESION\n");
@@ -178,12 +164,12 @@ int main(void) {
 													par1 = (Participant*) malloc(sizeof(Participant) * races[i].getNP() + 1);
 													for (int j = 0;j < races[i].getNP() + 1;j++) {
 														if (j != races[i].getNP()) {
-															par1[j].setDni(participants[j].getDni());
-															par1[j].setName(participants[j].getName());
-															par1[j].setTlfn(participants[j].getTlfn());
-															par1[j].setEmail(participants[j].getEmail());
-															par1[j].setBirthdate(participants[j].getBirthdate());
-															par1[j].setPassword(participants[j].getPassword());
+															par1[j].setDni(races[i].getParticipants()[j].getDni());
+															par1[j].setName(races[i].getParticipants()[j].getName());
+															par1[j].setTlfn(races[i].getParticipants()[j].getTlfn());
+															par1[j].setEmail(races[i].getParticipants()[j].getEmail());
+															par1[j].setBirthdate(races[i].getParticipants()[j].getBirthdate());
+															par1[j].setPassword(races[i].getParticipants()[j].getPassword());
 														} else {
 															par1[j].setDni(runners[r].getDni());
 															par1[j].setName(runners[r].getName());
@@ -444,7 +430,7 @@ int main(void) {
 										fflush(stdin);
 										fgets(str, 50, stdin);
 										strtok(str, "\n");
-										strcpy(participants[j].getTime(), str);
+										participants[j].setTime(str);
 									}
 								}
 							}
