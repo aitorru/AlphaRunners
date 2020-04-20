@@ -11,17 +11,17 @@
 namespace users {
 class Runner {
 protected:
-	char dni[10];
-	char name[20];
-	char tlfn[9];
-	char email[30];
-	char birthdate[11];
-	char password[10];
+	char *dni;
+	char *name;
+	char *tlfn;
+	char *email;
+	char *birthdate;
+	char *password;
 public:
 	/* CONSTRUCTORES Y DESTRUCTOR*/
 	Runner();
-	Runner(char dni[10], char name[20], char tlfn[9], char email[30],
-			char birthdate[11], char password[10]);
+	Runner(char *dni, char *name, char *tlfn, char *email, char *birthdate,
+			char *password);
 	~Runner();
 	/*GET Y SET*/
 	char* getDni();
@@ -30,12 +30,12 @@ public:
 	char* getEmail();
 	char* getBirthdate();
 	char* getPassword();
-	void setDni(char dni[10]);
-	void setName(char name[20]);
-	void setTlfn(char tlfn[9]);
-	void setEmail(char email[30]);
-	void setBirthdate(char birthdate[11]);
-	void setPassword(char password[10]);
+	void setDni(char *dni);
+	void setName(char *name);
+	void setTlfn(char *tlfn);
+	void setEmail(char *email);
+	void setBirthdate(char *birthdate);
+	void setPassword(char *password);
 	/*RESTO DE MÉTODOS*/
 	void runnerRegister();
 	void modifyRunner();
@@ -44,15 +44,16 @@ public:
 };
 
 class Participant: public Runner {
-public:
-	int number, position;
-	char time[9];
 private:
+	int number, position;
+	char *time;
+public:
 	/*CONSTRUCTORES Y DESTRUCTOR*/
 	Participant();
-	Participant(char dni[10], char name[20], char tlfn[9], char email[30],
-			char birthdate[11], char password[10], int number, int position,
-			char time[9]);
+	Participant(char *dni, char *name, char *tlfn, char *email, char *birthdate,
+				char *password);
+	Participant(char *dni, char *name, char *tlfn, char *email, char *birthdate,
+			char *password, int number, int position, char *time);
 	~Participant();
 	/*GET Y SET*/
 	int getNumber();
@@ -60,7 +61,7 @@ private:
 	char* getTime();
 	void setNumber(int number);
 	void setPosition(int position);
-	void setTime(char time[9]);
+	void setTime(char *time);
 };
 }
 

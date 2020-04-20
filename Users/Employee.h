@@ -8,34 +8,32 @@
 #ifndef USERS_EMPLOYEE_H_
 #define USERS_EMPLOYEE_H_
 
-namespace users
-{
-	class Employee
-	{
-	protected:
-		char nss[12];
-		char name[20];
-		int salary;
-		char state[5];
-	public:
-		/*CONSTRUCTORES Y DESTRUCTOR*/
-		Employee();
-		Employee(char nss[12], char name[20], int salary, char state[5]);
-		~Employee();
-		/*GET Y SET*/
-		char* getNss();
-		char* getName();
-		int getSalary();
-		char* getState();
-		void setNss(char nss[12]);
-		void setName(char name[20]);
-		void setSalary(int salary);
-		void setState(char state[5]);
-		/*RESTO DE MÉTODOS*/
-		void registerEmployee(); //???
-		void modifyEmployee();	//???
-		void modifyEmployeeA();	//???
-	};
+namespace users {
+class Employee {
+protected:
+	char *nss;
+	char *name;
+	int salary;
+	char *state;
+public:
+	/*CONSTRUCTORES Y DESTRUCTOR*/
+	Employee();
+	Employee(char *nss, char *name, int salary, char *state);
+	~Employee();
+	/*GET Y SET*/
+	char* getNss();
+	char* getName();
+	int getSalary();
+	char* getState();
+	void setNss(char* nss);
+	void setName(char *name);
+	void setSalary(int salary);
+	void setState(char *state);
+	/*RESTO DE MÉTODOS*/
+	void registerEmployee(); //???
+	void modifyEmployee();	//???
+	void modifyEmployeeA();	//???
+};
 }
 
 #endif /* USERS_EMPLOYEE_H_ */

@@ -13,51 +13,58 @@ using namespace users;
 
 /*CONSTRUCTORES Y DESTRUCTOR*/
 Employee::Employee() {
-	strcpy(this->nss, "");
-	strcpy(this->name, "");
+	this->nss = new char[1];
+	this->nss[0] = '\0';
+	this->name = new char[1];
+	this->name[0] = '\0';
 	this->salary = 0;
-	strcpy(this->state, "");
+	this->state = new char[1];
+	this->state[0] = '\0';
 }
-Employee::Employee(char nss[12], char name[20], int salary, char state[5]) {
-	this->nss = nss;
-	this->name = name;
+Employee::Employee(char *nss, char *name, int salary, char *state) {
+
+	this->nss = new char[strlen(nss) + 1];
+	strcpy(this->nss, nss);
+	this->name = new char[strlen(name) + 1];
+	strcpy(this->name, name);
 	this->salary = salary;
-	this->state = state;
+	this->state = new char[strlen(state) + 1];
+	strcpy(this->state, state);
 }
 Employee::~Employee() {
-	/*Nada que hacer*/
+	delete[] nss;
+	delete[] name;
+	delete[] state;
 }
 
 /*GET Y SET*/
-char* Employee::getNss()
-{
+char* Employee::getNss() {
 	return this->nss;
 }
-char* Employee::getName()
-{
+char* Employee::getName() {
 	return this->name;
 }
-int Employee::getSalary()
-{
+int Employee::getSalary() {
 	return this->salary;
 }
-char* Employee::getState()
-{
+char* Employee::getState() {
 	return this->state;
 }
-void Employee::setNss(char nss[12])
-{
-	this->nss = nss;
+void Employee::setNss(char *nss) {
+	delete[] nss;
+	this->nss = new char[strlen(nss) + 1];
+	strcpy(this->nss, nss);
 }
-void Employee::setName(char name[20])
-{
-	this->name = name;
+void Employee::setName(char *name) {
+	delete[] name;
+	this->name = new char[strlen(name) + 1];
+	strcpy(this->name, name);
 }
-void Employee::setSalary(int salary)
-{
+void Employee::setSalary(int salary) {
 	this->salary = salary;
 }
-void Employee::setState(char state[5])
-{
-	this->state = state;
+void Employee::setState(char *state) {
+	delete[] state;
+	this->state = new char[strlen(state) + 1];
+	strcpy(this->state, state);
 }

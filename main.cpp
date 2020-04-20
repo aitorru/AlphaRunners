@@ -13,7 +13,9 @@
 using namespace std;
 #include "Users/Runner.h"
 #include "Users/Employee.h"
+using namespace users;
 #include "Race/race.h"
+using namespace race;
 
 int main(void) {
 
@@ -59,12 +61,14 @@ int main(void) {
 	int nW;
 	Employee *workers;
 	int nP;
+	Participant *par1;
+	Participant *par;
 	Runner *runners;
 	Runner *runners1;
 	Runner *participants;
-	Race *races;
-	Race *races1;
-	Race *races2;
+	Race * races;
+	Race * races1;
+	Race * races2;
 
 	//Variables para alta/baja de un trabajador
 	char nss[12];
@@ -118,13 +122,12 @@ int main(void) {
 							strtok(passRunner, "\n");
 							if ((f = fopen("runners.dat", "rb")) != NULL) {
 								num = fgetc(f);
-								runners = (Runner*) malloc(
-										num * sizeof(Runner));
+								runners = (Runner*) malloc(num * sizeof(Runner));
 								fread(runners, sizeof(Runner), num, f);
 							}
 
 							for (int i = 0; i < num; i++) {
-								if (strcmp(runners[i].dni, dni) == 0) {
+								if (strcmp(runners[i].getDni(), dni) == 0) {
 									r = i;
 									break;
 								}
@@ -143,105 +146,65 @@ int main(void) {
 									switch (opcionCorredor) {
 									case '1':
 										num = 0;
-										if ((f = fopen("races.dat", "rb"))
-												!= NULL) {
+										if ((f = fopen("races.dat", "rb")) != NULL) {
 											num = fgetc(f);
-											races = (Race*) malloc(
-													num * sizeof(Race));
+											races = (Race*) malloc(num * sizeof(Race));
 											fread(races, sizeof(Race), num, f);
 											fclose(f);
 										}
 
 										for (int i = 0; i < num; i++) {
-											printf("Carrera N.%i: %s(id:%i)\n",
-													i, races[i].name,
-													races[i].id);
+											printf("Carrera N.%i: %s(id:%i)\n", i, races[i].getName(), races[i].getId());
 											fflush(stdout);
 										}
 										if (num != 0) {
-											free(races);
+											free (races);
 										}
 										break;
 									case '2':
-										printf(
-												"Cual es el id de la carrera a la que te quieres apuntar:");
+										printf("Cual es el id de la carrera a la que te quieres apuntar:");
 										fflush(stdout);
 										fflush(stdin);
 										scanf("%i", &id);
-										if ((f = fopen("races.dat", "rb"))
-												!= NULL) {
+										if ((f = fopen("races.dat", "rb")) != NULL) {
 											num = fgetc(f);
-											races = (Race*) malloc(
-													num * sizeof(Race));
+											races = (Race*) malloc(num * sizeof(Race));
 											fread(races, sizeof(Race), num, f);
 											fclose(f);
 
 											for (int i = 0; i < num; i++) {
-												if (races[i].id == id)
-													;
+												if (races[i].getId() == id)
 												{
-													runners1 =
-															(Runner*) malloc(
-																	sizeof(Runner)
-																			* races[i].nP
-																			+ 1);
-													for (int j = 0;
-															j < races[i].nP + 1;
-															j++) {
-														if (j != races[i].nP) {
-															strcpy(
-																	runners1[j].dni,
-																	races[i].participants[j].dni);
-															strcpy(
-																	runners1[j].name,
-																	races[i].participants[j].name);
-															strcpy(
-																	runners1[j].tlfn,
-																	races[i].participants[j].tlfn);
-															strcpy(
-																	runners1[j].email,
-																	races[i].participants[j].email);
-															strcpy(
-																	runners1[j].birthdate,
-																	races[i].participants[j].birthdate);
-															strcpy(
-																	runners1[j].password,
-																	races[i].participants[j].password);
+													par1 = (Participant*) malloc(sizeof(Participant) * races[i].getNP() + 1);
+													for (int j = 0;j < races[i].getNP() + 1;j++) {
+														if (j != races[i].getNP()) {
+															par1[j].setDni(participants[j].getDni());
+															par1[j].setName(participants[j].getName());
+															par1[j].setTlfn(participants[j].getTlfn());
+															par1[j].setEmail(participants[j].getEmail());
+															par1[j].setBirthdate(participants[j].getBirthdate());
+															par1[j].setPassword(participants[j].getPassword());
 														} else {
-															strcpy(
-																	runners1[j].dni,
-																	runners[r].dni);
-															strcpy(
-																	runners1[j].name,
-																	runners[r].name);
-															strcpy(
-																	runners1[j].tlfn,
-																	runners[r].tlfn);
-															strcpy(
-																	runners1[j].email,
-																	runners[r].email);
-															strcpy(
-																	runners1[j].birthdate,
-																	runners[r].birthdate);
-															strcpy(
-																	runners1[j].password,
-																	runners[r].password);
+															par1[j].setDni(runners[r].getDni());
+															par1[j].setName(runners[r].getName());
+															par1[j].setTlfn(runners[r].getTlfn());
+															par1[j].setEmail(runners[r].getEmail());
+															par1[j].setBirthdate(runners[r].getBirthdate());
+															par1[j].setPassword(runners[r].getPassword());
 														}
 													}
-													printf(
-															"\nSe ha añadido correctamente.\n");
+													printf("\nSe ha añadido correctamente.\n");
 													fflush(stdout);
-													races[i].nP += 1;
-													races[i].participants =
-															runners1;
+													races[i].setNP(races[i].getNP() + 1);
+													races[i].setParticipants(par1);
 												}
 											}
 											f = fopen("races.dat", "wb");
 											fputc(num, f);
 											fwrite(races, sizeof(Race), num, f);
 											fclose(f);
-											free(races);
-											free(runners1);
+											free (races);
+											free(par1);
 										} else {
 											printf("Error al leer el archivo.");
 										}
@@ -270,7 +233,7 @@ int main(void) {
 							}
 
 							for (int i = 0; i < num; i++) {
-								if (strcmp(runners[i].dni, dni) == 0) {
+								if (strcmp(runners[i].getDni(), dni) == 0) {
 									r = i;
 									break;
 								}
@@ -291,70 +254,51 @@ int main(void) {
 									switch (opcionCorredor) {
 									case '1':
 										num = 0;
-										if ((ff = fopen("races.dat", "rb"))
-												!= NULL) {
+										if ((ff = fopen("races.dat", "rb")) != NULL) {
 											num = fgetc(ff);
-											races = (Race*) malloc(
-													num * sizeof(Race));
+											races = (Race*) malloc( num * sizeof(Race));
 											fread(races, sizeof(Race), num, ff);
 											fclose(ff);
 										}
 
 										for (int i = 0; i < num; i++) {
-											printf("Carrera N.%i: %s(id:%i)\n",
-													i, races[i].name,
-													races[i].id);
+											printf("Carrera N.%i: %s(id:%i)\n", i, races[i].getName(), races[i].getId());
 											fflush(stdout);
 										}
 										if (num != 0) {
-											free(races);
+											free (races);
 										}
 										break;
 									case '2':
-										printf(
-												"Cual es el id de la carrera a la que te quieres desapuntar:");
+										printf("Cual es el id de la carrera a la que te quieres desapuntar:");
 										fflush(stdout);
 										fflush(stdin);
 										scanf("%i", &id);
 										Race * races;
-										if ((ff = fopen("races.dat", "rb"))
-												!= NULL) {
+										if ((ff = fopen("races.dat", "rb")) != NULL) {
 											num = fgetc(f);
-											races = (Race*) malloc(
-													num * sizeof(Race));
+											races = (Race*) malloc( num * sizeof(Race));
 											fread(races, sizeof(Race), num, f);
 
 											for (int i = 0; i < num; i++) {
-												if (races[i].id == id)
-													;
+												if (races[i].getId() == id)
 												{
-													runners =
-															(Runner*) malloc(
-																	sizeof(Runner)
-																			* races[i].nP
-																			- 1);
+													par = (Participant*) malloc( sizeof(Participant)* races[i].getNP() - 1);
 													int cont = 0;
-													for (int j = 0;
-															j < races[i].nP;
-															j++) {
-														if ((strcmp(
-																races[i].participants[j].dni,
-																dni)) != 0) {
-															runners[cont] =
-																	races[i].participants[j];
+													for (int j = 0; j < races[i].getNP(); j++) {
+														if ((strcmp(races[i].getParticipants()[j].getDni(), dni)) != 0) {
+															runners[cont] = races[i].getParticipants()[j];
 															cont++;
 														}
 													}
-													races[i].participants =
-															runners;
+													races[i].setParticipants(par);
 												}
-												free(runners);
+												free(par);
 											}
 											fclose(ff);
 											ff = fopen("races.dat", "wb");
 											fputc(num, ff);
-											fwrite(races, sizeof(Race), num,
-													ff);
+											fwrite(races, sizeof(Race), num, ff);
 											fclose(ff);
 										} else {
 											printf("Error al leer el archivo.");
@@ -375,7 +319,7 @@ int main(void) {
 							memset(passRunner, 0, 10);
 							fgets(dniTemp, 10, stdin);
 							strtok(passRunner, "\n");
-							modifyRunner(dniTemp);
+							//modifyRunner(dniTemp);
 							break;
 						case '4':
 							printf("\nEn espera de c++\n");
@@ -441,26 +385,19 @@ int main(void) {
 
 						if (find) {
 							for (int i = 0; i < num; i++) {
-								if (strcmp(races1[i].organizer.nss, nss) == 0) {
-									printf(
-											"%i.- Organizador de la carrera %s (%s).\n",
-											cont, races1[i].name,
-											races1[i].date);
+								if (strcmp(races1[i].getOrganizer().getNss(), nss) == 0) {
+									printf("%i.- Organizador de la carrera %s (%s).\n", cont, races1[i].getName(), races1[i].getDate());
 									cont++;
 								}
-								for (int j = 0; j < races1[i].nW; j++) {
-									if (strcmp(races1[i].workers[j].nss, nss)
-											== 0) {
-										printf(
-												"%i.- Empleado en la carrera %s (%s).\n",
-												cont, races1[i].name,
-												races1[i].date);
+								for (int j = 0; j < races1[i].getNW(); j++) {
+									if (strcmp(races1[i].getWorkers()[j].getNss(), nss) == 0) {
+										printf("%i.- Empleado en la carrera %s (%s).\n", cont, races1[i].getName(), races1[i].getDate());
 										cont++;
 									}
 								}
 							}
 						}
-						free(races1);
+						free (races1);
 						break;
 					case '2':
 						break;
@@ -471,7 +408,7 @@ int main(void) {
 						fgets(str, 50, stdin);
 						strtok(str, "\n");
 						strcpy(nss, str);
-						modifyEmployee(nss);
+						//modifyEmployee(nss);
 					case '4':
 						break;
 					case '5':
@@ -487,30 +424,27 @@ int main(void) {
 							fread(races, sizeof(Race), num, f);
 							find = true;
 						} else {
-							printf(
-									"No se ha encontrado el fichero de carreras.\n");
+							printf("No se ha encontrado el fichero de carreras.\n");
 						}
-
 						fclose(f);
 						if (find) {
 							for (int i = 0; i < num; i++) {
-								if (races[i].id == id) {
-									Runner *runners = races[i].participants;
-									for (int j = 0; j < races[i].nP; j++) {
-										printf("Corredor %s:\n",
-												runners[j].name);
-										printf(
-												"Introduzca la posición en la que llego el corredor: \n");
+								if (races[i].getId() == id) {
+									Participant *participants = races[i].getParticipants();
+									for (int j = 0; j < races[i].getNP(); j++) {
+										printf("Corredor %s:\n", participants[j].getName());
+										printf("Introduzca la posición en la que llego el corredor: \n");
 										fflush(stdout);
 										fflush(stdin);
-										scanf("%i", &runners[j].number);
-										printf(
-												"Introduzca el tiempo que hizo (hh:mm:ss): \n");
+										int pos;
+										scanf("%i", &pos);
+										participants[j].setNumber(pos);
+										printf("Introduzca el tiempo que hizo (hh:mm:ss): \n");
 										fflush(stdout);
 										fflush(stdin);
 										fgets(str, 50, stdin);
 										strtok(str, "\n");
-										strcpy(runners[j].time, str);
+										strcpy(participants[j].getTime(), str);
 									}
 								}
 							}
@@ -519,7 +453,7 @@ int main(void) {
 							fputc(num, f);
 							fwrite(races, sizeof(Race), num, f);
 							fclose(f);
-							free(races);
+							free (races);
 						}
 						break;
 					case '6':
@@ -561,45 +495,40 @@ int main(void) {
 								printf("1.- Crear una carrera.\n");
 								printf("2.- Modificar carrera.\n");
 								printf("3.- Eliminar una carrera.\n");
-								printf(
-										"4.- Añadir resultados de una carrera.\n");
+								printf("4.- Añadir resultados de una carrera.\n");
 								printf("5.- Atrás.\n");
 								fflush(stdout);
 								fflush(stdin);
 								scanf("%c", &opcionAdmin);
 								switch (opcionAdmin) {
 								case '1':
-									createRace();
+									//createRace();
 									break;
 								case '2':
-									printf(
-											"Introduzca el id de la carrera: \n");
+									printf("Introduzca el id de la carrera: \n");
 									fflush(stdout);
 									fflush(stdin);
 									scanf("%i", &id);
-									modifyRace(id);
+									//modifyRace(id);
 									break;
 								case '3':
-									printf(
-											"Introduzca el id de la carrera: \n");
+									printf("Introduzca el id de la carrera: \n");
 									fflush(stdout);
 									fflush(stdin);
 									scanf("%i", &id);
-									deleteRace(id);
+									//deleteRace(id);
 									break;
 								case '4':
-									printf(
-											"Introduzca el id de la carrera: \n");
+									printf("Introduzca el id de la carrera: \n");
 									fflush(stdout);
 									fflush(stdin);
 									scanf("%i", &id);
-									introduceResults(id);
+									//introduceResults(id);
 									break;
 								case '5':
 									break;
 								default:
-									printf(
-											"ERROR. La opcion elegida no es correcta.\n");
+									printf("ERROR. La opcion elegida no es correcta.\n");
 								}
 							} while (opcionAdmin != '5');
 							break;
@@ -616,23 +545,21 @@ int main(void) {
 								scanf("%c", &opcionAdmin);
 								switch (opcionAdmin) {
 								case '1':
-									runnerRegister();
+									//runnerRegister();
 									break;
 								case '2':
-									printf(
-											"Introduzca el DNI del corredor del que quieres modificar sus datos: \n");
+									printf("Introduzca el DNI del corredor del que quieres modificar sus datos: \n");
 									fflush(stdout);
 									fflush(stdin);
 									fgets(str, 50, stdin);
 									strtok(str, "\n");
 									strcpy(dni, str);
-									modifyRunner(dni);
+									//modifyRunner(dni);
 									break;
 								case '3':
 									break;
 								default:
-									printf(
-											"ERROR. La opcion elegida no es correcta.\n");
+									printf("ERROR. La opcion elegida no es correcta.\n");
 								}
 							} while (opcionAdmin != '3');
 							break;
@@ -650,23 +577,21 @@ int main(void) {
 								scanf("%c", &opcionAdmin);
 								switch (opcionAdmin) {
 								case '1':
-									registerEmployee();
+									//registerEmployee();
 									break;
 								case '2':
-									printf(
-											"Introduzca el nss del trabajador:\n");
+									printf("Introduzca el nss del trabajador:\n");
 									fflush(stdout);
 									fflush(stdin);
 									fgets(str, 50, stdin);
 									strtok(str, "\n");
 									strcpy(nss, str);
-									modifyEmployeeA(nss);
+									//modifyEmployeeA(nss);
 									break;
 								case '3':
 									printf("\nBAJA DE TRABAJADOR\n");
 									printf("------------------\n");
-									printf(
-											"Introduzca el nss del trabajador:\n");
+									printf("Introduzca el nss del trabajador:\n");
 									fflush(stdout);
 									fflush(stdin);
 									fgets(str, 50, stdin);
@@ -676,30 +601,22 @@ int main(void) {
 									num = 0;
 									Employee *employees;
 
-									if ((f = fopen("employees.dat", "rb"))
-											!= NULL) {
+									if ((f = fopen("employees.dat", "rb")) != NULL) {
 										num = fgetc(f);
-										employees = (Employee*) malloc(
-												num * sizeof(Employee));
-										fread(employees, sizeof(Employee), num,
-												f);
+										employees = (Employee*) malloc(num * sizeof(Employee));
+										fread(employees, sizeof(Employee), num, f);
 										find = true;
 									} else {
-										printf(
-												"No se ha encontrado el fichero de empleados.\n");
+										printf("No se ha encontrado el fichero de empleados.\n");
 										find = false;
 									}
 									fclose(f);
 
 									if (find) {
 										for (int i = 0; i < num; i++) {
-											if (strcmp(employees[i].nss, nss)
-													== 0) {
-												strcpy(employees[i].state,
-														"BAJA");
-												printf(
-														"Se ha dado de baja correctamente al trabajador %s.\n",
-														employees[i].name);
+											if (strcmp(employees[i].getNss(), nss) == 0) {
+												strcpy(employees[i].getState(), "BAJA");
+												printf("Se ha dado de baja correctamente al trabajador %s.\n", employees[i].getName());
 												find = true;
 												break;
 											} else {
@@ -708,14 +625,12 @@ int main(void) {
 										}
 
 										if (!find) {
-											printf(
-													"No se ha podido encontrar al trabajador.\n");
+											printf("No se ha podido encontrar al trabajador.\n");
 										}
 
 										f = fopen("employees.dat", "wb");
 										fputc(num, f);
-										fwrite(employees, sizeof(Employee), num,
-												f);
+										fwrite(employees, sizeof(Employee), num, f);
 										fclose(f);
 										free(employees);
 									}
@@ -724,8 +639,7 @@ int main(void) {
 								case '4':
 									break;
 								default:
-									printf(
-											"ERROR. La opcion elegida no es correcta.\n");
+									printf("ERROR. La opcion elegida no es correcta.\n");
 								}
 							} while (opcionAdmin != '4');
 							opcionAdmin = '3';
@@ -733,21 +647,20 @@ int main(void) {
 						case '4':
 							break;
 						default:
-							printf(
-									"ERROR. La opcion elegida no es correcta.\n");
+							printf("ERROR. La opcion elegida no es correcta.\n");
 						}
 					} while (opcionAdmin != '4');
 				} else {
 					printf("Contraseña erronea.\n");
 				}
-				printf("¿Desea volver al menú inicial? S/N");
+				printf("�Desea volver al menú inicial? S/N");
 				fflush(stdout);
 				fflush(stdin);
 				scanf("%c", &back);
 			} while (back != 'S' && back != 's');
 			break;
 		case '4':
-			runnerRegister();
+			//runnerRegister();
 			break;
 		case 'q':
 			break;

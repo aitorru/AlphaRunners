@@ -8,14 +8,28 @@
 #ifndef RACE_RACE_H_
 #define RACE_RACE_H_
 
-namespace Race {
+#include "../Users/Employee.h"
+#include "../Users/Runner.h"
+using namespace users;
+
+namespace race {
 class Race {
 private:
-
+	int id;
+	char* name;
+	char* date;
+	char* time;
+	char* location;
+	int km;
+	Employee organizer;
+	int nW;
+	Employee *workers;
+	int nP;
+	Participant *participants;
 public:
 	/*CONSTRUCTORES Y DESTRUCTOR*/
 	Race();
-	Race(int id, char name[20], char date[11], char time[6], char location[20],
+	Race(int id, char* name, char* date, char* time, char* location,
 			int km, Employee organizer, int nW, Employee *workers, int nP,
 			Participant *participants);
 	~Race();
@@ -39,9 +53,9 @@ public:
 	void setKm(int km);
 	void setOrganizer(Employee organizer);
 	void setNW(int nW);
-	void getWorkers(Employee *workers);
-	void getNP(int nP);
-	void getParticipants(Participant *participants);
+	void setWorkers(Employee *workers);
+	void setNP(int nP);
+	void setParticipants(Participant *participants);
 };
 }
 
