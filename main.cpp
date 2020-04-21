@@ -64,14 +64,14 @@ int main(void) {
 	char nss[12];
 
 	do {
-		printf("\nINICIO DE SESION\n");
-		printf("----------------\n");
-		printf("Iniciar sesion como:\n");
-		printf("1.- Corredor.\n");
-		printf("2.- Trabajador.\n");
-		printf("3.- Administrador.\n");
-		printf("4.- Registarse como corredor.\n");
-		printf("Pulsar 'q' para salir.\n");
+		cout << "\nINICIO DE SESION" << endl;
+		cout << "----------------" << endl;
+		cout << "Iniciar sesion como:" << endl;
+		cout << "1.- Corredor." << endl;
+		cout << "2.- Trabajador." << endl;
+		cout << "3.- Administrador." << endl;
+		cout << "4.- Registarse como corredor." << endl;
+		cout << "Pulsar 'q' para salir." << endl;
 		fflush(stdout);
 		fflush(stdin);
 		scanf("%c", &opcionIni);
@@ -79,7 +79,7 @@ int main(void) {
 		case '1':
 			intentosRunner = 0;
 			while (intentosRunner != 3 || opcionCorredor != '5') {
-				printf("\nIntroduzca la contraseña de corredor: \n");
+				cout << "\nIntroduzca la contraseña de corredor: " << endl;
 				fflush(stdout);
 				fflush(stdin);
 				memset(passRunner, 0, 8);
@@ -87,20 +87,20 @@ int main(void) {
 				strtok(passRunner, "\n");
 				if (strcmp(passRunner, "ALPHARUNNERS") != 0) {
 					do {
-						printf("\nMENU CORREDORES\n");
-						printf("------------------\n");
-						printf("1.- Apuntarte a carrera.\n");
-						printf("2.- Desapuntarte a carrera.\n");
-						printf("3.- Editar tus datos.\n");
-						printf("4.- Ver tus estadisticas.\n");
-						printf("5.- Atrás.\n");
+						cout << "\nMENU CORREDORES" << endl;
+						cout << "------------------" << endl;
+						cout << "1.- Apuntarte a carrera." << endl;
+						cout << "2.- Desapuntarte a carrera." << endl;
+						cout << "3.- Editar tus datos." << endl;
+						cout << "4.- Ver tus estadisticas." << endl;
+						cout << "5.- Atrás." << endl;
 						fflush(stdout);
 						fflush(stdin);
 						scanf("%c", &opcionCorredor);
 						switch (opcionCorredor) {
 						case '1':
 							r = -1;
-							printf("Introduce tu dni:");
+							cout << "Introduce tu dni:" << endl;
 							fflush(stdout);
 							fflush(stdin);
 							memset(passRunner, 0, 10);
@@ -121,11 +121,11 @@ int main(void) {
 
 							if (r != -1) {
 								do {
-									printf("\nMENU\n");
-									printf("----\n");
-									printf("1.- Listado de carreras.\n");
-									printf("2.- Apuntarse de carrera.\n");
-									printf("3.- Atrás.\n");
+									cout << "\nMENU" << endl;
+									cout << "----" << endl;
+									cout << "1.- Listado de carreras." << endl;
+									cout << "2.- Apuntarse de carrera." << endl;
+									cout << "3.- Atrás." << endl;
 									fflush(stdout);
 									fflush(stdin);
 									scanf("%c", &opcionCorredor);
@@ -140,7 +140,7 @@ int main(void) {
 										}
 
 										for (int i = 0; i < num; i++) {
-											printf("Carrera N.%i: %s(id:%i)\n", i, races[i].getName(), races[i].getId());
+											cout << "Carrera N." << i <<": " << races[i].getName() << "(id:"  << races[i].getId() << ")" << endl;
 											fflush(stdout);
 										}
 										if (num != 0) {
@@ -148,7 +148,7 @@ int main(void) {
 										}
 										break;
 									case '2':
-										printf("Cual es el id de la carrera a la que te quieres apuntar:");
+										cout << "Cual es el id de la carrera a la que te quieres apuntar:" << endl;
 										fflush(stdout);
 										fflush(stdin);
 										scanf("%i", &id);
@@ -179,7 +179,7 @@ int main(void) {
 															par1[j].setPassword(runners[r].getPassword());
 														}
 													}
-													printf("\nSe ha añadido correctamente.\n");
+													cout << "\nSe ha añadido correctamente." << endl;
 													fflush(stdout);
 													races[i].setNP(races[i].getNP() + 1);
 													races[i].setParticipants(par1);
@@ -192,7 +192,7 @@ int main(void) {
 											free (races);
 											free(par1);
 										} else {
-											printf("Error al leer el archivo.");
+											cout << "Error al leer el archivo." << endl;
 										}
 										break;
 									case '3':
@@ -200,12 +200,12 @@ int main(void) {
 									}
 								} while (opcionCorredor != '3');
 							} else {
-								printf("DNI no encontrado.\n");
+								cout << "DNI no encontrado.\n" << endl;
 							}
 							break;
 						case '2':
 							r = -1;
-							printf("Introduce tu dni:");
+							cout << "Introduce tu dni:" << endl;
 							fflush(stdout);
 							fflush(stdin);
 							memset(passRunner, 0, 10);
@@ -229,11 +229,11 @@ int main(void) {
 
 							if (r != -1) {
 								do {
-									printf("\nMENU\n");
-									printf("----\n");
-									printf("1.- Listado de carreras.\n");
-									printf("2.- Desapuntarse de carrera.\n");
-									printf("3.- Atrás.\n");
+									cout << "\nMENU" << endl;
+									cout << "----" << endl;
+									cout << "1.- Listado de carreras." << endl;
+									cout << "2.- Desapuntarse de carrera." << endl;
+									cout << "3.- Atrás." << endl;
 									fflush(stdout);
 									fflush(stdin);
 									scanf("%c", &opcionCorredor);
@@ -248,7 +248,7 @@ int main(void) {
 										}
 
 										for (int i = 0; i < num; i++) {
-											printf("Carrera N.%i: %s(id:%i)\n", i, races[i].getName(), races[i].getId());
+											cout << "Carrera N." << i <<":" << races[i].getName() << "(id:" << races[i].getId() << ")" << endl;
 											fflush(stdout);
 										}
 										if (num != 0) {
@@ -256,7 +256,7 @@ int main(void) {
 										}
 										break;
 									case '2':
-										printf("Cual es el id de la carrera a la que te quieres desapuntar:");
+										cout << "Cual es el id de la carrera a la que te quieres desapuntar:" << endl;
 										fflush(stdout);
 										fflush(stdin);
 										scanf("%i", &id);
@@ -287,7 +287,7 @@ int main(void) {
 											fwrite(races, sizeof(Race), num, ff);
 											fclose(ff);
 										} else {
-											printf("Error al leer el archivo.");
+											cout << "Error al leer el archivo." << endl;
 										}
 										break;
 									case '3':
@@ -295,11 +295,11 @@ int main(void) {
 									}
 								} while (opcionCorredor != '3');
 							} else {
-								printf("DNI no encontrado.\n");
+								cout << "DNI no encontrado." << endl;
 							}
 							break;
 						case '3':
-							printf("Introduce tu dni");
+							cout << "Introduce tu dni" << endl;
 							fflush(stdout);
 							fflush(stdin);
 							memset(passRunner, 0, 10);
@@ -308,25 +308,24 @@ int main(void) {
 							//modifyRunner(dniTemp);
 							break;
 						case '4':
-							printf("\nEn espera de c++\n");
+							cout << "\nEn espera de c++" << endl;
 							break;
 						case '5':
 							intentosRunner = 3;
 							break;
 						default:
-							printf(
-									"ERROR. La opcion elegida no es correcta.\n");
+							cout << "ERROR. La opcion elegida no es correcta." << endl;
 						}
 					} while (opcionCorredor != '5');
 				} else {
-					printf("Contraseña incorrecta.");
+					cout << "Contraseña incorrecta." << endl;
 				}
 				if (intentosRunner != 3)
 					intentosRunner++;
 			}
 			break;
 		case '2':
-			printf("\nIntroduzca la contraseña de trabajador: \n");
+			cout << "\nIntroduzca la contraseña de trabajador: " << endl;
 			fflush(stdout);
 			fflush(stdin);
 			memset(passWorker, 0, 8);
@@ -334,28 +333,28 @@ int main(void) {
 			strtok(passWorker, "\n");
 			if (strcmp(passWorker, "ALPHARUNNERS") != 0) {
 				do {
-					printf("\nMENU TRABAJADOR\n");
-					printf("------------------\n");
-					printf("1.- Ver tu tarea.\n");
-					printf("2.- Notificar baja.\n");
-					printf("3.- Editar tus datos.\n");
-					printf("4.- Solicitar cambio de tarea.\n");
-					printf("5.- Introducir resultados de carreras.\n");
-					printf("6.- Atrás.\n");
+					cout << "\nMENU TRABAJADOR" << endl;
+					cout << "------------------" << endl;
+					cout << "1.- Ver tu tarea." << endl;
+					cout << "2.- Notificar baja." << endl;
+					cout << "3.- Editar tus datos." << endl;
+					cout << "4.- Solicitar cambio de tarea." << endl;
+					cout << "5.- Introducir resultados de carreras." << endl;
+					cout << "6.- Atrás." << endl;
 					fflush(stdout);
 					fflush(stdin);
 					scanf("%c", &opcionWorker);
 					switch (opcionWorker) {
 					case '1':
-						printf("Introduzca su nss: \n");
+						cout << "Introduzca su nss: " << endl;
 						fflush(stdout);
 						fflush(stdin);
 						fgets(str, 50, stdin);
 						strtok(str, "\n");
 						strcpy(nss, str);
 
-						printf("\nTarea\n");
-						printf("-----\n");
+						cout << "\nTarea" << endl;
+						cout << "-----" << endl;
 
 						if ((f = fopen("races.dat", "rb")) != NULL) {
 							num = fgetc(f);
@@ -363,7 +362,7 @@ int main(void) {
 							fread(races1, sizeof(Race), num, f);
 							find = true;
 						} else {
-							printf("No se te ha asignado ninguna tarea.\n");
+							cout << "No se te ha asignado ninguna tarea." << endl;
 							find = false;
 						}
 
@@ -372,12 +371,12 @@ int main(void) {
 						if (find) {
 							for (int i = 0; i < num; i++) {
 								if (strcmp(races1[i].getOrganizer().getNss(), nss) == 0) {
-									printf("%i.- Organizador de la carrera %s (%s).\n", cont, races1[i].getName(), races1[i].getDate());
+									cout << cont << ".- Organizador de la carrera " << races1[i].getName() << "(" << races1[i].getDate() << ")." << endl;
 									cont++;
 								}
 								for (int j = 0; j < races1[i].getNW(); j++) {
 									if (strcmp(races1[i].getWorkers()[j].getNss(), nss) == 0) {
-										printf("%i.- Empleado en la carrera %s (%s).\n", cont, races1[i].getName(), races1[i].getDate());
+										cout << cont << ".- Empleado en la carrera " << races1[i].getName() << " (" << races1[i].getDate() << ")." << endl;
 										cont++;
 									}
 								}
@@ -388,7 +387,7 @@ int main(void) {
 					case '2':
 						break;
 					case '3':
-						printf("Introduzca el nss del trabajador:\n");
+						cout << "Introduzca el nss del trabajador:" << endl;
 						fflush(stdout);
 						fflush(stdin);
 						fgets(str, 50, stdin);
@@ -398,7 +397,7 @@ int main(void) {
 					case '4':
 						break;
 					case '5':
-						printf("Introduzca el id de la carrera: \n");
+						cout << "Introduzca el id de la carrera: " << endl;
 						fflush(stdout);
 						fflush(stdin);
 						scanf("%i", &id);
@@ -410,7 +409,7 @@ int main(void) {
 							fread(races, sizeof(Race), num, f);
 							find = true;
 						} else {
-							printf("No se ha encontrado el fichero de carreras.\n");
+							cout << "No se ha encontrado el fichero de carreras." << endl;
 						}
 						fclose(f);
 						if (find) {
@@ -418,14 +417,14 @@ int main(void) {
 								if (races[i].getId() == id) {
 									Participant *participants = races[i].getParticipants();
 									for (int j = 0; j < races[i].getNP(); j++) {
-										printf("Corredor %s:\n", participants[j].getName());
-										printf("Introduzca la posición en la que llego el corredor: \n");
+										cout << "Corredor " << participants[j].getName() << ":" << endl;
+										cout << "Introduzca la posición en la que llego el corredor: " << endl;
 										fflush(stdout);
 										fflush(stdin);
 										int pos;
 										scanf("%i", &pos);
 										participants[j].setNumber(pos);
-										printf("Introduzca el tiempo que hizo (hh:mm:ss): \n");
+										cout << "Introduzca el tiempo que hizo (hh:mm:ss): " << endl;
 										fflush(stdout);
 										fflush(stdin);
 										fgets(str, 50, stdin);
@@ -446,43 +445,43 @@ int main(void) {
 						intentosWorker = 3;
 						break;
 					default:
-						printf("ERROR. La opcion elegida no es correcta.\n");
+						cout << "ERROR. La opcion elegida no es correcta." << endl;
 					}
 				} while (opcionWorker != '6' || intentosWorker != 3);
 			} else {
-				printf("Contraseña incorrecta.");
+				cout << "Contraseña incorrecta." << endl;
 			}
 			if (intentosWorker != 3)
 				intentosWorker++;
 			break;
 		case '3':
 			do {
-				printf("Introduzca la contraseña de administrador: \n");
+				cout << "Introduzca la contraseña de administrador: " << endl;
 				fflush(stdout);
 				fflush(stdin);
 				scanf("%12s", passAdmin);
 				char key[] = "alpharunners";
 				if (strcmp(key, passAdmin) == 0) {
 					do {
-						printf("\nMENU ADMINISTRADOR\n");
-						printf("------------------\n");
-						printf("1.- Administrar carreras.\n");
-						printf("2.- Administrar corredores.\n");
-						printf("3.- Administrar trabajadores.\n");
-						printf("4.- Atrás.\n");
+						cout << "\nMENU ADMINISTRADOR" << endl;
+						cout << "------------------" << endl;
+						cout << "1.- Administrar carreras." << endl;
+						cout << "2.- Administrar corredores." << endl;
+						cout << "3.- Administrar trabajadores." << endl;
+						cout << "4.- Atrás." << endl;
 						fflush(stdout);
 						fflush(stdin);
 						scanf("%c", &opcionAdmin);
 						switch (opcionAdmin) {
 						case '1':
 							do {
-								printf("\nADMINISTRACION DE CARRERAS\n");
-								printf("--------------------------\n");
-								printf("1.- Crear una carrera.\n");
-								printf("2.- Modificar carrera.\n");
-								printf("3.- Eliminar una carrera.\n");
-								printf("4.- Añadir resultados de una carrera.\n");
-								printf("5.- Atrás.\n");
+								cout << "\nADMINISTRACION DE CARRERAS" << endl;
+								cout << "--------------------------" << endl;
+								cout << "1.- Crear una carrera." << endl;
+								cout << "2.- Modificar carrera." << endl;
+								cout << "3.- Eliminar una carrera." << endl;
+								cout << "4.- Añadir resultados de una carrera." << endl;
+								cout << "5.- Atrás." << endl;
 								fflush(stdout);
 								fflush(stdin);
 								scanf("%c", &opcionAdmin);
@@ -491,21 +490,21 @@ int main(void) {
 									//createRace();
 									break;
 								case '2':
-									printf("Introduzca el id de la carrera: \n");
+									cout << "Introduzca el id de la carrera: " << endl;
 									fflush(stdout);
 									fflush(stdin);
 									scanf("%i", &id);
 									//modifyRace(id);
 									break;
 								case '3':
-									printf("Introduzca el id de la carrera: \n");
+									cout << "Introduzca el id de la carrera: " << endl;
 									fflush(stdout);
 									fflush(stdin);
 									scanf("%i", &id);
 									//deleteRace(id);
 									break;
 								case '4':
-									printf("Introduzca el id de la carrera: \n");
+									cout << "Introduzca el id de la carrera: " << endl;
 									fflush(stdout);
 									fflush(stdin);
 									scanf("%i", &id);
@@ -514,17 +513,17 @@ int main(void) {
 								case '5':
 									break;
 								default:
-									printf("ERROR. La opcion elegida no es correcta.\n");
+									cout << "ERROR. La opcion elegida no es correcta." << endl;
 								}
 							} while (opcionAdmin != '5');
 							break;
 						case '2':
 							do {
-								printf("\nADMINISTRACION DE CORREDORES\n");
-								printf("--------------------------\n");
-								printf("1.- Registrar un corredor.\n");
-								printf("2.- Modificar un corredor.\n");
-								printf("3.- Atrás.\n");
+								cout << "\nADMINISTRACION DE CORREDORES" << endl;
+								cout << "--------------------------" << endl;
+								cout << "1.- Registrar un corredor." << endl;
+								cout << "2.- Modificar un corredor." << endl;
+								cout << "3.- Atrás." << endl;
 
 								fflush(stdout);
 								fflush(stdin);
@@ -534,7 +533,7 @@ int main(void) {
 									//runnerRegister();
 									break;
 								case '2':
-									printf("Introduzca el DNI del corredor del que quieres modificar sus datos: \n");
+									cout << "Introduzca el DNI del corredor del que quieres modificar sus datos: " << endl;
 									fflush(stdout);
 									fflush(stdin);
 									fgets(str, 50, stdin);
@@ -545,18 +544,18 @@ int main(void) {
 								case '3':
 									break;
 								default:
-									printf("ERROR. La opcion elegida no es correcta.\n");
+									cout << "ERROR. La opcion elegida no es correcta." << endl;
 								}
 							} while (opcionAdmin != '3');
 							break;
 						case '3':
 							do {
-								printf("\nADMINISTRACION DE TRABAJADORES\n");
-								printf("------------------------------\n");
-								printf("1.- Dar de alta a un trabajador.\n");
-								printf("2.- Modificar datos de trabajador.\n");
-								printf("3.- Dar de baja a un trabajador.\n");
-								printf("4.- Atrás.\n");
+								cout << "\nADMINISTRACION DE TRABAJADORES" << endl;
+								cout << "------------------------------" << endl;
+								cout << "1.- Dar de alta a un trabajador." << endl;
+								cout << "2.- Modificar datos de trabajador." << endl;
+								cout << "3.- Dar de baja a un trabajador." << endl;
+								cout << "4.- Atrás." << endl;
 
 								fflush(stdout);
 								fflush(stdin);
@@ -566,7 +565,7 @@ int main(void) {
 									//registerEmployee();
 									break;
 								case '2':
-									printf("Introduzca el nss del trabajador:\n");
+									cout << "Introduzca el nss del trabajador:" << endl;
 									fflush(stdout);
 									fflush(stdin);
 									fgets(str, 50, stdin);
@@ -575,13 +574,13 @@ int main(void) {
 									//modifyEmployeeA(nss);
 									break;
 								case '3':
-									printf("\nBAJA DE TRABAJADOR\n");
-									printf("------------------\n");
-									printf("Introduzca el nss del trabajador:\n");
+									cout << "\nBAJA DE TRABAJADOR" << endl;
+									cout << "------------------" << endl;
+									cout << "Introduzca el nss del trabajador:" << endl;
 									fflush(stdout);
 									fflush(stdin);
 									fgets(str, 50, stdin);
-									strtok(str, "\n");
+									strtok(str, "");
 									strcpy(nss, str);
 
 									num = 0;
@@ -593,7 +592,7 @@ int main(void) {
 										fread(employees, sizeof(Employee), num, f);
 										find = true;
 									} else {
-										printf("No se ha encontrado el fichero de empleados.\n");
+										cout << "No se ha encontrado el fichero de empleados." << endl;
 										find = false;
 									}
 									fclose(f);
@@ -602,7 +601,7 @@ int main(void) {
 										for (int i = 0; i < num; i++) {
 											if (strcmp(employees[i].getNss(), nss) == 0) {
 												strcpy(employees[i].getState(), "BAJA");
-												printf("Se ha dado de baja correctamente al trabajador %s.\n", employees[i].getName());
+												cout << "Se ha dado de baja correctamente al trabajador " << employees[i].getName() << "." << endl;
 												find = true;
 												break;
 											} else {
@@ -611,7 +610,7 @@ int main(void) {
 										}
 
 										if (!find) {
-											printf("No se ha podido encontrar al trabajador.\n");
+											cout << "No se ha podido encontrar al trabajador." << endl;
 										}
 
 										f = fopen("employees.dat", "wb");
@@ -625,7 +624,7 @@ int main(void) {
 								case '4':
 									break;
 								default:
-									printf("ERROR. La opcion elegida no es correcta.\n");
+									cout << "ERROR. La opcion elegida no es correcta." << endl;
 								}
 							} while (opcionAdmin != '4');
 							opcionAdmin = '3';
@@ -633,13 +632,13 @@ int main(void) {
 						case '4':
 							break;
 						default:
-							printf("ERROR. La opcion elegida no es correcta.\n");
+							cout << "ERROR. La opcion elegida no es correcta." << endl;
 						}
 					} while (opcionAdmin != '4');
 				} else {
-					printf("Contraseña erronea.\n");
+					cout << "Contraseña erronea." << endl;
 				}
-				printf("�Desea volver al menú inicial? S/N");
+				cout << "�Desea volver al menú inicial? S/N" << endl;
 				fflush(stdout);
 				fflush(stdin);
 				scanf("%c", &back);
@@ -651,7 +650,7 @@ int main(void) {
 		case 'q':
 			break;
 		default:
-			printf("ERROR. La opcion elegida no es correcta.\n");
+			cout << "ERROR. La opcion elegida no es correcta." << endl;
 		}
 	} while (opcionIni != 'q');
 	return 0;
