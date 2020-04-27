@@ -17,6 +17,7 @@ using namespace std;
 using namespace users;
 #include "Race/race.h"
 using namespace race;
+#include "SQLite/sqlite3.h"
 
 int main(void) {
 
