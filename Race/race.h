@@ -9,7 +9,7 @@
 #define RACE_RACE_H_
 
 #include "../Users/Employee.h"
-#include "../Users/Runner.h"
+#include "../Users/Participant.h"
 using namespace users;
 
 namespace race {
@@ -29,6 +29,7 @@ private:
 public:
 	/*CONSTRUCTORES Y DESTRUCTOR*/
 	Race();
+	Race(const Race & r);
 	Race(int id, char* name, char* date, char* time, char* location,
 			int km, Employee organizer, int nW, Employee *workers, int nP,
 			Participant *participants);
@@ -53,9 +54,9 @@ public:
 	void setKm(int km);
 	void setOrganizer(Employee organizer);
 	void setNW(int nW);
-	void setWorkers(Employee *workers);
+	void setWorkers(int nW, Employee *workers);
 	void setNP(int nP);
-	void setParticipants(Participant *participants);
+	void setParticipants(int nP, Participant *participants);
 };
 }
 

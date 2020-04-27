@@ -27,6 +27,21 @@ Runner::Runner() {
 	this->password = new char[1];
 	this->password[0] = '\0';
 }
+Runner::Runner(const Runner & r)
+{
+	this->dni = new char[strlen(r.dni) + 1];
+	strcpy(this->dni, r.dni);
+	this->name = new char[strlen(r.name) + 1];
+	strcpy(this->name, r.name);
+	this->tlfn = new char[strlen(r.tlfn) + 1];
+	strcpy(this->tlfn, r.tlfn);
+	this->email = new char[strlen(r.email) + 1];
+	strcpy(this->email, r.email);
+	this->birthdate = new char[strlen(r.birthdate) + 1];
+	strcpy(this->birthdate, r.birthdate);
+	this->password = new char[strlen(r.password) + 1];
+	strcpy(this->password, r.password);
+}
 Runner::Runner(char *dni, char *name, char *tlfn, char *email, char *birthdate,
 		char *password) {
 	this->dni = new char[strlen(dni) + 1];
@@ -113,84 +128,4 @@ void apuntarteACarrera() {
 }
 void desapuntarteDeCarrera() {
 	//TODO
-}
-
-//CLASE PARTICIPANT
-/*CONSTRUCTORES Y DESTRUCTOR*/
-Participant::Participant() {
-	this->dni = new char[1];
-	this->dni[0] = '\0';
-	this->name = new char[1];
-	this->name[0] = '\0';
-	this->tlfn = new char[1];
-	this->tlfn[0] = '\0';
-	this->email = new char[1];
-	this->email[0] = '\0';
-	this->birthdate = new char[1];
-	this->birthdate[0] = '\0';
-	this->password = new char[1];
-	this->password[0] = '\0';
-	this->number = 0;
-	this->position = 0;
-	this->time = new char[1];
-	this->time[0] = '\0';
-}
-Participant::Participant(char *dni, char *name, char *tlfn, char *email, char *birthdate,
-		char *password) {
-	this->dni = new char[strlen(dni) + 1];
-	strcpy(this->dni, dni);
-	this->name = new char[strlen(name) + 1];
-	strcpy(this->name, name);
-	this->tlfn = new char[strlen(tlfn) + 1];
-	strcpy(this->tlfn, tlfn);
-	this->email = new char[strlen(email) + 1];
-	strcpy(this->email, email);
-	this->birthdate = new char[strlen(birthdate) + 1];
-	strcpy(this->birthdate, birthdate);
-	this->password = new char[strlen(password) + 1];
-	strcpy(this->password, password);
-	this->number = 0;
-	this->position = 0;
-	this->time = new char[1];
-	this->time[0] = '\0';
-}
-Participant::Participant(char *dni, char *name, char *tlfn, char *email,
-		char *birthdate, char *password, int number, int position, char *time) {
-	this->dni = new char[strlen(dni) + 1];
-	strcpy(this->dni, dni);
-	this->name = new char[strlen(name) + 1];
-	strcpy(this->name, name);
-	this->tlfn = new char[strlen(tlfn) + 1];
-	strcpy(this->tlfn, tlfn);
-	this->email = new char[strlen(email) + 1];
-	strcpy(this->email, email);
-	this->birthdate = new char[strlen(birthdate) + 1];
-	strcpy(this->birthdate, birthdate);
-	this->password = new char[strlen(password) + 1];
-	strcpy(this->password, password);
-	this->number = number;
-	this->position = position;
-	this->time = new char[strlen(time) + 1];
-	strcpy(this->time, time);
-}
-Participant::~Participant() {
-	delete[] dni;
-	delete[] name;
-	delete[] tlfn;
-	delete[] email;
-	delete[] birthdate;
-	delete[] password;
-	delete[] time;
-}
-/*GET Y SET*/
-void Participant::setNumber(int number) {
-	this->number = number;
-}
-void Participant::setPosition(int position) {
-	this->position = position;
-}
-void Participant::setTime(char *time) {
-	delete[] this->time;
-	this->time = new char[strlen(time) + 1];
-	strcpy(this->time, time);
 }

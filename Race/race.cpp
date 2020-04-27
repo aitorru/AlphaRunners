@@ -29,29 +29,63 @@ Race::Race()
 	Employee employee;
 	this->organizer = employee;
 	this->nW = 0;
-	this->workers = NULL;
+	this->workers = new Employee[nW];
 	this->nP = 0;
-	this->participants = NULL;
+	this->participants = new Participant[nP];
+}
+Race::Race(const Race & r)
+{
+	this->id = r.id;
+	this->name = new char[strlen(r.name) + 1];
+	strcpy(this->name, r.name);
+	this->date = new char[strlen(r.date) + 1];
+	strcpy(this->date, r.date);
+	this->time = new char[strlen(r.time) + 1];
+	strcpy(this->time, r.time);
+	this->location = new char[strlen(r.location) + 1];
+	strcpy(this->location, r.location);
+	this->km = r.km;
+	this->organizer = r.organizer;
+	this->nW = r.nW;
+	this->workers = new Employee[nW];
+	for(int i = 0; i < r.nW; i++)
+	{
+		this->workers[i] = r.workers[i];
+	}
+	this->nP = r.nP;
+	this->participants = new Participant[nP];
+	for(int i = 0; i < r.nW; i++)
+	{
+		this->participants[i] = r.participants[i];
+	}
 }
 Race::Race(int id, char* name, char* date, char* time, char* location,
 		int km, Employee organizer, int nW, Employee *workers, int nP,
 		Participant *participants)
 {
 	this->id = id;
-	this->name = new char[strlen(name)];
+	this->name = new char[strlen(name) + 1];
 	strcpy(this->name, name);
-	this->date = new char[strlen(date)];
+	this->date = new char[strlen(date) + 1];
 	strcpy(this->date, date);
-	this->time = new char[strlen(time)];
+	this->time = new char[strlen(time) + 1];
 	strcpy(this->time, time);
-	this->location = new char[strlen(location)];
+	this->location = new char[strlen(location) + 1];
 	strcpy(this->location, location);
 	this->km = km;
 	this->organizer = organizer;
 	this->nW = nW;
-	this->workers = workers;
+	this->workers = new Employee[nW];
+	for(int i = 0; i < nW; i++)
+	{
+		this->workers[i] = workers[i];
+	}
 	this->nP = nP;
-	this->participants = participants;
+	this->participants = new Participant[nP];
+	for(int i = 0; i < nW; i++)
+	{
+		this->participants[i] = participants[i];
+	}
 }
 Race::~Race()
 {
@@ -59,6 +93,8 @@ Race::~Race()
 	delete[] date;
 	delete[] time;
 	delete[] location;
+	delete[] workers;
+	delete[] participants;
 }
 /*GET Y SET*/
 int Race::getId()
@@ -107,45 +143,57 @@ Participant* Race::getParticipants()
 }
 void Race::setId(int id)
 {
-
+	this->id = id;
 }
 void Race::setName(char *name)
 {
-
+	this->name = new char[strlen(name)+ 1];
+	strcpy(this->name, name);
 }
 void Race::setDate(char *date)
 {
-
+	this->date = new char[strlen(date)+ 1];
+	strcpy(this->date, date);
 }
 void Race::setTime(char *time)
 {
-
+	this->time = new char[strlen(time)+ 1];
+	strcpy(this->time, time);
 }
 void Race::setLocation(char *location)
 {
-
+	this->location = new char[strlen(location)+ 1];
+	strcpy(this->location, location);
 }
 void Race::setKm(int km)
 {
-
+	this->km = km;
 }
 void Race::setOrganizer(Employee organizer)
 {
-
+	this->organizer = organizer;
 }
 void Race::setNW(int nW)
 {
-
+	this->nW = nW;
 }
-void Race::setWorkers(Employee *workers)
+void Race::setWorkers(int nW, Employee *workers)
 {
-
+	this->workers = new Employee[nW];
+	for(int i = 0; i < nW; i++)
+	{
+		this->workers[i] = workers[i];
+	}
 }
 void Race::setNP(int nP)
 {
-
+	this->nP = nP;
 }
-void Race::setParticipants(Participant *participants)
+void Race::setParticipants(int nP, Participant *participants)
 {
-
+	this->participants = new Participant[nP];
+	for(int i = 0; i < nW; i++)
+	{
+		this->participants[i] = participants[i];
+	}
 }

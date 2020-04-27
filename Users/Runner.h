@@ -20,9 +20,10 @@ protected:
 public:
 	/* CONSTRUCTORES Y DESTRUCTOR*/
 	Runner();
+	Runner(const Runner & r);
 	Runner(char *dni, char *name, char *tlfn, char *email, char *birthdate,
 			char *password);
-	~Runner();
+	virtual ~Runner();
 	/*GET Y SET*/
 	char* getDni();
 	char* getName();
@@ -42,27 +43,5 @@ public:
 	void apuntarteACarrera();
 	void desapuntarteDeCarrera();
 };
-
-class Participant: public Runner {
-private:
-	int number, position;
-	char *time;
-public:
-	/*CONSTRUCTORES Y DESTRUCTOR*/
-	Participant();
-	Participant(char *dni, char *name, char *tlfn, char *email, char *birthdate,
-				char *password);
-	Participant(char *dni, char *name, char *tlfn, char *email, char *birthdate,
-			char *password, int number, int position, char *time);
-	~Participant();
-	/*GET Y SET*/
-	int getNumber();
-	int getPosition();
-	char* getTime();
-	void setNumber(int number);
-	void setPosition(int position);
-	void setTime(char *time);
-};
 }
-
 #endif /* USERS_RUNNER_H_ */

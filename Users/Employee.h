@@ -18,6 +18,7 @@ protected:
 public:
 	/*CONSTRUCTORES Y DESTRUCTOR*/
 	Employee();
+	Employee(const Employee & e);
 	Employee(char *nss, char *name, int salary, char *state);
 	~Employee();
 	/*GET Y SET*/

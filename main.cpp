@@ -12,6 +12,7 @@
 #include <iostream>
 using namespace std;
 #include "Users/Runner.h"
+#include "Users/Participant.h"
 #include "Users/Employee.h"
 using namespace users;
 #include "Race/race.h"
@@ -182,7 +183,7 @@ int main(void) {
 													cout << "\nSe ha añadido correctamente." << endl;
 													fflush(stdout);
 													races[i].setNP(races[i].getNP() + 1);
-													races[i].setParticipants(par1);
+													races[i].setParticipants(races[i].getNP() + 1, par1);
 												}
 											}
 											f = fopen("races.dat", "wb");
@@ -269,7 +270,7 @@ int main(void) {
 											for (int i = 0; i < num; i++) {
 												if (races[i].getId() == id)
 												{
-													par = (Participant*) malloc( sizeof(Participant)* races[i].getNP() - 1);
+													par = new Participant[races[i].getNP() - 1];
 													int cont = 0;
 													for (int j = 0; j < races[i].getNP(); j++) {
 														if ((strcmp(races[i].getParticipants()[j].getDni(), dni)) != 0) {
@@ -277,7 +278,7 @@ int main(void) {
 															cont++;
 														}
 													}
-													races[i].setParticipants(par);
+													races[i].setParticipants(races[i].getNP() - 1, par);
 												}
 												free(par);
 											}

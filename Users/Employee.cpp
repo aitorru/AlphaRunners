@@ -21,6 +21,16 @@ Employee::Employee() {
 	this->state = new char[1];
 	this->state[0] = '\0';
 }
+Employee::Employee(const Employee & e)
+{
+	this->nss = new char[strlen(e.nss) + 1];
+	strcpy(this->nss, e.nss);
+	this->name = new char[strlen(e.name) + 1];
+	strcpy(this->name, e.name);
+	this->salary = e.salary;
+	this->state = new char[strlen(e.state) + 1];
+	strcpy(this->state, e.state);
+}
 Employee::Employee(char *nss, char *name, int salary, char *state) {
 
 	this->nss = new char[strlen(nss) + 1];
