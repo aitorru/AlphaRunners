@@ -109,7 +109,7 @@ int main(void) {
 							strtok(passRunner, "\n");
 							if ((f = fopen("runners.dat", "rb")) != NULL) {
 								num = fgetc(f);
-								runners = (Runner*) malloc(num * sizeof(Runner));
+								runners = new Runner[num];
 								fread(runners, sizeof(Runner), num, f);
 							}
 
@@ -135,7 +135,7 @@ int main(void) {
 										num = 0;
 										if ((f = fopen("races.dat", "rb")) != NULL) {
 											num = fgetc(f);
-											races = (Race*) malloc(num * sizeof(Race));
+											races = new Race[num];
 											fread(races, sizeof(Race), num, f);
 											fclose(f);
 										}
@@ -155,14 +155,14 @@ int main(void) {
 										scanf("%i", &id);
 										if ((f = fopen("races.dat", "rb")) != NULL) {
 											num = fgetc(f);
-											races = (Race*) malloc(num * sizeof(Race));
+											races = new Race[num];
 											fread(races, sizeof(Race), num, f);
 											fclose(f);
 
 											for (int i = 0; i < num; i++) {
 												if (races[i].getId() == id)
 												{
-													par1 = (Participant*) malloc(sizeof(Participant) * races[i].getNP() + 1);
+													par1 = new Participant[races[i].getNP() + 1];
 													for (int j = 0;j < races[i].getNP() + 1;j++) {
 														if (j != races[i].getNP()) {
 															par1[j].setDni(races[i].getParticipants()[j].getDni());
@@ -214,8 +214,7 @@ int main(void) {
 							strtok(passRunner, "\n");
 							if ((f = fopen("runners.dat", "rb")) != NULL) {
 								num = fgetc(f);
-								runners = (Runner*) malloc(
-										num * sizeof(Runner));
+								runners = new Runner[num];
 								fread(runners, sizeof(Runner), num, f);
 							}
 
@@ -243,7 +242,7 @@ int main(void) {
 										num = 0;
 										if ((ff = fopen("races.dat", "rb")) != NULL) {
 											num = fgetc(ff);
-											races = (Race*) malloc( num * sizeof(Race));
+											races = new Race[num];
 											fread(races, sizeof(Race), num, ff);
 											fclose(ff);
 										}
@@ -264,7 +263,7 @@ int main(void) {
 										Race * races;
 										if ((ff = fopen("races.dat", "rb")) != NULL) {
 											num = fgetc(f);
-											races = (Race*) malloc( num * sizeof(Race));
+											races = new Race[num];
 											fread(races, sizeof(Race), num, f);
 
 											for (int i = 0; i < num; i++) {
@@ -359,7 +358,7 @@ int main(void) {
 
 						if ((f = fopen("races.dat", "rb")) != NULL) {
 							num = fgetc(f);
-							races1 = (Race*) malloc(sizeof(Race) * num);
+							races1 = new Race[num];
 							fread(races1, sizeof(Race), num, f);
 							find = true;
 						} else {
@@ -406,7 +405,7 @@ int main(void) {
 						num = 0;
 						if ((f = fopen("races.dat", "rb")) != NULL) {
 							int num = fgetc(f);
-							races = (Race*) malloc(sizeof(Race) * num);
+							races = new Race[num];
 							fread(races, sizeof(Race), num, f);
 							find = true;
 						} else {
@@ -589,7 +588,7 @@ int main(void) {
 
 									if ((f = fopen("employees.dat", "rb")) != NULL) {
 										num = fgetc(f);
-										employees = (Employee*) malloc(num * sizeof(Employee));
+										employees = new Employee[num];
 										fread(employees, sizeof(Employee), num, f);
 										find = true;
 									} else {
