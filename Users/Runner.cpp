@@ -9,7 +9,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <iostream>
+#include <limits>
 using namespace users;
+using namespace std;
 
 //CLASE RUNNER
 /*CONSTRUCTORES Y DESTRUCTORES*/
@@ -27,8 +30,7 @@ Runner::Runner() {
 	this->password = new char[1];
 	this->password[0] = '\0';
 }
-Runner::Runner(const Runner & r)
-{
+Runner::Runner(const Runner &r) {
 	this->dni = new char[strlen(r.dni) + 1];
 	strcpy(this->dni, r.dni);
 	this->name = new char[strlen(r.name) + 1];
@@ -85,41 +87,67 @@ char* Runner::getBirthdate() {
 char* Runner::getPassword() {
 	return this->password;
 }
-void Runner::setDni(char *dni) {
+void Runner::setDni(const char *dni) {
 	delete[] this->dni;
 	this->dni = new char[strlen(dni) + 1];
 	strcpy(this->dni, dni);
 }
-void Runner::setName(char *name) {
+void Runner::setName(const char *name) {
 	delete[] this->name;
 	this->name = new char[strlen(name) + 1];
 	strcpy(this->name, name);
 }
-void Runner::setTlfn(char *tlfn) {
+void Runner::setTlfn(const char *tlfn) {
 	delete[] this->tlfn;
 	this->tlfn = new char[strlen(tlfn) + 1];
 	strcpy(this->tlfn, tlfn);
 }
-void Runner::setEmail(char *email) {
+void Runner::setEmail(const char *email) {
 	delete[] this->email;
 	this->email = new char[strlen(email) + 1];
 	strcpy(this->email, email);
 }
-void Runner::setBirthdate(char *birthdate) {
+void Runner::setBirthdate(const char* birthdate) {
 	delete[] this->birthdate;
 	this->birthdate = new char[strlen(birthdate) + 1];
 	strcpy(this->birthdate, birthdate);
 }
-void Runner::setPassword(char *password) {
+void Runner::setPassword(const char* password) {
 	delete[] this->password;
 	this->password = new char[strlen(password) + 1];
 	strcpy(this->password, password);
 }
 
 /*RESTO DE MÉTODOS*/
-void runnerRegister() {
-	//TODO
+void Runner::getInformation() {
+	string str;
+
+	cout << "Introduzca el DNI: " << endl;
+	getline(cin, str);
+	this->dni = new char[strlen(str.c_str())+1];
+	strcpy(this->dni, str.c_str());
+	cout << "Introduzca nombre y apellidos: " << endl;
+	getline(cin, str);
+	this->name = new char[strlen(str.c_str())+1];
+	strcpy(this->name, str.c_str());
+	cout << "Introduzca el número de teléfono: " << endl;
+	getline(cin, str);
+	this->tlfn = new char[strlen(str.c_str())+1];
+	strcpy(this->tlfn, str.c_str());
+	cout << "Introduzca el email: " << endl;
+	getline(cin, str);
+	this->email = new char[strlen(str.c_str())+1];
+	strcpy(this->email, str.c_str());
+	cout << "Introduzca el fecha de nacimiento (AAAA/MM/DD): " << endl;
+	getline(cin, str);
+	this->birthdate = new char[strlen(str.c_str())+1];
+	strcpy(this->birthdate, str.c_str());
+	cout << "Introduzca una contraseña: " << endl;
+	getline(cin, str);
+	this->password = new char[strlen(str.c_str())+1];
+	strcpy(this->password, str.c_str());
 }
+
 void modifyRunner() {
 	//TODO
 }

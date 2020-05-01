@@ -5,6 +5,9 @@
  *      Author: amaia
  */
 
+#include <iostream>
+using namespace std;
+
 #ifndef USERS_RUNNER_H_
 #define USERS_RUNNER_H_
 
@@ -31,17 +34,19 @@ public:
 	char* getEmail();
 	char* getBirthdate();
 	char* getPassword();
-	void setDni(char *dni);
-	void setName(char *name);
-	void setTlfn(char *tlfn);
-	void setEmail(char *email);
-	void setBirthdate(char *birthdate);
-	void setPassword(char *password);
+	void setDni(const char *dni);
+	void setName(const char *name);
+	void setTlfn(const char *tlfn);
+	void setEmail(const char *email);
+	void setBirthdate(const char *birthdate);
+	void setPassword(const char *password);
 	/*RESTO DE MÉTODOS*/
-	void runnerRegister();
+	void getInformation();
 	void modifyRunner();
 	void apuntarteACarrera();
 	void desapuntarteDeCarrera();
+
 };
 }
+
 #endif /* USERS_RUNNER_H_ */
