@@ -2,6 +2,7 @@ CXX=g++
 CC=gcc
 
 CFLAGS=
+LDFLAGS= -ldl -lpthread
 MAINC=main.cpp
 SQLITE=SQLite/sqlite3.c
 SQLITEO=SQLite/sqlite3.o
@@ -33,7 +34,7 @@ build:  $(MAINC) $(SQLITE) $(DBMANAGER) $(USERS) $(RACE)
 
 buildT: $(MAINC) $(EMPLOY) $(RUNNER) $(RACE)
 	$(CC) -c $(SQLITE) -o $(SQLITEO)
-	$(CXX) -o $(OUTPUT)$(EXT) $(MAINC) $(DBMANAGER) $(USERS) $(RACE) $(SQLITEO) $(CFLAGS)
+	$(CXX) -o $(OUTPUT)$(EXT) $(MAINC) $(DBMANAGER) $(USERS) $(RACE) $(SQLITEO) $(LDFLAGS)
 
 
 run: 
