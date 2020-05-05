@@ -53,12 +53,14 @@ int main(void) {
 
 	//Variable para no leer caracteres de más
 	char str[50];
+	string s;
 
 	//Variable para modificación de datos del corredor
 	char* dni;
 
 	//Variables para la creación/modificación/eliminación de carreras
 	int id;
+	Employee employee;
 	Employee organizer;
 	Participant *par1;
 	Participant *par;
@@ -512,12 +514,14 @@ int main(void) {
 			break;
 		case '3':
 			do {
+				getline(cin, s);
 				cout << "Introduzca la contraseña de administrador: " << endl;
 
 				scanf("%12s", passAdmin);
 				char key[] = "alpharunners";
 				if (strcmp(key, passAdmin) == 0) {
 					do {
+						getline(cin, s);
 						cout << "\nMENU ADMINISTRADOR" << endl;
 						cout << "------------------" << endl;
 						cout << "1.- Administrar carreras." << endl;
@@ -529,6 +533,7 @@ int main(void) {
 						switch (opcionAdmin) {
 						case '1':
 							do {
+								getline(cin, s);
 								cout << "\nADMINISTRACION DE CARRERAS" << endl;
 								cout << "--------------------------" << endl;
 								cout << "1.- Crear una carrera." << endl;
@@ -575,6 +580,7 @@ int main(void) {
 							break;
 						case '2':
 							do {
+								getline(cin, s);
 								cout << "\nADMINISTRACION DE CORREDORES"
 										<< endl;
 								cout << "--------------------------" << endl;
@@ -610,6 +616,7 @@ int main(void) {
 							} while (opcionAdmin != '3');
 							break;
 						case '3':
+							getline(cin, str);
 							do {
 								cout << "\nADMINISTRACION DE TRABAJADORES"
 										<< endl;
@@ -626,7 +633,14 @@ int main(void) {
 								scanf("%c", &opcionAdmin);
 								switch (opcionAdmin) {
 								case '1':
-									//registerEmployee();
+									cout << "REGISTRO DE EMPLEADO" << endl;
+									cout << "--------------------" << endl;
+									employee.getInformation();
+									dbState = openDB(db);
+									if(dbState == SQLITE_OK){
+										insertNewEmployee(db, employee);
+										closeDB(db);
+									}
 									break;
 								case '2':
 									cout << "Introduzca el nss del trabajador:"

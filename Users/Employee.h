@@ -31,7 +31,7 @@ public:
 	void setSalary(int salary);
 	void setState(char *state);
 	/*RESTO DE MÉTODOS*/
-	void registerEmployee(); //???
+	void getInformation();
 	void modifyEmployee();	//???
 	void modifyEmployeeA();	//???
 };

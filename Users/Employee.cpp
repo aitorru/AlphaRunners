@@ -9,7 +9,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <iostream>
 using namespace users;
+using namespace std;
 
 /*CONSTRUCTORES Y DESTRUCTOR*/
 Employee::Employee() {
@@ -77,4 +79,21 @@ void Employee::setState(char *state) {
 	delete[] state;
 	this->state = new char[strlen(state) + 1];
 	strcpy(this->state, state);
+}
+void Employee::getInformation()
+{
+	string str;
+	getline(cin, str);
+
+	cout << "Introduzca el NSS: " << endl;
+	cout.flush();
+	getline(cin, str);
+	this->nss = new char[strlen(str.c_str()) + 1];
+	strcpy(this->nss, str.c_str());
+	cout << "Introduzca nombre y apellidos: " << endl;
+	getline(cin, str);
+	this->name = new char[strlen(str.c_str()) + 1];
+	strcpy(this->name, str.c_str());
+	cout << "Introduzca el salario: " << endl;
+	cin >> this->salary;
 }

@@ -142,7 +142,7 @@ void Runner::getInformation() {
 	getline(cin, str);
 	this->email = new char[strlen(str.c_str())+1];
 	strcpy(this->email, str.c_str());
-	cout << "Introduzca el fecha de nacimiento (AAAA/MM/DD): " << endl;
+	cout << "Introduzca el fecha de nacimiento (DD/MM/AAAA): " << endl;
 	getline(cin, str);
 	this->birthdate = new char[strlen(str.c_str())+1];
 	strcpy(this->birthdate, str.c_str());
