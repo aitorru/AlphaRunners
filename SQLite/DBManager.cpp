@@ -125,6 +125,51 @@ int insertNewRunner(sqlite3* dbd, Runner r){
 	sqlite3_close(db);
 	return SQLITE_OK;
 }
+int getPassword(sqlite3 *dbd, char* dni, char* password)
+{
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+
+	sqlite3_stmt *stmt;
+
+	const char sql[] = "select Password from Runner where DNI = ?;";
+	result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL);
+	if (result != SQLITE_OK) {
+		cout << "Error preparing statement (SELECT)" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+	cout << "SQL query prepared (SELECT)" << endl;
+
+	result = sqlite3_bind_text(stmt, 0, dni, strlen(dni), SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+
+		return result;
+	}
+
+	result = sqlite3_step(stmt);
+	if (result == SQLITE_ROW) {
+		password = new char[strlen((char *) sqlite3_column_text(stmt, 0))];
+		strcpy(password, (char *) sqlite3_column_text(stmt, 0));
+	}else{
+		cout << "Error slecting new data from Runner table" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		cout << "Error finalizing statement (SELECT)" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+
+	cout << "Prepared statement finalized (SELECT)" << endl;
+	sqlite3_close(db);
+	return SQLITE_OK;
+}
 int insertNewEmployee(sqlite3 *dbd, Employee e)
 {
 	sqlite3 *db;

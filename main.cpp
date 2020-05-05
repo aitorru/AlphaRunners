@@ -9,6 +9,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <limits>
 #include <iostream>
 using namespace std;
 #include "Users/Runner.h"
@@ -42,6 +43,7 @@ int main(void) {
 
 	//Variable para la contraseña de corredor
 	char* passRunner;
+	char* pass;
 	int intentosRunner = 0;
 	char opcionCorredor;
 	char* dniTemp;
@@ -82,17 +84,30 @@ int main(void) {
 		cout << "4.- Registarse como corredor." << endl;
 		cout << "Pulsar 'q' para salir." << endl;
 
+		//mirralo porque no lee la primera vez que escribes
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(),'\n');
+
 		scanf("%c", &opcionIni);
 		switch (opcionIni) {
 		case '1':
 			intentosRunner = 0;
 			while (intentosRunner != 3 || opcionCorredor != '5') {
-				cout << "\nIntroduzca la contraseña de corredor: " << endl;
+				cout << "\nIntroduzca el dni de corredor: " << endl;
+				cin >> str;
+				dni = new char[strlen(str)+1];
+				strcpy(dni, str);
+				cout << "Introduzca contrase�a: " << endl;
 				cin >> str;
 				passRunner = new char[strlen(str)+1];
 				strcpy(passRunner, str);
 
-				if (strcmp(passRunner, "ALPHARUNNERS") != 0) {
+				if(getPassword(db, dni, pass) != SQLITE_OK){
+					cout << "No se encuentra el DNI." << endl;
+					break;
+				}
+
+				if (strcmp(passRunner, pass) != 0) {
 					do {
 						cout << "\nMENU CORREDORES" << endl;
 						cout << "------------------" << endl;
@@ -616,7 +631,7 @@ int main(void) {
 							} while (opcionAdmin != '3');
 							break;
 						case '3':
-							getline(cin, str);
+							getline(cin, s);
 							do {
 								cout << "\nADMINISTRACION DE TRABAJADORES"
 										<< endl;
