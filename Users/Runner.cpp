@@ -8,6 +8,7 @@
 #include "Runner.h"
 #include <stdio.h>
 #include <string.h>
+#include <string>
 #include <stdlib.h>
 #include <iostream>
 #include <limits>
@@ -118,11 +119,13 @@ void Runner::setPassword(const char* password) {
 	strcpy(this->password, password);
 }
 
-/*RESTO DE MÉTODOS*/
+/*RESTO DE Mï¿½TODOS*/
 void Runner::getInformation() {
 	string str;
 
 	cout << "Introduzca el DNI: " << endl;
+	cout.flush();
+	getline(cin, str);
 	getline(cin, str);
 	this->dni = new char[strlen(str.c_str())+1];
 	strcpy(this->dni, str.c_str());
@@ -130,7 +133,7 @@ void Runner::getInformation() {
 	getline(cin, str);
 	this->name = new char[strlen(str.c_str())+1];
 	strcpy(this->name, str.c_str());
-	cout << "Introduzca el número de teléfono: " << endl;
+	cout << "Introduzca el nï¿½mero de telï¿½fono: " << endl;
 	getline(cin, str);
 	this->tlfn = new char[strlen(str.c_str())+1];
 	strcpy(this->tlfn, str.c_str());
@@ -142,7 +145,7 @@ void Runner::getInformation() {
 	getline(cin, str);
 	this->birthdate = new char[strlen(str.c_str())+1];
 	strcpy(this->birthdate, str.c_str());
-	cout << "Introduzca una contraseña: " << endl;
+	cout << "Introduzca una contraseï¿½a: " << endl;
 	getline(cin, str);
 	this->password = new char[strlen(str.c_str())+1];
 	strcpy(this->password, str.c_str());

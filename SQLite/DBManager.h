@@ -10,6 +10,8 @@
 
 int openDB(sqlite3 *db);
 int closeDB(sqlite3 *db);
-int insertNewRunner(sqlite3 *db, Runner r);
+int insertNewRunner(sqlite3 *dbd, Runner r);
+int createDB();
+int insertTest();
 
 #endif /* DBMANAGER_H_ */

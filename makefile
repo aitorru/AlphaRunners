@@ -14,8 +14,6 @@ OUTPUT=a.
 WINEXT=exe
 UNIXEXT=out
 
-all : $(BIN)
-
 PLATFORM = $(shell uname -s) # WIP OS detect
 EXT = $(osdetected)
 ifeq  ($(OS),Windows_NT)
@@ -23,6 +21,7 @@ ifeq  ($(OS),Windows_NT)
 	osdetected = exe
 else
 	osdetected = out
+	CFLAGS= -ldl -lpthread
 endif
 
 
