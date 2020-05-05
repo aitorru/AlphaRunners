@@ -585,12 +585,17 @@ int main(void) {
 								scanf("%c", &opcionAdmin);
 								switch (opcionAdmin) {
 								case '1':
-									//runnerRegister();
+									cout << "REGISTRO DE CORREDOR" << endl;
+									cout << "--------------------" << endl;
+									runner.getInformation();
+									dbState = openDB(db);
+									if(dbState == SQLITE_OK){
+										insertNewRunner(db, runner);
+										closeDB(db);
+									}
 									break;
 								case '2':
-									cout
-											<< "Introduzca el DNI del corredor del que quieres modificar sus datos: "
-											<< endl;
+									cout << "Introduzca el DNI del corredor del que quieres modificar sus datos: " << endl;
 
 									cin >> str;
 									dni = new char[strlen(str)+1];
@@ -600,9 +605,7 @@ int main(void) {
 								case '3':
 									break;
 								default:
-									cout
-											<< "ERROR. La opcion elegida no es correcta."
-											<< endl;
+									cout << "ERROR. La opcion elegida no es correcta." << endl;
 								}
 							} while (opcionAdmin != '3');
 							break;

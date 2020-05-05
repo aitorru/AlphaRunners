@@ -121,6 +121,7 @@ void Runner::setPassword(const char* password) {
 /*RESTO DE MÉTODOS*/
 void Runner::getInformation() {
 	string str;
+	getline(cin, str);
 
 	cout << "Introduzca el DNI: " << endl;
 	getline(cin, str);

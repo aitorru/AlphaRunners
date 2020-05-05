@@ -11,5 +11,6 @@
 int openDB(sqlite3 *db);
 int closeDB(sqlite3 *db);
 int insertNewRunner(sqlite3 *db, Runner r);
+int insertNewEmployee(sqlite3 *db, Employee e);
 
 #endif /* DBMANAGER_H_ */
