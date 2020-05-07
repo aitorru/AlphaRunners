@@ -141,6 +141,8 @@ int getPassword(sqlite3 *dbd, char* dni, char* password)
 	}
 	cout << "SQL query prepared (SELECT)" << endl;
 
+	//TODO
+	//esto da error
 	result = sqlite3_bind_text(stmt, 0, dni, strlen(dni), SQLITE_STATIC);
 	if (result != SQLITE_OK) {
 		cout << "Error binding parameters" << endl;

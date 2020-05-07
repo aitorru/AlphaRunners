@@ -21,6 +21,10 @@ using namespace race;
 #include "SQLite/sqlite3.h"
 #include "SQLite/DBManager.h"
 
+void cleanBuffer(){
+	cin.clear();
+	cin.ignore(numeric_limits<streamsize>::max(),'\n');
+}
 int main(void) {
 	//DB
 	sqlite3 *db;
@@ -84,11 +88,8 @@ int main(void) {
 		cout << "4.- Registarse como corredor." << endl;
 		cout << "Pulsar 'q' para salir." << endl;
 
-		//mirralo porque no lee la primera vez que escribes
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(),'\n');
-
 		scanf("%c", &opcionIni);
+		cleanBuffer();
 		switch (opcionIni) {
 		case '1':
 			intentosRunner = 0;
@@ -97,10 +98,12 @@ int main(void) {
 				cin >> str;
 				dni = new char[strlen(str)+1];
 				strcpy(dni, str);
+				cleanBuffer();
 				cout << "Introduzca contrase�a: " << endl;
 				cin >> str;
 				passRunner = new char[strlen(str)+1];
 				strcpy(passRunner, str);
+				cleanBuffer();
 
 				if(getPassword(db, dni, pass) != SQLITE_OK){
 					cout << "No se encuentra el DNI." << endl;
@@ -118,6 +121,7 @@ int main(void) {
 						cout << "5.- Atrás." << endl;
 
 						scanf("%c", &opcionCorredor);
+						cleanBuffer();
 						switch (opcionCorredor) {
 						case '1':
 							r = -1;
@@ -125,6 +129,7 @@ int main(void) {
 							cin >> str;
 							dni = new char[strlen(str)+1];
 							strcpy(dni, str);
+							cleanBuffer();
 
 							if ((f = fopen("runners.dat", "rb")) != NULL) {
 								num = fgetc(f);
@@ -148,6 +153,7 @@ int main(void) {
 									cout << "3.- Atrás." << endl;
 
 									scanf("%c", &opcionCorredor);
+									cleanBuffer();
 									switch (opcionCorredor) {
 									case '1':
 										num = 0;
@@ -177,6 +183,7 @@ int main(void) {
 												<< endl;
 
 										scanf("%i", &id);
+										cleanBuffer();
 										if ((f = fopen("races.dat", "rb"))
 												!= NULL) {
 											num = fgetc(f);
@@ -260,6 +267,7 @@ int main(void) {
 							cin >> str;
 							passRunner = new char[strlen(str)+1];
 							strcpy(passRunner, str);
+							cleanBuffer();
 
 							if ((f = fopen("runners.dat", "rb")) != NULL) {
 								num = fgetc(f);
@@ -286,6 +294,7 @@ int main(void) {
 									cout << "3.- Atrás." << endl;
 
 									scanf("%c", &opcionCorredor);
+									cleanBuffer();
 									switch (opcionCorredor) {
 									case '1':
 										num = 0;
@@ -315,6 +324,7 @@ int main(void) {
 												<< endl;
 
 										scanf("%i", &id);
+										cleanBuffer();
 										Race *races;
 										if ((ff = fopen("races.dat", "rb"))
 												!= NULL) {
@@ -369,6 +379,7 @@ int main(void) {
 							cin >> str;
 							dniTemp = new char[strlen(str)+1];
 							strcpy(dniTemp , str);
+							cleanBuffer();
 							//modifyRunner(dniTemp);
 							break;
 						case '4':
@@ -394,6 +405,7 @@ int main(void) {
 			cin >> str;
 			passWorker = new char[strlen(str)+1];
 			strcpy(passRunner, str);
+			cleanBuffer();
 			if (strcmp(passWorker, "ALPHARUNNERS") != 0) {
 				do {
 					cout << "\nMENU TRABAJADOR" << endl;
@@ -406,12 +418,14 @@ int main(void) {
 					cout << "6.- Atrás." << endl;
 
 					scanf("%c", &opcionWorker);
+					cleanBuffer();
 					switch (opcionWorker) {
 					case '1':
 						cout << "Introduzca su nss: " << endl;
 						cin >> str;
 						nss = new char[strlen(str)+1];
 						strcpy(nss, str);
+						cleanBuffer();
 
 						cout << "\nTarea" << endl;
 						cout << "-----" << endl;
@@ -463,6 +477,7 @@ int main(void) {
 						cin >> str;
 						nss = new char[strlen(str)+1];
 						strcpy(nss, str);
+						cleanBuffer();
 						//modifyEmployee(nss);
 					case '4':
 						break;
@@ -470,6 +485,7 @@ int main(void) {
 						cout << "Introduzca el id de la carrera: " << endl;
 
 						scanf("%i", &id);
+						cleanBuffer();
 						find = false;
 						num = 0;
 						if ((f = fopen("races.dat", "rb")) != NULL) {
@@ -498,10 +514,12 @@ int main(void) {
 
 										int pos;
 										scanf("%i", &pos);
+										cleanBuffer();
 										participants[j].setNumber(pos);
 										cout << "Introduzca el tiempo que hizo (hh:mm:ss): " << endl;
 										cin >> str;
 										participants[j].setTime(str);
+										cleanBuffer();
 									}
 								}
 							}
@@ -529,14 +547,13 @@ int main(void) {
 			break;
 		case '3':
 			do {
-				getline(cin, s);
 				cout << "Introduzca la contraseña de administrador: " << endl;
 
 				scanf("%12s", passAdmin);
+				cleanBuffer();
 				char key[] = "alpharunners";
 				if (strcmp(key, passAdmin) == 0) {
 					do {
-						getline(cin, s);
 						cout << "\nMENU ADMINISTRADOR" << endl;
 						cout << "------------------" << endl;
 						cout << "1.- Administrar carreras." << endl;
@@ -545,10 +562,10 @@ int main(void) {
 						cout << "4.- Atrás." << endl;
 
 						scanf("%c", &opcionAdmin);
+						cleanBuffer();
 						switch (opcionAdmin) {
 						case '1':
 							do {
-								getline(cin, s);
 								cout << "\nADMINISTRACION DE CARRERAS" << endl;
 								cout << "--------------------------" << endl;
 								cout << "1.- Crear una carrera." << endl;
@@ -559,6 +576,7 @@ int main(void) {
 								cout << "5.- Atrás." << endl;
 
 								scanf("%c", &opcionAdmin);
+								cleanBuffer();
 								switch (opcionAdmin) {
 								case '1':
 									//createRace();
@@ -568,6 +586,7 @@ int main(void) {
 											<< endl;
 
 									scanf("%i", &id);
+									cleanBuffer();
 									//modifyRace(id);
 									break;
 								case '3':
@@ -575,6 +594,7 @@ int main(void) {
 											<< endl;
 
 									scanf("%i", &id);
+									cleanBuffer();
 									//deleteRace(id);
 									break;
 								case '4':
@@ -582,6 +602,7 @@ int main(void) {
 											<< endl;
 
 									scanf("%i", &id);
+									cleanBuffer();
 									//introduceResults(id);
 									break;
 								case '5':
@@ -595,7 +616,6 @@ int main(void) {
 							break;
 						case '2':
 							do {
-								getline(cin, s);
 								cout << "\nADMINISTRACION DE CORREDORES"
 										<< endl;
 								cout << "--------------------------" << endl;
@@ -604,6 +624,7 @@ int main(void) {
 								cout << "3.- Atrás." << endl;
 
 								scanf("%c", &opcionAdmin);
+								cleanBuffer();
 								switch (opcionAdmin) {
 								case '1':
 									cout << "REGISTRO DE CORREDOR" << endl;
@@ -621,6 +642,7 @@ int main(void) {
 									cin >> str;
 									dni = new char[strlen(str)+1];
 									strcpy(dni, str);
+									cleanBuffer();
 									//modifyRunner(dni);
 									break;
 								case '3':
@@ -631,7 +653,6 @@ int main(void) {
 							} while (opcionAdmin != '3');
 							break;
 						case '3':
-							getline(cin, s);
 							do {
 								cout << "\nADMINISTRACION DE TRABAJADORES"
 										<< endl;
@@ -646,6 +667,7 @@ int main(void) {
 								cout << "4.- Atrás." << endl;
 
 								scanf("%c", &opcionAdmin);
+								cleanBuffer();
 								switch (opcionAdmin) {
 								case '1':
 									cout << "REGISTRO DE EMPLEADO" << endl;
@@ -675,6 +697,7 @@ int main(void) {
 									cin >> str;
 									nss = new char[strlen(str)+1];
 									strcpy(nss, str);
+									cleanBuffer();
 
 									num = 0;
 									Employee *employees;
@@ -749,6 +772,7 @@ int main(void) {
 				cout << "�Desea volver al menú inicial? S/N" << endl;
 
 				scanf("%c", &back);
+				cleanBuffer();
 			} while (back != 'S' && back != 's');
 			break;
 		case '4':
