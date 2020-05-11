@@ -47,7 +47,7 @@ int main(void) {
 
 	//Variable para la contraseña de corredor
 	char* passRunner;
-	char* pass;
+	char pass[100];
 	int intentosRunner = 0;
 	char opcionCorredor;
 	char* dniTemp;
@@ -109,8 +109,7 @@ int main(void) {
 					cout << "No se encuentra el DNI." << endl;
 					break;
 				}
-
-				if (strcmp(passRunner, pass) != 0) {
+				if (strcmp(passRunner, pass) == 0) {
 					do {
 						cout << "\nMENU CORREDORES" << endl;
 						cout << "------------------" << endl;
