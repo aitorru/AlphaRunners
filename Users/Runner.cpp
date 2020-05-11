@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <limits>
+#include "../SQLite/DBManager.h"
 using namespace users;
 using namespace std;
 
@@ -152,8 +153,42 @@ void Runner::getInformation() {
 	strcpy(this->password, str.c_str());
 }
 
-void modifyRunner() {
-	//TODO
+void modifyRunner(char *DNI) {
+	cout << "Que quieres modificar:" << endl;
+	cout << "------------------" << endl;
+	cout << "2: Nombre" << endl;
+	cout << "3: Telefono" << endl;
+	cout << "4: Email" << endl;
+	cout << "5: Cumpleaños" << endl;
+	cout << "6: Password" << endl;
+	cout << ">";
+	cout.flush();
+	int seleccion;
+	string str;
+	cin.clear();
+	getline(cin, str);
+	if(!(cin >> seleccion))
+	{
+		cout << "Error de entrada" << endl;
+	} else 
+	{
+		switch (seleccion)
+		{
+		case 1:
+			cout << "Introduce nombre: " << endl;
+			getline(cin, str);
+			char *datos;
+			strcpy(datos, str.c_str());
+			updateRunner(1,datos,DNI);
+			break;
+		
+		default:
+			break;
+		}
+	}
+	
+
+	
 }
 void apuntarteACarrera() {
 	//TODO

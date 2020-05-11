@@ -451,3 +451,64 @@ int showJoinedRaces(char* dni)
 	sqlite3_close(db);
 	return SQLITE_OK;
 }
+/*
+ *Update datos runner
+ */
+int updateRunner(int campo, char *dato, char *DNI)
+{
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+
+	sqlite3_stmt *stmt;
+	switch (campo)
+	{
+		case 1:
+			// Edit de nombre
+			const char sql[] = "UPDATE RUNNER SET NAME = ? WHERE DNI = ?";
+			result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+			if (result != SQLITE_OK)
+			{
+				printf("Error preparing statement (SELECT)\n");
+				printf("%s\n", sqlite3_errmsg(db));
+				return result;
+			}
+			result = sqlite3_bind_text(stmt, 0, dato, strlen(dato),
+				SQLITE_STATIC);
+			if (result != SQLITE_OK) {
+				cout << "Error binding parameters" << endl;
+				cout << "Linea 1" << endl;
+				cout << sqlite3_errmsg(db);
+					return result;
+			}
+			result = sqlite3_bind_text(stmt, 1, DNI, strlen(DNI),
+				SQLITE_STATIC);
+			if (result != SQLITE_OK) {
+				cout << "Error binding parameters" << endl;
+				cout << "Linea 1" << endl;
+				cout << sqlite3_errmsg(db);
+					return result;
+			}
+			result = sqlite3_step(stmt);
+			if (result != SQLITE_DONE) {
+				cout << "Error inserting new data into Participant table" << endl;
+				cout << sqlite3_errmsg(db) << endl;
+				return result;
+			}
+
+			result = sqlite3_finalize(stmt);
+			if (result != SQLITE_OK) {
+				cout << "Error finalizing statement (INSERT)" << endl;
+				cout << sqlite3_errmsg(db) << endl;
+				return result;
+			}
+
+			cout << "Prepared statement finalized (INSERT)" << endl;
+			sqlite3_close(db);
+			return SQLITE_OK;
+			break;
+		
+		default:
+			break;
+	}
+	return 0;
+}

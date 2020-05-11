@@ -40,9 +40,9 @@ public:
 	void setEmail(const char *email);
 	void setBirthdate(const char *birthdate);
 	void setPassword(const char *password);
-	/*RESTO DE MÉTODOS*/
+	/*RESTO DE Mï¿½TODOS*/
 	void getInformation();
-	void modifyRunner();
+	void modifyRunner(char *DNI);
 	void apuntarteACarrera();
 	void desapuntarteDeCarrera();
 

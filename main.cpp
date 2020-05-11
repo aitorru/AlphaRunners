@@ -89,6 +89,7 @@ int main(void) {
 
 		scanf("%c", &opcionIni);
 		cleanBuffer();
+		Runner r;
 		switch (opcionIni) {
 		case '1':
 			intentosRunner = 0;
@@ -98,7 +99,7 @@ int main(void) {
 				dni = new char[strlen(str)+1];
 				strcpy(dni, str);
 				cleanBuffer();
-				cout << "Introduzca contraseña: " << endl;
+				cout << "Introduzca contraseï¿½a: " << endl;
 				cin >> str;
 				passRunner = new char[strlen(str)+1];
 				strcpy(passRunner, str);
@@ -139,7 +140,7 @@ int main(void) {
 											<< endl;
 									scanf("%i", &id);
 									cleanBuffer();
-									cout << "Introduzca el número del dorsal: " << endl;
+									cout << "Introduzca el nï¿½mero del dorsal: " << endl;
 									cin >> number;
 									cleanBuffer();
 									joinRace(dni, id, number);
@@ -219,7 +220,7 @@ int main(void) {
 							dniTemp = new char[strlen(str)+1];
 							strcpy(dniTemp , str);
 							cleanBuffer();
-							//modifyRunner(dniTemp);
+							r.modifyRunner(dniTemp);
 							break;
 						case '4':
 							cout << "\nEn espera de c++" << endl;
@@ -600,7 +601,7 @@ int main(void) {
 				} else {
 					cout << "ContraseÃ±a erronea." << endl;
 				}
-				cout << "¿Desea volver al menÃº inicial? S/N" << endl;
+				cout << "ï¿½Desea volver al menÃº inicial? S/N" << endl;
 
 				scanf("%c", &back);
 				cleanBuffer();

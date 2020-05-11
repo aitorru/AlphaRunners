@@ -15,5 +15,6 @@ int showAllRaces();
 int getRace(sqlite3 *db, int idRace);
 int joinRace(char* dni, int id, int number);
 int showJoinedRaces(char* dni);
+int updateRunner(int pos, char *dato, char *DNI);
 
 #endif /* DBMANAGER_H_ */
