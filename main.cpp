@@ -63,11 +63,11 @@ int main(void) {
 	//Variable para modificaci贸n de datos del corredor
 	char* dni;
 
+	int number;
 	//Variables para la creaci贸n/modificaci贸n/eliminaci贸n de carreras
 	int id;
 	Employee employee;
 	Employee organizer;
-	Participant *par1;
 	Participant *par;
 	Runner *runners;
 	Runner runner;
@@ -139,72 +139,10 @@ int main(void) {
 											<< endl;
 									scanf("%i", &id);
 									cleanBuffer();
-									if ((f = fopen("races.dat", "rb"))
-											!= NULL) {
-										num = fgetc(f);
-										races = new Race[num];
-										fread(races, sizeof(Race), num, f);
-										fclose(f);
-										for (int i = 0; i < num; i++) {
-											if (races[i].getId() == id) {
-												par1 =
-														new Participant[races[i].getNP()
-																+ 1];
-												for (int j = 0;
-														j
-																< races[i].getNP()
-																		+ 1;
-															j++) {
-													if (j
-															!= races[i].getNP()) {
-														par1[j].setDni(
-																	races[i].getParticipants()[j].getDni());
-														par1[j].setName(
-																races[i].getParticipants()[j].getName());
-														par1[j].setTlfn(
-																races[i].getParticipants()[j].getTlfn());
-														par1[j].setEmail(
-																races[i].getParticipants()[j].getEmail());
-														par1[j].setBirthdate(
-																races[i].getParticipants()[j].getBirthdate());
-														par1[j].setPassword(
-																races[i].getParticipants()[j].getPassword());
-													} else {
-														par1[j].setDni(
-																runners[r].getDni());
-														par1[j].setName(
-																runners[r].getName());
-														par1[j].setTlfn(
-																runners[r].getTlfn());
-														par1[j].setEmail(
-																runners[r].getEmail());
-														par1[j].setBirthdate(
-																runners[r].getBirthdate());
-														par1[j].setPassword(
-																runners[r].getPassword());
-													}
-												}
-												cout
-														<< "\nSe ha a帽adido correctamente."
-														<< endl;
-												races[i].setNP(
-														races[i].getNP()
-																+ 1);
-												races[i].setParticipants(
-														races[i].getNP()
-																+ 1, par1);
-											}
-										}
-										f = fopen("races.dat", "wb");
-										fputc(num, f);
-										fwrite(races, sizeof(Race), num, f);
-										fclose(f);
-										free(races);
-										free(par1);
-									} else {
-										cout << "Error al leer el archivo."
-												<< endl;
-									}
+									cout << "Introduzca el n鷐ero del dorsal: " << endl;
+									cin >> number;
+									cleanBuffer();
+									joinRace(dni, id, number);
 									break;
 								case '3':
 									break;

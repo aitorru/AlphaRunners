@@ -12,5 +12,6 @@ int insertNewRunner(Runner r);
 int getPassword(char* dni, char* password);
 int insertNewEmployee(Employee e);
 int showAllRaces();
+int joinRace(char* dni, int id, int number);
 
 #endif /* DBMANAGER_H_ */

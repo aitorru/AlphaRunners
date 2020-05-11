@@ -285,3 +285,67 @@ int showAllRaces()
 	return SQLITE_OK;
 
 }
+
+/*
+ * TABLA PARTICIPANT
+ */
+int joinRace(char* dni, int idRace, int number)
+{
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+
+	sqlite3_stmt *stmt;
+
+	const char sql[] =
+				"insert into Participant (idParticipant, DNI, Number, idRace) values ( NULL, ?, ?, ?)";
+	result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL);
+	if (result != SQLITE_OK) {
+		cout << "Error preparing statement (INSERT)" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+	cout << "SQL query prepared (INSERT)" << endl;
+
+	result = sqlite3_bind_text(stmt, 1, dni, strlen(dni),
+			SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << "Linea 1" << endl;
+		cout << sqlite3_errmsg(db);
+			return result;
+	}
+	result = sqlite3_bind_text(stmt, 2, ""+ number, sizeof(number),
+			SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << "Linea 2" << endl;
+		cout << sqlite3_errmsg(db);
+		return result;
+	}
+	result = sqlite3_bind_text(stmt, 3, ""+ idRace, sizeof(idRace),
+			SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << "Linea 3" << endl;
+		cout << sqlite3_errmsg(db);
+		return result;
+	}
+
+	result = sqlite3_step(stmt);
+	if (result != SQLITE_DONE) {
+		cout << "Error inserting new data into Participant table" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		cout << "Error finalizing statement (INSERT)" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+
+	cout << "Prepared statement finalized (INSERT)" << endl;
+	sqlite3_close(db);
+	return SQLITE_OK;
+}
