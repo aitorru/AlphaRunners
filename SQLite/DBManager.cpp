@@ -129,7 +129,6 @@ int getPassword(char* dni, char* password)
 
 		return result;
 	}
-	cout << "Datos bindeados a sql" << endl;
 
 	result = sqlite3_step(stmt);
 	if (result == SQLITE_ROW) {
@@ -190,7 +189,7 @@ int insertNewEmployee(Employee e)
 
 		return result;
 	}
-	result = sqlite3_bind_text(stmt, 3, ""+e.getSalary(), sizeof(e.getSalary()),
+	result = sqlite3_bind_text(stmt, 3, ""+e.getSalary(), strlen(""+e.getSalary()),
 			SQLITE_STATIC);
 	if (result != SQLITE_OK) {
 		cout << "Error binding parameters" << endl;
