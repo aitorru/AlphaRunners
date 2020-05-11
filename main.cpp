@@ -149,64 +149,20 @@ int main(void) {
 								}
 							break;
 						case '2':
-							r = -1;
-							cout << "Introduce tu dni:" << endl;
-							cin >> str;
-							passRunner = new char[strlen(str)+1];
-							strcpy(passRunner, str);
+							cout << "\nMENU" << endl;
+							cout << "----" << endl;
+							cout << "1.- Listado de carreras." << endl;
+							cout << "2.- Desapuntarse de carrera." << endl;
+							cout << "3.- Atrás." << endl;
+
+							scanf("%c", &opcionCorredor);
 							cleanBuffer();
-
-							if ((f = fopen("runners.dat", "rb")) != NULL) {
-								num = fgetc(f);
-								runners = new Runner[num];
-								fread(runners, sizeof(Runner), num, f);
-							}
-
-							for (int i = 0; i < num; i++) {
-								if (strcmp(runners[i].getDni(), dni) == 0) {
-									r = i;
-									break;
-								}
-							}
-							FILE *ff;
-							Race *races;
-
-							if (r != -1) {
-								do {
-									cout << "\nMENU" << endl;
-									cout << "----" << endl;
-									cout << "1.- Listado de carreras." << endl;
-									cout << "2.- Desapuntarse de carrera."
-											<< endl;
-									cout << "3.- Atrás." << endl;
-
-									scanf("%c", &opcionCorredor);
-									cleanBuffer();
-									switch (opcionCorredor) {
-									case '1':
-										num = 0;
-										if ((ff = fopen("races.dat", "rb"))
-												!= NULL) {
-											num = fgetc(ff);
-											races = new Race[num];
-											fread(races, sizeof(Race), num, ff);
-											fclose(ff);
-										}
-
-										for (int i = 0; i < num; i++) {
-											cout << "Carrera N." << i << ":"
-													<< races[i].getName()
-													<< "(id:"
-													<< races[i].getId() << ")"
-													<< endl;
-
-										}
-										if (num != 0) {
-											free(races);
-										}
-										break;
-									case '2':
-										cout
+							switch (opcionCorredor) {
+							case '1':
+								showJoinedRaces(dni);
+								break;
+							case '2':
+										/*cout
 												<< "Cual es el id de la carrera a la que te quieres desapuntar:"
 												<< endl;
 
@@ -251,15 +207,11 @@ int main(void) {
 										} else {
 											cout << "Error al leer el archivo."
 													<< endl;
-										}
+										}*/
 										break;
 									case '3':
 										break;
 									}
-								} while (opcionCorredor != '3');
-							} else {
-								cout << "DNI no encontrado." << endl;
-							}
 							break;
 						case '3':
 							cout << "Introduce tu dni" << endl;

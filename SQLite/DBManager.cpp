@@ -284,6 +284,60 @@ int showAllRaces()
 	return SQLITE_OK;
 
 }
+int getRace(sqlite3 *db, int idRace)
+{
+	sqlite3_stmt *stmt;
+
+	char sql[] = "select idRace, name, date, location, km from Race where idRace = ?";
+
+	int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	if (result != SQLITE_OK) {
+		printf("Error preparing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	result = sqlite3_bind_int(stmt, 1, idRace);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << sqlite3_errmsg(db);
+
+		return result;
+	}
+
+	printf("SQL query prepared (SELECT)\n");
+
+	char name[100];
+	char date[100];
+	char location[100];
+	int km;
+
+	do {
+		result = sqlite3_step(stmt);
+		if (result == SQLITE_ROW) {
+			strcpy(name, (char*) sqlite3_column_text(stmt, 1));
+			strcpy(date, (char*) sqlite3_column_text(stmt, 2));
+			strcpy(location, (char*) sqlite3_column_text(stmt, 3));
+			km = sqlite3_column_int(stmt, 4);
+			printf("Carrera %d: %s(%dkm) (%s) (%s)\n", idRace, name, km, date,
+					location);
+		}
+	} while (result == SQLITE_ROW);
+
+	printf("\n");
+	printf("\n");
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		printf("Error finalizing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	printf("Prepared statement finalized (SELECT)\n");
+	sqlite3_close(db);
+	return SQLITE_OK;
+}
 
 /*
  * TABLA PARTICIPANT
@@ -343,6 +397,57 @@ int joinRace(char* dni, int idRace, int number)
 	}
 
 	cout << "Prepared statement finalized (INSERT)" << endl;
+	sqlite3_close(db);
+	return SQLITE_OK;
+}
+int showJoinedRaces(char* dni)
+{
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+
+	sqlite3_stmt *stmt;
+
+	char sql[] = "select idRace from Participant where DNI = ?";
+
+	result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	if (result != SQLITE_OK) {
+		printf("Error preparing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	result = sqlite3_bind_text(stmt, 1, dni, strlen(dni), SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << sqlite3_errmsg(db);
+		return result;
+	}
+
+	printf("SQL query prepared (SELECT)\n");
+
+	printf("\n");
+	printf("\n");
+	printf("Lista de carreras en las que estas apuntad@\n");
+	printf("-------------------------------------------\n");
+	do {
+		result = sqlite3_step(stmt);
+		if (result == SQLITE_ROW) {
+			int idRace = sqlite3_column_int(stmt, 0);
+			getRace(db, idRace);
+		}
+	} while (result == SQLITE_ROW);
+
+	printf("\n");
+	printf("\n");
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		printf("Error finalizing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	printf("Prepared statement finalized (SELECT)\n");
 	sqlite3_close(db);
 	return SQLITE_OK;
 }

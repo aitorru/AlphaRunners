@@ -12,6 +12,8 @@ int insertNewRunner(Runner r);
 int getPassword(char* dni, char* password);
 int insertNewEmployee(Employee e);
 int showAllRaces();
+int getRace(sqlite3 *db, int idRace);
 int joinRace(char* dni, int id, int number);
+int showJoinedRaces(char* dni);
 
 #endif /* DBMANAGER_H_ */
