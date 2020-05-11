@@ -143,20 +143,22 @@ int getPassword(sqlite3 *dbd, char* dni, char* password)
 
 	//TODO
 	//esto da error
-	result = sqlite3_bind_text(stmt, 0, dni, strlen(dni), SQLITE_STATIC);
+	result = sqlite3_bind_text(stmt, 1, dni, strlen(dni), SQLITE_STATIC);
 	if (result != SQLITE_OK) {
 		cout << "Error binding parameters" << endl;
 		cout << sqlite3_errmsg(db) << endl;
 
 		return result;
 	}
+	cout << "Datos bindeados a sql" << endl;
 
 	result = sqlite3_step(stmt);
-	if (result == SQLITE_ROW) {
+	cout << "Resultado de query: " << result << endl;
+	if (result == SQLITE_ROW ||result == SQLITE_DONE) {
 		password = new char[strlen((char *) sqlite3_column_text(stmt, 0))];
 		strcpy(password, (char *) sqlite3_column_text(stmt, 0));
 	}else{
-		cout << "Error slecting new data from Runner table" << endl;
+		cout << "Error selecting new data from Runner table" << endl;
 		cout << sqlite3_errmsg(db) << endl;
 		return result;
 	}

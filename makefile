@@ -3,7 +3,7 @@ CC=gcc
 
 CFLAGS=
 LDFLAGS= -ldl -lpthread
-MAINC=main.cpp
+MAINC=main2.cpp
 SQLITE=SQLite/sqlite3.c
 SQLITEO=SQLite/sqlite3.o
 DBMANAGER=SQLite/DBManager.cpp
@@ -27,7 +27,7 @@ endif
 
 build:  $(MAINC) $(SQLITE) $(DBMANAGER) $(USERS) $(RACE)
 	@echo Target build: $(PLATFORM) Using ext: $(EXT)
-	$(CC) -c $(SQLITE) -o $(SQLITEO)
+
 	$(CXX) -o $(TREE)$(OUTPUT)$(EXT) $(MAINC) $(DBMANAGER) $(USERS) $(RACE) $(SQLITEO) $(CFLAGS)
 	
 
