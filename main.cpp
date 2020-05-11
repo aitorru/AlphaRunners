@@ -216,11 +216,10 @@ int main(void) {
 							break;
 						case '3':
 							cout << "Introduce tu dni" << endl;
-							cin >> str;
-							dniTemp = new char[strlen(str)+1];
-							strcpy(dniTemp , str);
-							cleanBuffer();
-							r.modifyRunner(dniTemp);
+							cin >> s;
+							char *dniModificar;
+							strcpy(dniModificar, s.c_str());
+							r.modifyRunner(dniModificar);
 							break;
 						case '4':
 							cout << "\nEn espera de c++" << endl;
