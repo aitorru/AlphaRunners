@@ -462,7 +462,7 @@ int updateRunner(int campo, char *dato, char *DNI)
 	sqlite3_stmt *stmt;
 	switch (campo)
 	{
-		case 1:
+		case 1:{
 			// Edit de nombre
 			const char sql[] = "UPDATE RUNNER SET NAME = ? WHERE DNI = ?";
 			result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
@@ -504,11 +504,10 @@ int updateRunner(int campo, char *dato, char *DNI)
 
 			cout << "Prepared statement finalized (INSERT)" << endl;
 			sqlite3_close(db);
-			return SQLITE_OK;
-			break;
-		
-		default:
-			break;
+		}break;
+		case 2:{
+
+		}break;
 	}
 	return 0;
 }

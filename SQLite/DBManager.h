@@ -7,6 +7,10 @@
 
 #ifndef DBMANAGER_H_
 #define DBMANAGER_H_
+#include "../Users/Runner.h"
+#include "../Users/Employee.h"
+#include "sqlite3.h"
+using namespace users;
 
 int insertNewRunner(Runner r);
 int getPassword(char* dni, char* password);
