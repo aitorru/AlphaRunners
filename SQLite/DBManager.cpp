@@ -129,6 +129,7 @@ int getPassword(char* dni, char* password)
 
 		return result;
 	}
+	cout << "Datos bindeados a sql" << endl;
 
 	result = sqlite3_step(stmt);
 	if (result == SQLITE_ROW) {
