@@ -8,10 +8,9 @@
 #ifndef DBMANAGER_H_
 #define DBMANAGER_H_
 
-int openDB(sqlite3 *db);
-int closeDB(sqlite3 *db);
-int insertNewRunner(sqlite3 *dbd, Runner r);
-int getPassword(sqlite3 *dbd, char* dni, char* password);
-int insertNewEmployee(sqlite3 *dbd, Employee e);
+int insertNewRunner(Runner r);
+int getPassword(char* dni, char* password);
+int insertNewEmployee(Employee e);
+int showAllRaces();
 
 #endif /* DBMANAGER_H_ */

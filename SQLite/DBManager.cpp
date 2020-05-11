@@ -21,29 +21,10 @@ const char* dir = "AlphaRunners.db3";
 
 int nRunner = 4;
 
-int openDB(sqlite3 *db){
-	int result = sqlite3_open("AlphaRunners.db3", &db);
-	if (result != SQLITE_OK) {
-		printf("Error opening database\n");
-		return result;
-	}
-
-	cout << "Database opened" << endl;
-	sqlite3_close(db);
-	return SQLITE_OK;
-}
-int closeDB(sqlite3 *db){
-	int result = sqlite3_close(db);
-	if (result != SQLITE_OK) {
-		cout << "Error opening database" << endl;
-		cout << sqlite3_errmsg(db) << endl;
-		return result;
-	}
-	cout << "Database closed" << endl ;
-
-	return SQLITE_OK;
-}
-int insertNewRunner(sqlite3* dbd, Runner r){
+/*
+ * TABLA RUNNER
+ */
+int insertNewRunner(Runner r){
 	sqlite3* db;
 	int result = sqlite3_open(dir, &db);
 	
@@ -125,7 +106,7 @@ int insertNewRunner(sqlite3* dbd, Runner r){
 	sqlite3_close(db);
 	return SQLITE_OK;
 }
-int getPassword(sqlite3 *dbd, char* dni, char* password)
+int getPassword(char* dni, char* password)
 {
 	sqlite3 *db;
 	int result = sqlite3_open(dir, &db);
@@ -169,7 +150,11 @@ int getPassword(sqlite3 *dbd, char* dni, char* password)
 	sqlite3_close(db);
 	return SQLITE_OK;
 }
-int insertNewEmployee(sqlite3 *dbd, Employee e)
+
+/*
+ * TABLA EMPLOYEE
+ */
+int insertNewEmployee(Employee e)
 {
 	sqlite3 *db;
 	int result = sqlite3_open(dir, &db);
@@ -240,4 +225,63 @@ int insertNewEmployee(sqlite3 *dbd, Employee e)
 	cout << "Prepared statement finalized (INSERT)" << endl;
 	sqlite3_close(db);
 	return SQLITE_OK;
+}
+
+/*
+ * TABLA RACE
+ */
+int showAllRaces()
+{
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+
+	sqlite3_stmt *stmt;
+
+	char sql[] = "select idRace, name, date, location, km from Race";
+
+	result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+	if (result != SQLITE_OK) {
+		printf("Error preparing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	printf("SQL query prepared (SELECT)\n");
+
+	int idRace;
+	char name[100];
+	char date[100];
+	char location[100];
+	int km;
+
+	printf("\n");
+	printf("\n");
+	printf("Lista de carreras\n");
+	printf("-----------------\n");
+	do {
+		result = sqlite3_step(stmt) ;
+		if (result == SQLITE_ROW) {
+			idRace = sqlite3_column_int(stmt, 0);
+			strcpy(name, (char *) sqlite3_column_text(stmt, 1));
+			strcpy(date, (char *) sqlite3_column_text(stmt, 2));
+			strcpy(location, (char *) sqlite3_column_text(stmt, 3));
+			km = sqlite3_column_int(stmt, 4);
+			printf("Carrera %d: %s(%dkm) (%s) (%s)\n", idRace, name, km, date, location);
+		}
+	} while (result == SQLITE_ROW);
+
+	printf("\n");
+	printf("\n");
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		printf("Error finalizing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	printf("Prepared statement finalized (SELECT)\n");
+	sqlite3_close(db);
+	return SQLITE_OK;
+
 }
