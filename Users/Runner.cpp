@@ -153,7 +153,7 @@ void Runner::getInformation() {
 	strcpy(this->password, str.c_str());
 }
 
-void modifyRunner(char *DNI) {
+void Runner::modifyRunner(char *DNI) {
 	cout << "Que quieres modificar:" << endl;
 	cout << "------------------" << endl;
 	cout << "2: Nombre" << endl;
