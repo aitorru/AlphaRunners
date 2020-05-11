@@ -189,8 +189,7 @@ int insertNewEmployee(Employee e)
 
 		return result;
 	}
-	result = sqlite3_bind_text(stmt, 3, ""+e.getSalary(), strlen(""+e.getSalary()),
-			SQLITE_STATIC);
+	result = sqlite3_bind_int(stmt, 3, e.getSalary());
 	if (result != SQLITE_OK) {
 		cout << "Error binding parameters" << endl;
 		cout << "Linea 4" << endl;
@@ -314,16 +313,14 @@ int joinRace(char* dni, int idRace, int number)
 		cout << sqlite3_errmsg(db);
 			return result;
 	}
-	result = sqlite3_bind_text(stmt, 2, ""+ number, sizeof(number),
-			SQLITE_STATIC);
+	result = sqlite3_bind_int(stmt, 2, number);
 	if (result != SQLITE_OK) {
 		cout << "Error binding parameters" << endl;
 		cout << "Linea 2" << endl;
 		cout << sqlite3_errmsg(db);
 		return result;
 	}
-	result = sqlite3_bind_text(stmt, 3, ""+ idRace, sizeof(idRace),
-			SQLITE_STATIC);
+	result = sqlite3_bind_int(stmt, 3, idRace);
 	if (result != SQLITE_OK) {
 		cout << "Error binding parameters" << endl;
 		cout << "Linea 3" << endl;
