@@ -12,13 +12,22 @@
 #include "sqlite3.h"
 using namespace users;
 
+//TABLA RUNNER
 int insertNewRunner(Runner r);
+int updateRunner(int pos, char *dato, char *DNI);
 int getPassword(char* dni, char* password);
+//TABLA EMPLOYEE
 int insertNewEmployee(Employee e);
+int foundEmployee(char* nss);
+//TABLA RACE
 int showAllRaces();
-int getRace(sqlite3 *db, int idRace);
+int showRace(sqlite3 *db, int idRace);
+//TABLA PARTICIPANT
 int joinRace(char* dni, int id, int number);
 int showJoinedRaces(char* dni);
-int updateRunner(int pos, char *dato, char *DNI);
+int deleteParticipant(char* dni, int idRace);
+//TABLA TASK
+int showTask(char* nss);
+int showTask(sqlite3 *db, char* nss);
 
 #endif /* DBMANAGER_H_ */

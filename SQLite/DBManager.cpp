@@ -27,6 +27,11 @@ int nRunner = 4;
 int insertNewRunner(Runner r){
 	sqlite3* db;
 	int result = sqlite3_open(dir, &db);
+	if (result != SQLITE_OK) {
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
 	
 	sqlite3_stmt *stmt;
 
@@ -37,7 +42,7 @@ int insertNewRunner(Runner r){
 		cout << sqlite3_errmsg(db) << endl;
 		return result;
 	}
-	cout << "SQL query prepared (INSERT)" << endl;
+
 
 	result = sqlite3_bind_text(stmt, 1, r.getDni(), strlen(r.getDni()), SQLITE_STATIC);
 	if (result != SQLITE_OK) {
@@ -102,7 +107,7 @@ int insertNewRunner(Runner r){
 		return result;
 	}
 
-	cout << "Prepared statement finalized (INSERT)" << endl;
+
 	sqlite3_close(db);
 	return SQLITE_OK;
 }
@@ -110,6 +115,11 @@ int getPassword(char* dni, char* password)
 {
 	sqlite3 *db;
 	int result = sqlite3_open(dir, &db);
+	if (result != SQLITE_OK) {
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
 
 	sqlite3_stmt *stmt;
 
@@ -120,7 +130,7 @@ int getPassword(char* dni, char* password)
 		cout << sqlite3_errmsg(db) << endl;
 		return result;
 	}
-	cout << "SQL query prepared (SELECT)" << endl;
+
 
 	result = sqlite3_bind_text(stmt, 1, dni, strlen(dni), SQLITE_STATIC);
 	if (result != SQLITE_OK) {
@@ -146,7 +156,7 @@ int getPassword(char* dni, char* password)
 		return result;
 	}
 
-	cout << "Prepared statement finalized (SELECT)" << endl;
+
 	sqlite3_close(db);
 	return SQLITE_OK;
 }
@@ -158,6 +168,11 @@ int insertNewEmployee(Employee e)
 {
 	sqlite3 *db;
 	int result = sqlite3_open(dir, &db);
+	if (result != SQLITE_OK) {
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
 
 	sqlite3_stmt *stmt;
 
@@ -169,7 +184,7 @@ int insertNewEmployee(Employee e)
 		cout << sqlite3_errmsg(db) << endl;
 		return result;
 	}
-	cout << "SQL query prepared (INSERT)" << endl;
+
 
 	result = sqlite3_bind_text(stmt, 1, e.getNss(), strlen(e.getNss()),
 			SQLITE_STATIC);
@@ -221,8 +236,59 @@ int insertNewEmployee(Employee e)
 		return result;
 	}
 
-	cout << "Prepared statement finalized (INSERT)" << endl;
+
 	sqlite3_close(db);
+	return SQLITE_OK;
+}
+int foundEmployee(char* nss)
+{
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+	if (result != SQLITE_OK) {
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_stmt *stmt;
+
+	char sql[] = "select * from Employee where NSS = ?";
+
+	result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	if (result != SQLITE_OK) {
+		printf("Error preparing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	result = sqlite3_bind_text(stmt, 1, nss, strlen(nss), SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << sqlite3_errmsg(db);
+		return result;
+	}
+
+
+
+	bool found = true;
+	result = sqlite3_step(stmt);
+	if (result != SQLITE_ROW) {
+		found = false;
+	}
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		printf("Error finalizing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+
+	sqlite3_close (db);
+
+	if(!found){
+		return SQLITE_ERROR;
+	}
 	return SQLITE_OK;
 }
 
@@ -233,6 +299,11 @@ int showAllRaces()
 {
 	sqlite3 *db;
 	int result = sqlite3_open(dir, &db);
+	if (result != SQLITE_OK) {
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
 
 	sqlite3_stmt *stmt;
 
@@ -245,7 +316,7 @@ int showAllRaces()
 		return result;
 	}
 
-	printf("SQL query prepared (SELECT)\n");
+
 
 	int idRace;
 	char name[100];
@@ -253,8 +324,6 @@ int showAllRaces()
 	char location[100];
 	int km;
 
-	printf("\n");
-	printf("\n");
 	printf("Lista de carreras\n");
 	printf("-----------------\n");
 	do {
@@ -269,9 +338,6 @@ int showAllRaces()
 		}
 	} while (result == SQLITE_ROW);
 
-	printf("\n");
-	printf("\n");
-
 	result = sqlite3_finalize(stmt);
 	if (result != SQLITE_OK) {
 		printf("Error finalizing statement (SELECT)\n");
@@ -279,12 +345,12 @@ int showAllRaces()
 		return result;
 	}
 
-	printf("Prepared statement finalized (SELECT)\n");
+
 	sqlite3_close(db);
 	return SQLITE_OK;
 
 }
-int getRace(sqlite3 *db, int idRace)
+int showRace(sqlite3 *db, int idRace)
 {
 	sqlite3_stmt *stmt;
 
@@ -305,7 +371,7 @@ int getRace(sqlite3 *db, int idRace)
 		return result;
 	}
 
-	printf("SQL query prepared (SELECT)\n");
+
 
 	char name[100];
 	char date[100];
@@ -324,9 +390,6 @@ int getRace(sqlite3 *db, int idRace)
 		}
 	} while (result == SQLITE_ROW);
 
-	printf("\n");
-	printf("\n");
-
 	result = sqlite3_finalize(stmt);
 	if (result != SQLITE_OK) {
 		printf("Error finalizing statement (SELECT)\n");
@@ -334,7 +397,7 @@ int getRace(sqlite3 *db, int idRace)
 		return result;
 	}
 
-	printf("Prepared statement finalized (SELECT)\n");
+
 	sqlite3_close(db);
 	return SQLITE_OK;
 }
@@ -346,6 +409,11 @@ int joinRace(char* dni, int idRace, int number)
 {
 	sqlite3 *db;
 	int result = sqlite3_open(dir, &db);
+	if (result != SQLITE_OK) {
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
 
 	sqlite3_stmt *stmt;
 
@@ -357,7 +425,7 @@ int joinRace(char* dni, int idRace, int number)
 		cout << sqlite3_errmsg(db) << endl;
 		return result;
 	}
-	cout << "SQL query prepared (INSERT)" << endl;
+
 
 	result = sqlite3_bind_text(stmt, 1, dni, strlen(dni),
 			SQLITE_STATIC);
@@ -396,7 +464,7 @@ int joinRace(char* dni, int idRace, int number)
 		return result;
 	}
 
-	cout << "Prepared statement finalized (INSERT)" << endl;
+
 	sqlite3_close(db);
 	return SQLITE_OK;
 }
@@ -404,6 +472,11 @@ int showJoinedRaces(char* dni)
 {
 	sqlite3 *db;
 	int result = sqlite3_open(dir, &db);
+	if (result != SQLITE_OK) {
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
 
 	sqlite3_stmt *stmt;
 
@@ -423,22 +496,19 @@ int showJoinedRaces(char* dni)
 		return result;
 	}
 
-	printf("SQL query prepared (SELECT)\n");
-
-	printf("\n");
-	printf("\n");
 	printf("Lista de carreras en las que estas apuntad@\n");
 	printf("-------------------------------------------\n");
+	bool found = false;
 	do {
 		result = sqlite3_step(stmt);
 		if (result == SQLITE_ROW) {
 			int idRace = sqlite3_column_int(stmt, 0);
-			getRace(db, idRace);
+			showRace(db, idRace);
+			found = true;
+		}else if(!found){
+			cout << "No se ha encontrado ninguna." << endl;
 		}
 	} while (result == SQLITE_ROW);
-
-	printf("\n");
-	printf("\n");
 
 	result = sqlite3_finalize(stmt);
 	if (result != SQLITE_OK) {
@@ -447,7 +517,7 @@ int showJoinedRaces(char* dni)
 		return result;
 	}
 
-	printf("Prepared statement finalized (SELECT)\n");
+
 	sqlite3_close(db);
 	return SQLITE_OK;
 }
@@ -458,6 +528,11 @@ int updateRunner(int campo, char *dato, char *DNI)
 {
 	sqlite3 *db;
 	int result = sqlite3_open(dir, &db);
+	if(result != SQLITE_OK){
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
 
 	sqlite3_stmt *stmt;
 	switch (campo)
@@ -502,7 +577,7 @@ int updateRunner(int campo, char *dato, char *DNI)
 				return result;
 			}
 
-			cout << "Prepared statement finalized (INSERT)" << endl;
+
 			sqlite3_close(db);
 		}break;
 		case 3:{
@@ -545,7 +620,7 @@ int updateRunner(int campo, char *dato, char *DNI)
 				return result;
 			}
 
-			cout << "Prepared statement finalized (INSERT)" << endl;
+
 			sqlite3_close(db);
 		}break;
 		case 4:{
@@ -588,7 +663,7 @@ int updateRunner(int campo, char *dato, char *DNI)
 				return result;
 			}
 
-			cout << "Prepared statement finalized (INSERT)" << endl;
+
 			sqlite3_close(db);
 		}break;
 		case 5:{
@@ -631,7 +706,7 @@ int updateRunner(int campo, char *dato, char *DNI)
 				return result;
 			}
 
-			cout << "Prepared statement finalized (INSERT)" << endl;
+
 			sqlite3_close(db);
 		}break;
 		case 6:{
@@ -674,9 +749,177 @@ int updateRunner(int campo, char *dato, char *DNI)
 				return result;
 			}
 
-			cout << "Prepared statement finalized (INSERT)" << endl;
+
 			sqlite3_close(db);
 		}break;
 	}
 	return 0;
+}
+int deleteParticipant(char* dni, int idRace)
+{
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+	if(result != SQLITE_OK){
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_stmt *stmt;
+
+	char sql[] = "delete from Participant where DNI = ? and idRace = ?";
+
+	result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	if (result != SQLITE_OK) {
+		printf("Error preparing statement (DELETE)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	result = sqlite3_bind_text(stmt, 1, dni, strlen(dni), SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << sqlite3_errmsg(db);
+		return result;
+	}
+
+	result = sqlite3_bind_int(stmt, 2, idRace);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+
+	result = sqlite3_step(stmt);
+	if (result != SQLITE_DONE) {
+		cout << "Error deleting data from table" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		printf("Error finalizing statement (DELETE)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_close(db);
+	return SQLITE_OK;
+}
+
+/*
+ * TABLA TASK
+ */
+int showTask(char* nss)
+{
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+	if(result != SQLITE_OK){
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+	sqlite3_stmt *stmt;
+
+	char sql[] =
+			"select idRace, name, date, location, km from Race where organizer = ?";
+
+	result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	if (result != SQLITE_OK) {
+		printf("Error preparing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	result = sqlite3_bind_text(stmt, 1, nss, strlen(nss), SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << sqlite3_errmsg(db);
+		return result;
+	}
+
+	int idRace;
+	char name[100];
+	char date[100];
+	char location[100];
+	int km;
+	bool found = false;
+
+	cout << "Organizador en las carreras: " << endl;
+	do {
+		result = sqlite3_step(stmt);
+		if (result == SQLITE_ROW) {
+			found = true;
+			idRace = sqlite3_column_int(stmt, 0);
+			strcpy(name, (char*) sqlite3_column_text(stmt, 1));
+			strcpy(date, (char*) sqlite3_column_text(stmt, 2));
+			strcpy(location, (char*) sqlite3_column_text(stmt, 3));
+			km = sqlite3_column_int(stmt, 4);
+			printf("Carrera %d: %s(%dkm) (%s) (%s)\n", idRace, name, km, date,
+					location);
+		}
+	} while (result == SQLITE_ROW);
+	if(!found){
+		cout << "Ninguna." << endl;
+	}
+
+	showTask(db, nss);
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		printf("Error finalizing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_close(db);
+	return SQLITE_OK;
+}
+int showTask(sqlite3 *db, char* nss)
+{
+	sqlite3_stmt *stmt;
+
+	char sql[] =
+			"select idRace from Task where NSS = ?";
+
+	int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	if (result != SQLITE_OK) {
+		printf("Error preparing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	result = sqlite3_bind_text(stmt, 1, nss, strlen(nss), SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << sqlite3_errmsg(db);
+		return result;
+	}
+
+
+	int idRace;
+	bool found = false;
+	cout << "Empleado en las carreras:" << endl;
+	do {
+		result = sqlite3_step(stmt);
+		if (result == SQLITE_ROW) {
+			found = true;
+			idRace = sqlite3_column_int(stmt, 0);
+			showRace(db, idRace);
+		}
+	} while (result == SQLITE_ROW);
+	if(!found){
+		cout << "Ninguna." << endl;
+	}
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		printf("Error finalizing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_close(db);
+	return SQLITE_OK;
 }

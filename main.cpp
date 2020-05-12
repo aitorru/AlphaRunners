@@ -96,16 +96,16 @@ int main(void) {
 			while (intentosRunner != 3 || opcionCorredor != '5') {
 				cout << "\nIntroduzca el dni de corredor: " << endl;
 				cin >> str;
-				dni = new char[strlen(str)+1];
+				dni = new char[strlen(str) + 1];
 				strcpy(dni, str);
 				cleanBuffer();
 				cout << "Introduzca contrase�a: " << endl;
 				cin >> str;
-				passRunner = new char[strlen(str)+1];
+				passRunner = new char[strlen(str) + 1];
 				strcpy(passRunner, str);
 				cleanBuffer();
 
-				if(getPassword(dni, pass) != SQLITE_OK){
+				if (getPassword(dni, pass) != SQLITE_OK) {
 					cout << "No se encuentra el DNI." << endl;
 					break;
 				}
@@ -122,32 +122,31 @@ int main(void) {
 						scanf("%c", &opcionCorredor);
 						cleanBuffer();
 						switch (opcionCorredor) {
+						case '1':
+							cout << "\nMENU" << endl;
+							cout << "----" << endl;
+							cout << "1.- Listado de carreras." << endl;
+							cout << "2.- Apuntarse de carrera." << endl;
+							cout << "3.- Atrás." << endl;
+							scanf("%c", &opcionCorredor);
+							cleanBuffer();
+							switch (opcionCorredor) {
 							case '1':
-								cout << "\nMENU" << endl;
-								cout << "----" << endl;
-								cout << "1.- Listado de carreras." << endl;
-								cout << "2.- Apuntarse de carrera." << endl;
-								cout << "3.- Atrás." << endl;
-								scanf("%c", &opcionCorredor);
+								showAllRaces();
+								break;
+							case '2':
+								cout << "Cual es el id de la carrera a la que te quieres apuntar:" << endl;
+								scanf("%i", &id);
 								cleanBuffer();
-								switch (opcionCorredor) {
-								case '1':
-									showAllRaces();
-									break;
-								case '2':
-									cout
-											<< "Cual es el id de la carrera a la que te quieres apuntar:"
-											<< endl;
-									scanf("%i", &id);
-									cleanBuffer();
-									cout << "Introduzca el n�mero del dorsal: " << endl;
-									cin >> number;
-									cleanBuffer();
-									joinRace(dni, id, number);
-									break;
-								case '3':
-									break;
-								}
+								cout << "Introduzca el n�mero del dorsal: "
+										<< endl;
+								cin >> number;
+								cleanBuffer();
+								joinRace(dni, id, number);
+								break;
+							case '3':
+								break;
+							}
 							break;
 						case '2':
 							cout << "\nMENU" << endl;
@@ -163,62 +162,21 @@ int main(void) {
 								showJoinedRaces(dni);
 								break;
 							case '2':
-										/*cout
-												<< "Cual es el id de la carrera a la que te quieres desapuntar:"
-												<< endl;
-
-										scanf("%i", &id);
-										cleanBuffer();
-										Race *races;
-										if ((ff = fopen("races.dat", "rb"))
-												!= NULL) {
-											num = fgetc(f);
-											races = new Race[num];
-											fread(races, sizeof(Race), num, f);
-
-											for (int i = 0; i < num; i++) {
-												if (races[i].getId() == id) {
-													par =
-															new Participant[races[i].getNP()
-																	- 1];
-													int cont = 0;
-													for (int j = 0;
-															j < races[i].getNP();
-															j++) {
-														if ((strcmp(
-																races[i].getParticipants()[j].getDni(),
-																dni)) != 0) {
-															runners[cont] =
-																	races[i].getParticipants()[j];
-															cont++;
-														}
-													}
-													races[i].setParticipants(
-															races[i].getNP()
-																	- 1, par);
-												}
-												free(par);
-											}
-											fclose(ff);
-											ff = fopen("races.dat", "wb");
-											fputc(num, ff);
-											fwrite(races, sizeof(Race), num,
-													ff);
-											fclose(ff);
-										} else {
-											cout << "Error al leer el archivo."
-													<< endl;
-										}*/
-										break;
-									case '3':
-										break;
-									}
+								cout << "Cual es el id de la carrera de la que te quieres desapuntar:" << endl;
+								scanf("%i", &id);
+								cleanBuffer();
+								deleteParticipant(dni, id);
+								break;
+							case '3':
+								break;
+							}
 							break;
 						case '3':
 							r.modifyRunner(dni);
 							break;
 						case '4':
 							cout << "\nEn espera de c++" << endl;
+							//TODO
 							break;
 						case '5':
 							intentosRunner = 3;
@@ -236,12 +194,12 @@ int main(void) {
 			}
 			break;
 		case '2':
-			cout << "\nIntroduzca la contraseña de trabajador: " << endl;
+			cout << "\nIntroduzca su nss: " << endl;
 			cin >> str;
-			passWorker = new char[strlen(str)+1];
-			strcpy(passRunner, str);
+			passWorker = new char[strlen(str) + 1];
+			strcpy(nss, str);
 			cleanBuffer();
-			if (strcmp(passWorker, "ALPHARUNNERS") != 0) {
+			if (foundEmployee(nss) == SQLITE_OK) {
 				do {
 					cout << "\nMENU TRABAJADOR" << endl;
 					cout << "------------------" << endl;
@@ -256,61 +214,16 @@ int main(void) {
 					cleanBuffer();
 					switch (opcionWorker) {
 					case '1':
-						cout << "Introduzca su nss: " << endl;
-						cin >> str;
-						nss = new char[strlen(str)+1];
-						strcpy(nss, str);
-						cleanBuffer();
-
 						cout << "\nTarea" << endl;
 						cout << "-----" << endl;
-
-						if ((f = fopen("races.dat", "rb")) != NULL) {
-							num = fgetc(f);
-							races1 = new Race[num];
-							fread(races1, sizeof(Race), num, f);
-							find = true;
-						} else {
-							cout << "No se te ha asignado ninguna tarea."
-									<< endl;
-							find = false;
-						}
-
-						cont = 0;
-
-						if (find) {
-							for (int i = 0; i < num; i++) {
-								if (strcmp(races1[i].getOrganizer().getNss(),
-										nss) == 0) {
-									cout << cont
-											<< ".- Organizador de la carrera "
-											<< races1[i].getName() << "("
-											<< races1[i].getDate() << ")."
-											<< endl;
-									cont++;
-								}
-								for (int j = 0; j < races1[i].getNW(); j++) {
-									if (strcmp(
-											races1[i].getWorkers()[j].getNss(),
-											nss) == 0) {
-										cout << cont
-												<< ".- Empleado en la carrera "
-												<< races1[i].getName() << " ("
-												<< races1[i].getDate() << ")."
-												<< endl;
-										cont++;
-									}
-								}
-							}
-						}
-						free(races1);
+						showTask(nss);
 						break;
 					case '2':
 						break;
 					case '3':
 						cout << "Introduzca el nss del trabajador:" << endl;
 						cin >> str;
-						nss = new char[strlen(str)+1];
+						nss = new char[strlen(str) + 1];
 						strcpy(nss, str);
 						cleanBuffer();
 						//modifyEmployee(nss);
@@ -351,7 +264,9 @@ int main(void) {
 										scanf("%i", &pos);
 										cleanBuffer();
 										participants[j].setNumber(pos);
-										cout << "Introduzca el tiempo que hizo (hh:mm:ss): " << endl;
+										cout
+												<< "Introduzca el tiempo que hizo (hh:mm:ss): "
+												<< endl;
 										cin >> str;
 										participants[j].setTime(str);
 										cleanBuffer();
@@ -468,10 +383,12 @@ int main(void) {
 									insertNewRunner(runner);
 									break;
 								case '2':
-									cout << "Introduzca el DNI del corredor del que quieres modificar sus datos: " << endl;
+									cout
+											<< "Introduzca el DNI del corredor del que quieres modificar sus datos: "
+											<< endl;
 
 									cin >> str;
-									dni = new char[strlen(str)+1];
+									dni = new char[strlen(str) + 1];
 									strcpy(dni, str);
 									cleanBuffer();
 									//modifyRunner(dni);
@@ -479,7 +396,9 @@ int main(void) {
 								case '3':
 									break;
 								default:
-									cout << "ERROR. La opcion elegida no es correcta." << endl;
+									cout
+											<< "ERROR. La opcion elegida no es correcta."
+											<< endl;
 								}
 							} while (opcionAdmin != '3');
 							break;
@@ -511,7 +430,7 @@ int main(void) {
 											<< endl;
 
 									cin >> str;
-									nss = new char[strlen(str)+1];
+									nss = new char[strlen(str) + 1];
 									strcpy(nss, str);
 									//modifyEmployeeA(nss);
 									break;
@@ -522,7 +441,7 @@ int main(void) {
 											<< endl;
 
 									cin >> str;
-									nss = new char[strlen(str)+1];
+									nss = new char[strlen(str) + 1];
 									strcpy(nss, str);
 									cleanBuffer();
 
