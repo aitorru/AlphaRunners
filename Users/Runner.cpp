@@ -229,11 +229,13 @@ void Runner::modifyRunner(char *DNI) {
 		default:
 			break;
 		}
-		
-	
-
-	
 }
+
+void Runner::verEstadisticas(char *DNI)
+{
+	selectEstadisticas(DNI);
+}
+
 void apuntarteACarrera() {
 	//TODO
 }

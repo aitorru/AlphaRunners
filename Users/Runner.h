@@ -43,6 +43,7 @@ public:
 	/*RESTO DE M�TODOS*/
 	void getInformation();
 	void modifyRunner(char *DNI);
+	void verEstadisticas(char *DNI);
 	void apuntarteACarrera();
 	void desapuntarteDeCarrera();
 

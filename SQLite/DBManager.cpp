@@ -923,3 +923,44 @@ int showTask(sqlite3 *db, char* nss)
 	sqlite3_close(db);
 	return SQLITE_OK;
 }
+int selectEstadisticas(char *dni)
+{	
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+	if(result != SQLITE_OK){
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_stmt *stmt;
+	const char sql[] = "SELECT * FROM PARTICIPANT";
+	result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	if (result != SQLITE_OK)
+	{
+		printf("Error preparing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+	/*
+	result = sqlite3_bind_text(stmt, 1, dni, strlen(dni), SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << "Linea 2" << endl;
+		cout << sqlite3_errmsg(db);
+			return result;
+	}
+	*/
+	do {
+		result = sqlite3_step(stmt);
+		if (result == SQLITE_ROW) {
+			cout << "DATA: " << sqlite3_column_text(stmt, 0) << endl;
+			cout << "DATA: " << sqlite3_column_int(stmt, 1) << endl;
+			cout << "DATA: " << sqlite3_column_int(stmt, 2) << endl;
+			cout << "DATA: " << sqlite3_column_text(stmt, 3) << endl;
+			cout << "DATA: " << sqlite3_column_text(stmt, 4) << endl;
+			cout << "DATA: " << sqlite3_column_text(stmt, 5) << endl;
+		}
+	} while (result == SQLITE_ROW);
+	return SQLITE_OK;
+}

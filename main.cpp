@@ -175,7 +175,7 @@ int main(void) {
 							r.modifyRunner(dni);
 							break;
 						case '4':
-							cout << "\nEn espera de c++" << endl;
+							r.verEstadisticas(dni);
 							//TODO
 							break;
 						case '5':

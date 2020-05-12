@@ -26,6 +26,7 @@ int showRace(sqlite3 *db, int idRace);
 int joinRace(char* dni, int id, int number);
 int showJoinedRaces(char* dni);
 int deleteParticipant(char* dni, int idRace);
+int selectEstadisticas(char *dni);
 //TABLA TASK
 int showTask(char* nss);
 int showTask(sqlite3 *db, char* nss);
