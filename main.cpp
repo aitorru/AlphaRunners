@@ -215,11 +215,7 @@ int main(void) {
 									}
 							break;
 						case '3':
-							cout << "Introduce tu dni" << endl;
-							cin >> s;
-							char *dniModificar;
-							strcpy(dniModificar, s.c_str());
-							r.modifyRunner(dniModificar);
+							r.modifyRunner(dni);
 							break;
 						case '4':
 							cout << "\nEn espera de c++" << endl;

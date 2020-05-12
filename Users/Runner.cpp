@@ -163,18 +163,12 @@ void Runner::modifyRunner(char *DNI) {
 	cout << "6: Password" << endl;
 	cout << ">";
 	cout.flush();
-	int seleccion;
-	string str;
-	cin.clear();
-	getline(cin, str);
-	if(!(cin >> seleccion))
-	{
-		cout << "Error de entrada" << endl;
-	} else 
-	{
-		switch (seleccion)
+	char opcionCorredor;
+	scanf("%c", &opcionCorredor);
+	cleanBuffer();
+	switch (opcionCorredor)
 		{
-		case 1:
+		case '2':
 			cout << "Introduce nombre: " << endl;
 			getline(cin, str);
 			char *datos;
@@ -185,7 +179,7 @@ void Runner::modifyRunner(char *DNI) {
 		default:
 			break;
 		}
-	}
+		
 	
 
 	
@@ -195,4 +189,8 @@ void apuntarteACarrera() {
 }
 void desapuntarteDeCarrera() {
 	//TODO
+}
+void cleanBuffer(){
+	cin.clear();
+	cin.ignore(numeric_limits<streamsize>::max(),'\n');
 }
