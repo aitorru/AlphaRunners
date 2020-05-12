@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <limits>
+#include <climits>
 #include "../SQLite/DBManager.h"
 using namespace users;
 using namespace std;
@@ -172,14 +173,59 @@ void Runner::modifyRunner(char *DNI) {
 		case '2':
 			cout << "\nIntroduce nombre: " << endl;
 			cout.flush();
-			getline(cin, str);
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin.clear();
 			getline(cin, str);
 			datos =  new char[strlen(str.c_str())+1];
 			strcpy(datos, str.c_str());
 			cout << "Updating" << endl;
-			updateRunner(1,datos,DNI);
+			updateRunner(2,datos,DNI);
 			break;
 		
+		case '3':
+			cout << "\nIntroduce telefono: " << endl;
+			cout.flush();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin.clear();
+			getline(cin, str);
+			datos =  new char[strlen(str.c_str())+1];
+			strcpy(datos, str.c_str());
+			cout << "Updating" << endl;
+			updateRunner(3,datos,DNI);
+		
+		case '4':
+			cout << "\nIntroduce Email: " << endl;
+			cout.flush();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin.clear();
+			getline(cin, str);
+			datos =  new char[strlen(str.c_str())+1];
+			strcpy(datos, str.c_str());
+			cout << "Updating" << endl;
+			updateRunner(4,datos,DNI);
+
+		case '5':
+			cout << "\nIntroduce Birthdate (DD/MM/AAAA): " << endl;
+			cout.flush();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin.clear();
+			getline(cin, str);
+			datos =  new char[strlen(str.c_str())+1];
+			strcpy(datos, str.c_str());
+			cout << "Updating" << endl;
+			updateRunner(5,datos,DNI);
+
+		case '6':
+			cout << "\nIntroduce contraseña: " << endl;
+			cout.flush();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin.clear();
+			getline(cin, str);
+			datos =  new char[strlen(str.c_str())+1];
+			strcpy(datos, str.c_str());
+			cout << "Updating" << endl;
+			updateRunner(6,datos,DNI);
+
 		default:
 			break;
 		}
