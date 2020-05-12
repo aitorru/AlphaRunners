@@ -472,7 +472,7 @@ int updateRunner(int campo, char *dato, char *DNI)
 				printf("%s\n", sqlite3_errmsg(db));
 				return result;
 			}
-			result = sqlite3_bind_text(stmt, 0, dato, strlen(dato),
+			result = sqlite3_bind_text(stmt, 1, dato, strlen(dato),
 				SQLITE_STATIC);
 			if (result != SQLITE_OK) {
 				cout << "Error binding parameters" << endl;
@@ -480,11 +480,11 @@ int updateRunner(int campo, char *dato, char *DNI)
 				cout << sqlite3_errmsg(db);
 					return result;
 			}
-			result = sqlite3_bind_text(stmt, 1, DNI, strlen(DNI),
+			result = sqlite3_bind_text(stmt, 2, DNI, strlen(DNI),
 				SQLITE_STATIC);
 			if (result != SQLITE_OK) {
 				cout << "Error binding parameters" << endl;
-				cout << "Linea 1" << endl;
+				cout << "Linea 2" << endl;
 				cout << sqlite3_errmsg(db);
 					return result;
 			}

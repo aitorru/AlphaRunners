@@ -155,6 +155,7 @@ void Runner::getInformation() {
 
 void Runner::modifyRunner(char *DNI) {
 	string str;
+	char *datos;
 	cout << "Que quieres modificar:" << endl;
 	cout << "------------------" << endl;
 	cout << "2: Nombre" << endl;
@@ -172,7 +173,8 @@ void Runner::modifyRunner(char *DNI) {
 			cout << "\nIntroduce nombre: " << endl;
 			cout.flush();
 			getline(cin, str);
-			char *datos;
+			getline(cin, str);
+			datos =  new char[strlen(str.c_str())+1];
 			strcpy(datos, str.c_str());
 			cout << "Updating" << endl;
 			updateRunner(1,datos,DNI);
