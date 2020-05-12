@@ -154,6 +154,7 @@ void Runner::getInformation() {
 }
 
 void Runner::modifyRunner(char *DNI) {
+	string str;
 	cout << "Que quieres modificar:" << endl;
 	cout << "------------------" << endl;
 	cout << "2: Nombre" << endl;
@@ -165,14 +166,15 @@ void Runner::modifyRunner(char *DNI) {
 	cout.flush();
 	char opcionCorredor;
 	scanf("%c", &opcionCorredor);
-	cleanBuffer();
 	switch (opcionCorredor)
 		{
 		case '2':
-			cout << "Introduce nombre: " << endl;
+			cout << "\nIntroduce nombre: " << endl;
+			cout.flush();
 			getline(cin, str);
 			char *datos;
 			strcpy(datos, str.c_str());
+			cout << "Updating" << endl;
 			updateRunner(1,datos,DNI);
 			break;
 		
@@ -189,8 +191,4 @@ void apuntarteACarrera() {
 }
 void desapuntarteDeCarrera() {
 	//TODO
-}
-void cleanBuffer(){
-	cin.clear();
-	cin.ignore(numeric_limits<streamsize>::max(),'\n');
 }
