@@ -934,7 +934,7 @@ int selectEstadisticas(char *dni)
 	}
 
 	sqlite3_stmt *stmt;
-	const char sql[] = "SELECT * FROM PARTICIPANT";
+	const char sql[] = "SELECT * FROM PARTICIPANT WHERE DNI=?";
 	result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 	if (result != SQLITE_OK)
 	{
@@ -942,7 +942,6 @@ int selectEstadisticas(char *dni)
 		printf("%s\n", sqlite3_errmsg(db));
 		return result;
 	}
-	/*
 	result = sqlite3_bind_text(stmt, 1, dni, strlen(dni), SQLITE_STATIC);
 	if (result != SQLITE_OK) {
 		cout << "Error binding parameters" << endl;
@@ -950,7 +949,6 @@ int selectEstadisticas(char *dni)
 		cout << sqlite3_errmsg(db);
 			return result;
 	}
-	*/
 	do {
 		result = sqlite3_step(stmt);
 		if (result == SQLITE_ROW) {
