@@ -30,7 +30,7 @@ build:  $(MAINC) $(SQLITE) $(DBMANAGER) $(USERS) $(RACE)
 	$(CXX) -o $(TREE)$(OUTPUT)$(EXT) $(MAINC) $(DBMANAGER) $(USERS) $(RACE) $(SQLITEO) $(CFLAGS)
 	
 
-sqlite3.o: sqlite3.c
+sqlite3.o: $(SQLITE)
 	$(CC) -c $(SQLITE) -o $(SQLITEO)
 
 buildT: $(MAINC) $(EMPLOY) $(RUNNER) $(RACE)
