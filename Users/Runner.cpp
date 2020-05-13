@@ -13,6 +13,7 @@
 #include <iostream>
 #include <limits>
 #include <climits>
+#include <vector>
 #include "../SQLite/DBManager.h"
 using namespace users;
 using namespace std;
@@ -232,8 +233,31 @@ void Runner::modifyRunner(char *DNI) {
 }
 
 void Runner::verEstadisticas(char *DNI)
-{
-	selectEstadisticas(DNI);
+{	
+	vector<string> tiempos;
+	tiempos.reserve(20);
+	selectTiempos(DNI, &tiempos);
+	vector<int> horas;
+	vector<int> minutos;
+	vector<int> segundos;
+	for (int i = 0; i < tiempos.size(); i++)
+	{
+		char *time = (char*) malloc(8*sizeof(char));
+		strcpy(time, tiempos.at(i).c_str());
+		cout << time << endl;
+		char horaCH[] = {time[0], time[1]};
+		int horaIN = atoi(horaCH);
+		horas.push_back(horaIN);
+		cout << "Pushed: " << horaIN << endl;
+		char minutosCH[] = {time[3], time[4]};
+		int minutosIN = atoi(minutosCH);
+		minutos.push_back(minutosIN);
+		cout << "Pushed: " << minutosIN << endl;
+		char segundosCH[] = {time[6], time[7]};
+		int segundosIN = atoi(segundosCH);
+		segundos.push_back(segundosIN);
+		cout << "Pushed: " << segundosIN << endl;
+	}
 }
 
 void apuntarteACarrera() {

@@ -923,7 +923,7 @@ int showTask(sqlite3 *db, char* nss)
 	sqlite3_close(db);
 	return SQLITE_OK;
 }
-int selectEstadisticas(char *dni)
+int selectTiempos(char *dni, vector<string> *tiempos)
 {	
 	sqlite3 *db;
 	int result = sqlite3_open(dir, &db);
@@ -934,7 +934,7 @@ int selectEstadisticas(char *dni)
 	}
 
 	sqlite3_stmt *stmt;
-	const char sql[] = "SELECT * FROM PARTICIPANT WHERE DNI=?";
+	const char sql[] = "SELECT TIME FROM PARTICIPANT WHERE DNI=?";
 	result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 	if (result != SQLITE_OK)
 	{
@@ -952,12 +952,10 @@ int selectEstadisticas(char *dni)
 	do {
 		result = sqlite3_step(stmt);
 		if (result == SQLITE_ROW) {
-			cout << "DATA: " << sqlite3_column_text(stmt, 0) << endl;
-			cout << "DATA: " << sqlite3_column_int(stmt, 1) << endl;
-			cout << "DATA: " << sqlite3_column_int(stmt, 2) << endl;
-			cout << "DATA: " << sqlite3_column_text(stmt, 3) << endl;
-			cout << "DATA: " << sqlite3_column_text(stmt, 4) << endl;
-			cout << "DATA: " << sqlite3_column_text(stmt, 5) << endl;
+			string s = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,0)));
+			cout << "Convertido, pushing (" << s << ")" << endl;
+			tiempos->push_back(s);
+			cout << "Pushed" << endl;
 		}
 	} while (result == SQLITE_ROW);
 	return SQLITE_OK;
