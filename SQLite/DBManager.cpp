@@ -945,7 +945,6 @@ int selectTiempos(char *dni, vector<string> *tiempos)
 	result = sqlite3_bind_text(stmt, 1, dni, strlen(dni), SQLITE_STATIC);
 	if (result != SQLITE_OK) {
 		cout << "Error binding parameters" << endl;
-		cout << "Linea 2" << endl;
 		cout << sqlite3_errmsg(db);
 			return result;
 	}
@@ -953,9 +952,41 @@ int selectTiempos(char *dni, vector<string> *tiempos)
 		result = sqlite3_step(stmt);
 		if (result == SQLITE_ROW) {
 			string s = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,0)));
-			cout << "Convertido, pushing (" << s << ")" << endl;
 			tiempos->push_back(s);
-			cout << "Pushed" << endl;
+		}
+	} while (result == SQLITE_ROW);
+	return SQLITE_OK;
+}
+int selectPosiciones(char *dni, vector<int> *pos)
+{
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+	if(result != SQLITE_OK){
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_stmt *stmt;
+	const char sql[] = "SELECT POSITION FROM PARTICIPANT WHERE DNI=?";
+	result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	if (result != SQLITE_OK)
+	{
+		printf("Error preparing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+	result = sqlite3_bind_text(stmt, 1, dni, strlen(dni), SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << sqlite3_errmsg(db);
+			return result;
+	}
+	do {
+		result = sqlite3_step(stmt);
+		if (result == SQLITE_ROW) {
+			int posTMP = sqlite3_column_int(stmt,0);
+			pos->push_back(posTMP);
 		}
 	} while (result == SQLITE_ROW);
 	return SQLITE_OK;
