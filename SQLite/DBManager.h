@@ -20,6 +20,7 @@ int getPassword(char* dni, char* password);
 //TABLA EMPLOYEE
 int insertNewEmployee(Employee e);
 int foundEmployee(char* nss);
+int updateEmployee(int campo, char *dato, char *nss);
 //TABLA RACE
 int showAllRaces();
 int showRace(sqlite3 *db, int idRace);

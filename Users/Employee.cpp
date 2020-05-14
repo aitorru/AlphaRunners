@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <limits>
+#include "../SQLite/DBManager.h"
 #include <iostream>
 using namespace users;
 using namespace std;
@@ -96,4 +98,42 @@ void Employee::getInformation()
 	strcpy(this->name, str.c_str());
 	cout << "Introduzca el salario: " << endl;
 	cin >> this->salary;
+}
+void Employee::modifyEmployee(char *nss) {
+	string str;
+	char *datos;
+	cout << "Que quieres modificar:" << endl;
+	cout << "------------------" << endl;
+	cout << "1: NSS" << endl;
+	cout << "2: Nombre" << endl;
+	cout << ">";
+	cout.flush();
+	char opcionCorredor;
+	scanf("%c", &opcionCorredor);
+	switch (opcionCorredor) {
+	case '1':
+		cout << "\nIntroduce el nss corregido: " << endl;
+		cout.flush();
+		cin.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
+		cin.clear();
+		getline(cin, str);
+		datos = new char[strlen(str.c_str()) + 1];
+		strcpy(datos, str.c_str());
+		cout << "Updating" << endl;
+		updateEmployee(1, datos, nss);
+		break;
+	case '2':
+		cout << "\nIntroduce nombre: " << endl;
+		cout.flush();
+		cin.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
+		cin.clear();
+		getline(cin, str);
+		datos = new char[strlen(str.c_str()) + 1];
+		strcpy(datos, str.c_str());
+		cout << "Updating" << endl;
+		updateEmployee(2, datos, nss);
+		break;
+	default:
+		break;
+	}
 }

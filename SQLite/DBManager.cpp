@@ -291,6 +291,107 @@ int foundEmployee(char* nss)
 	}
 	return SQLITE_OK;
 }
+int updateEmployee(int campo, char *dato, char *nss)
+{
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+	if (result != SQLITE_OK) {
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_stmt *stmt;
+	switch (campo) {
+	case 1:{
+		// Edit de nss
+		const char sql[] = "UPDATE EMPLOYEE SET NSS = ? WHERE NSS = ?";
+		result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+		if (result != SQLITE_OK) {
+			printf("Error preparing statement (SELECT)\n");
+			printf("%s\n", sqlite3_errmsg(db));
+			return result;
+		}
+		result = sqlite3_bind_text(stmt, 1, dato, strlen(dato),
+		SQLITE_STATIC);
+		if (result != SQLITE_OK) {
+			cout << "Error binding parameters" << endl;
+			cout << "Linea 1" << endl;
+			cout << sqlite3_errmsg(db);
+			return result;
+		}
+		result = sqlite3_bind_text(stmt, 2, nss, strlen(nss),
+		SQLITE_STATIC);
+		if (result != SQLITE_OK) {
+			cout << "Error binding parameters" << endl;
+			cout << "Linea 2" << endl;
+			cout << sqlite3_errmsg(db);
+			return result;
+		}
+		result = sqlite3_step(stmt);
+		if (result != SQLITE_DONE) {
+			cout << "Error inserting new data into table" << endl;
+			cout << sqlite3_errmsg(db) << endl;
+			return result;
+		}
+
+		result = sqlite3_finalize(stmt);
+		if (result != SQLITE_OK) {
+			cout << "Error finalizing statement (INSERT)" << endl;
+			cout << sqlite3_errmsg(db) << endl;
+			return result;
+		}
+
+		sqlite3_close(db);
+
+		break;
+	}
+	case 2:{
+		// Edit de nombre
+		const char sql2[] = "UPDATE EMPLOYEE SET NAME = ? WHERE NSS = ?";
+		result = sqlite3_prepare_v2(db, sql2, -1, &stmt, NULL);
+		if (result != SQLITE_OK) {
+			printf("Error preparing statement (SELECT)\n");
+			printf("%s\n", sqlite3_errmsg(db));
+			return result;
+		}
+		result = sqlite3_bind_text(stmt, 1, dato, strlen(dato),
+		SQLITE_STATIC);
+		if (result != SQLITE_OK) {
+			cout << "Error binding parameters" << endl;
+			cout << "Linea 1" << endl;
+			cout << sqlite3_errmsg(db);
+			return result;
+		}
+		result = sqlite3_bind_text(stmt, 2, nss, strlen(nss),
+		SQLITE_STATIC);
+		if (result != SQLITE_OK) {
+			cout << "Error binding parameters" << endl;
+			cout << "Linea 2" << endl;
+			cout << sqlite3_errmsg(db);
+			return result;
+		}
+		result = sqlite3_step(stmt);
+		if (result != SQLITE_DONE) {
+			cout << "Error inserting new data into table" << endl;
+			cout << sqlite3_errmsg(db) << endl;
+			return result;
+		}
+
+		result = sqlite3_finalize(stmt);
+		if (result != SQLITE_OK) {
+			cout << "Error finalizing statement (INSERT)" << endl;
+			cout << sqlite3_errmsg(db) << endl;
+			return result;
+		}
+
+		sqlite3_close(db);
+
+		break;
+	}
+	}
+	return 0;
+}
 
 /*
  * TABLA RACE

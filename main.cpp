@@ -216,12 +216,7 @@ int main(void) {
 						sendNotification(nss, "BAJA", desc);
 						break;
 					case '3':
-						cout << "Introduzca el nss del trabajador:" << endl;
-						cin >> str;
-						nss = new char[strlen(str) + 1];
-						strcpy(nss, str);
-						cleanBuffer();
-						//modifyEmployee(nss);
+						employee.modifyEmployee(nss);
 					case '4':
 						break;
 					case '5':
