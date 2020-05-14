@@ -235,7 +235,6 @@ void Runner::modifyRunner(char *DNI) {
 void Runner::verEstadisticas(char *DNI)
 {	
 	vector<string> tiempos;
-	tiempos.reserve(20);
 	selectTiempos(DNI, &tiempos);
 	vector<int> horas;
 	vector<int> minutos;
@@ -244,20 +243,38 @@ void Runner::verEstadisticas(char *DNI)
 	{
 		char *time = (char*) malloc(8*sizeof(char));
 		strcpy(time, tiempos.at(i).c_str());
-		cout << time << endl;
 		char horaCH[] = {time[0], time[1]};
 		int horaIN = atoi(horaCH);
 		horas.push_back(horaIN);
-		cout << "Pushed: " << horaIN << endl;
 		char minutosCH[] = {time[3], time[4]};
 		int minutosIN = atoi(minutosCH);
 		minutos.push_back(minutosIN);
-		cout << "Pushed: " << minutosIN << endl;
 		char segundosCH[] = {time[6], time[7]};
 		int segundosIN = atoi(segundosCH);
 		segundos.push_back(segundosIN);
-		cout << "Pushed: " << segundosIN << endl;
 	}
+	int mediaHoras = 0,mediaMinutos = 0,mediaSegundos = 0;
+	for(int i = 0; i<tiempos.size(); i++)
+	{
+		mediaHoras = mediaHoras + horas.at(i);
+		mediaMinutos = mediaMinutos + minutos.at(i);
+		mediaSegundos = mediaSegundos + segundos.at(i);
+	}
+	mediaHoras = mediaHoras/tiempos.size();
+	mediaMinutos = mediaMinutos/tiempos.size();
+	mediaSegundos = mediaSegundos/tiempos.size();
+	cout << "Tus tiempos en las carreras han sido de media: " << mediaHoras << "h|" << mediaMinutos << "m|" << mediaSegundos << "s" << endl;
+
+
+	vector<int> pos;
+	selectPosiciones(DNI, &pos);
+	int mediaPosiciones = 0;
+	for(int i = 0; i<pos.size();i++)
+	{
+		mediaPosiciones = mediaPosiciones + pos.at(i);
+	}
+	mediaPosiciones = mediaPosiciones/pos.size();
+	cout << "Has quedado de media en la posicion: " << mediaPosiciones << endl;
 }
 
 void apuntarteACarrera() {
