@@ -31,6 +31,8 @@ int selectTiempos(char *dni, vector<string> *tiempos);
 //TABLA TASK
 int showTask(char* nss);
 int showTask(sqlite3 *db, char* nss);
+//TABLA NOTIFICATION
+int sendNotification(char* nss, char* title, char* desc);
 // UTILS
 
 #endif /* DBMANAGER_H_ */

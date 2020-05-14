@@ -26,15 +26,10 @@ void cleanBuffer(){
 	cin.ignore(numeric_limits<streamsize>::max(),'\n');
 }
 int main(void) {
-	//DB
-	int dbState;
-
 	//Variables para los ficheros
 	FILE *f;
 	int num;
 	bool find = false;
-	int cont = 0;
-	int r = -1;
 
 	//Variables para navegar a traves de los menus
 	char opcionIni;
@@ -49,16 +44,15 @@ int main(void) {
 	char pass[100];
 	int intentosRunner = 0;
 	char opcionCorredor;
-	char* dniTemp;
 
 	//Variable para contraseña de trabajador
-	char* passWorker;
 	int intentosWorker = 0;
 	char opcionWorker;
 
 	//Variable para no leer caracteres de más
 	char str[50];
 	string s;
+	char desc[100];
 
 	//Variable para modificación de datos del corredor
 	char* dni;
@@ -68,11 +62,8 @@ int main(void) {
 	int id;
 	Employee employee;
 	Employee organizer;
-	Participant *par;
-	Runner *runners;
 	Runner runner;
 	Race *races;
-	Race *races1;
 
 	//Variables para alta/baja de un trabajador
 	char* nss;
@@ -196,7 +187,7 @@ int main(void) {
 		case '2':
 			cout << "\nIntroduzca su nss: " << endl;
 			cin >> str;
-			passWorker = new char[strlen(str) + 1];
+			nss = new char[strlen(str) + 1];
 			strcpy(nss, str);
 			cleanBuffer();
 			if (foundEmployee(nss) == SQLITE_OK) {
@@ -219,6 +210,10 @@ int main(void) {
 						showTask(nss);
 						break;
 					case '2':
+						cout << "Introduzca una breve descripci�n del motivo de su baja: " << endl;
+						cin >> desc;
+						cleanBuffer();
+						sendNotification(nss, "BAJA", desc);
 						break;
 					case '3':
 						cout << "Introduzca el nss del trabajador:" << endl;

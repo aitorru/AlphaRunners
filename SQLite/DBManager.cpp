@@ -960,3 +960,73 @@ int selectTiempos(char *dni, vector<string> *tiempos)
 	} while (result == SQLITE_ROW);
 	return SQLITE_OK;
 }
+/*
+ * TABLA NOTIFICATION
+ */
+int sendNotification(char* nss, char* title, char* desc)
+{
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+	if (result != SQLITE_OK) {
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_stmt *stmt;
+
+	const char sql[] =
+			"insert into Notification (idNotification, NSS, title, description) values ( NULL, ?, ?, ?)";
+	result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL);
+	if (result != SQLITE_OK) {
+		cout << "Error preparing statement (INSERT)" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+
+	result = sqlite3_bind_text(stmt, 1, nss, strlen(nss),
+	SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << "Linea 1" << endl;
+		cout << sqlite3_errmsg(db);
+
+		return result;
+	}
+
+	result = sqlite3_bind_text(stmt, 2, title, strlen(title),
+	SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << "Linea 3" << endl;
+		cout << sqlite3_errmsg(db);
+
+		return result;
+	}
+	result = sqlite3_bind_text(stmt, 3, desc, strlen(desc),
+	SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << "Linea 5" << endl;
+		cout << sqlite3_errmsg(db);
+
+		return result;
+	}
+
+	result = sqlite3_step(stmt);
+	if (result != SQLITE_DONE) {
+		cout << "Error inserting new data into Notification table" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		cout << "Error finalizing statement (INSERT)" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+
+	sqlite3_close(db);
+	return SQLITE_OK;
+}
