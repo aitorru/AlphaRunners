@@ -34,6 +34,7 @@ int showTask(char* nss);
 int showTask(sqlite3 *db, char* nss);
 //TABLA NOTIFICATION
 int sendNotification(char* nss, char* title, char* desc);
+int checkNotifications();
 // UTILS
 
 #endif /* DBMANAGER_H_ */

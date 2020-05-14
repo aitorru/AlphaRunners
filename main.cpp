@@ -294,10 +294,13 @@ int main(void) {
 			do {
 				cout << "Introduzca la contraseña de administrador: " << endl;
 
-				scanf("%12s", passAdmin);
+				cin >> str;
+				passAdmin = new char[strlen(str)+1];
+				strcpy(passAdmin, str);
 				cleanBuffer();
-				char key[] = "alpharunners";
+				char* key = "alpharunners";
 				if (strcmp(key, passAdmin) == 0) {
+					checkNotifications();
 					do {
 						cout << "\nMENU ADMINISTRADOR" << endl;
 						cout << "------------------" << endl;

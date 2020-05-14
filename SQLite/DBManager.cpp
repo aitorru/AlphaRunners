@@ -1061,3 +1061,53 @@ int sendNotification(char* nss, char* title, char* desc)
 	sqlite3_close(db);
 	return SQLITE_OK;
 }
+int checkNotifications() {
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+	if (result != SQLITE_OK) {
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_stmt *stmt;
+
+	char sql[] = "select NSS, title, description from Notification";
+
+	result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	if (result != SQLITE_OK) {
+		printf("Error preparing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	char nss[100];
+	char title[100];
+	char description[100];
+	bool found = false;
+
+	do {
+		result = sqlite3_step(stmt);
+		if (result == SQLITE_ROW) {
+			found = true;
+			strcpy(nss, (char*) sqlite3_column_text(stmt, 0));
+			strcpy(title, (char*) sqlite3_column_text(stmt, 1));
+			strcpy(description, (char*) sqlite3_column_text(stmt, 2));
+			printf("/ %s del empleado con NSS = %s por %s. /\n", title, nss, description);
+		}
+	} while (result == SQLITE_ROW);
+
+	if(!found){
+		cout << "/ No hay nuevas notificaciones. /" << endl;
+	}
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		printf("Error finalizing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_close(db);
+	return SQLITE_OK;
+}
