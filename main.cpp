@@ -211,13 +211,18 @@ int main(void) {
 						break;
 					case '2':
 						cout << "Introduzca una breve descripción del motivo de su baja: " << endl;
-						cin >> desc;
+						getline(cin, s);
+						strcpy(desc, s.c_str());
 						cleanBuffer();
 						sendNotification(nss, "BAJA", desc);
 						break;
 					case '3':
 						employee.modifyEmployee(nss);
 					case '4':
+						cout << "Introduzca una breve descripción del motivo: " << endl;
+						getline(cin, s);
+						strcpy(desc, s.c_str());
+						sendNotification(nss, "CAMBIO TAREA", desc);
 						break;
 					case '5':
 						cout << "Introduzca el id de la carrera: " << endl;
