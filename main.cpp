@@ -423,7 +423,7 @@ int main(void)
 									dni = new char[strlen(str) + 1];
 									strcpy(dni, str);
 									cleanBuffer();
-									//modifyRunner(dni);
+									r.modifyRunner(dni);
 									break;
 								case '3':
 									break;
@@ -466,7 +466,7 @@ int main(void)
 									cin >> str;
 									nss = new char[strlen(str) + 1];
 									strcpy(nss, str);
-									//modifyEmployeeA(nss);
+									employee.modifyEmployee(nss);
 									break;
 								case '3':
 									cout << "\nBAJA DE TRABAJADOR" << endl;
