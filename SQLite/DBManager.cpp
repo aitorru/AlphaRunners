@@ -1343,7 +1343,7 @@ int insertRace(char *name, char *date, char *time, char *location, int km, char 
 
 	sqlite3_stmt *stmt;
 
-	char sql[] = "INSERT INTO RACE (NAME, DATE, TIME, LOCATION, KM, ORGANIZER) VALUES (?, ?, ?, ?, ?, ?)";
+	char sql[] = "INSERT INTO RACE (idRace, NAME, DATE, TIME, LOCATION, KM, ORGANIZER) VALUES (NULL, ?, ?, ?, ?, ?, ?)";
 
 	result = sqlite3_bind_text(stmt, 1, name, strlen(name),
 							   SQLITE_STATIC);

@@ -125,14 +125,13 @@ void Runner::setPassword(const char* password) {
 /*RESTO DE M�TODOS*/
 void Runner::getInformation() {
 	string str;
-	getline(cin, str);
 
 	cout << "Introduzca el DNI: " << endl;
 	cout.flush();
 	getline(cin, str);
-	getline(cin, str);
 	this->dni = new char[strlen(str.c_str())+1];
 	strcpy(this->dni, str.c_str());
+	cout << this->dni;
 	cout << "Introduzca nombre y apellidos: " << endl;
 	getline(cin, str);
 	this->name = new char[strlen(str.c_str())+1];
@@ -149,6 +148,7 @@ void Runner::getInformation() {
 	getline(cin, str);
 	this->birthdate = new char[strlen(str.c_str())+1];
 	strcpy(this->birthdate, str.c_str());
+	cout << this->birthdate;
 	cout << "Introduzca una contrase�a: " << endl;
 	getline(cin, str);
 	this->password = new char[strlen(str.c_str())+1];
