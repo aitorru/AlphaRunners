@@ -1428,3 +1428,53 @@ int insertRace(char *name, char *date, char *time, char *location, int km, char 
 
 	return SQLITE_OK;
 }
+int deleteRacedb(int id)
+{
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+	if (result != SQLITE_OK)
+	{
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_stmt *stmt;
+
+	char sql[] = "DELETE FROM RACE WHERE IDRACE=?";
+
+	result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL);
+	if (result != SQLITE_OK)
+	{
+		cout << "Error preparing statement (DELETE)" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+	result = sqlite3_bind_int(stmt, 1, id);
+	if (result != SQLITE_OK)
+	{
+		cout << "Error binding parameters" << endl;
+		cout << sqlite3_errmsg(db);
+
+		return result;
+	}
+	result = sqlite3_step(stmt);
+	if (result != SQLITE_DONE)
+	{
+		cout << "Error inserting new data into Race table" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK)
+	{
+		cout << "Error finalizing statement (DELETE)" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+
+	sqlite3_close(db);
+
+	return SQLITE_OK;
+}

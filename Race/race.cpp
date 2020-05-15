@@ -236,3 +236,8 @@ void Race::createRace()
 	int result = insertRace(name, date, time, location, km, nss);
 	cout << result << endl;
 }
+void Race::deleteRace(int id)
+{
+	cout << "Borrando carrera con id: " << id << endl;
+	deleteRacedb(id);
+}

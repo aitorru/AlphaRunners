@@ -375,7 +375,7 @@ int main(void)
 
 									scanf("%i", &id);
 									cleanBuffer();
-									//deleteRace(id);
+									rc.deleteRace(id);
 									break;
 								case '4':
 									cout << "Introduzca el id de la carrera: "
