@@ -215,7 +215,7 @@ void Race::createRace()
 	getline(cin, str);
 	name = new char[strlen(str.c_str()) + 1];
 	strcpy(name, str.c_str());
-	cout << "Introduce la fecha YYYY-MM-DD:";
+	cout << "Introduce la fecha DD-MM-YYYY:";
 	cin >> str;
 	date = new char[strlen(str.c_str()) + 1];
 	strcpy(date, str.c_str());

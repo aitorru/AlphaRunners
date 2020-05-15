@@ -1345,6 +1345,14 @@ int insertRace(char *name, char *date, char *time, char *location, int km, char 
 
 	char sql[] = "INSERT INTO RACE (idRace, NAME, DATE, TIME, LOCATION, KM, ORGANIZER) VALUES (NULL, ?, ?, ?, ?, ?, ?)";
 
+	result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL);
+	if (result != SQLITE_OK)
+	{
+		cout << "Error preparing statement (INSERT)" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+
 	result = sqlite3_bind_text(stmt, 1, name, strlen(name),
 							   SQLITE_STATIC);
 	if (result != SQLITE_OK)
