@@ -24,6 +24,7 @@ int updateEmployee(int campo, char *dato, char *nss);
 //TABLA RACE
 int showAllRaces();
 int showRace(sqlite3 *db, int idRace);
+int insertRace(char *name, char *date, char *time, char *location, int km, char *nss);
 //TABLA PARTICIPANT
 int joinRace(char* dni, int id, int number);
 int showJoinedRaces(char* dni);

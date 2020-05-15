@@ -57,6 +57,7 @@ public:
 	void setWorkers(int nW, Employee *workers);
 	void setNP(int nP);
 	void setParticipants(int nP, Participant *participants);
+	void createRace();
 };
 }
 

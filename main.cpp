@@ -21,11 +21,13 @@ using namespace race;
 #include "SQLite/sqlite3.h"
 #include "SQLite/DBManager.h"
 
-void cleanBuffer(){
+void cleanBuffer()
+{
 	cin.clear();
-	cin.ignore(numeric_limits<streamsize>::max(),'\n');
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
-int main(void) {
+int main(void)
+{
 	//Variables para los ficheros
 	FILE *f;
 	int num;
@@ -37,10 +39,10 @@ int main(void) {
 	char back;
 
 	//Variable para iniciar sesion como Admin
-	char* passAdmin;
+	char *passAdmin;
 
 	//Variable para la contraseña de corredor
-	char* passRunner;
+	char *passRunner;
 	char pass[100];
 	int intentosRunner = 0;
 	char opcionCorredor;
@@ -55,7 +57,7 @@ int main(void) {
 	char desc[100];
 
 	//Variable para modificación de datos del corredor
-	char* dni;
+	char *dni;
 
 	int number;
 	//Variables para la creación/modificación/eliminación de carreras
@@ -64,11 +66,13 @@ int main(void) {
 	Employee organizer;
 	Runner runner;
 	Race *races;
+	Race rc;
 
 	//Variables para alta/baja de un trabajador
-	char* nss;
+	char *nss;
 
-	do {
+	do
+	{
 		cout << "\nINICIO DE SESION" << endl;
 		cout << "----------------" << endl;
 		cout << "Iniciar sesion como:" << endl;
@@ -81,10 +85,12 @@ int main(void) {
 		scanf("%c", &opcionIni);
 		cleanBuffer();
 		Runner r;
-		switch (opcionIni) {
+		switch (opcionIni)
+		{
 		case '1':
 			intentosRunner = 0;
-			while (intentosRunner != 3 || opcionCorredor != '5') {
+			while (intentosRunner != 3 || opcionCorredor != '5')
+			{
 				cout << "\nIntroduzca el dni de corredor: " << endl;
 				cin >> str;
 				dni = new char[strlen(str) + 1];
@@ -96,12 +102,15 @@ int main(void) {
 				strcpy(passRunner, str);
 				cleanBuffer();
 
-				if (getPassword(dni, pass) != SQLITE_OK) {
+				if (getPassword(dni, pass) != SQLITE_OK)
+				{
 					cout << "No se encuentra el DNI." << endl;
 					break;
 				}
-				if (strcmp(passRunner, pass) == 0) {
-					do {
+				if (strcmp(passRunner, pass) == 0)
+				{
+					do
+					{
 						cout << "\nMENU CORREDORES" << endl;
 						cout << "------------------" << endl;
 						cout << "1.- Apuntarte a carrera." << endl;
@@ -112,7 +121,8 @@ int main(void) {
 
 						scanf("%c", &opcionCorredor);
 						cleanBuffer();
-						switch (opcionCorredor) {
+						switch (opcionCorredor)
+						{
 						case '1':
 							cout << "\nMENU" << endl;
 							cout << "----" << endl;
@@ -121,7 +131,8 @@ int main(void) {
 							cout << "3.- Atrás." << endl;
 							scanf("%c", &opcionCorredor);
 							cleanBuffer();
-							switch (opcionCorredor) {
+							switch (opcionCorredor)
+							{
 							case '1':
 								showAllRaces();
 								break;
@@ -130,7 +141,7 @@ int main(void) {
 								scanf("%i", &id);
 								cleanBuffer();
 								cout << "Introduzca el n�mero del dorsal: "
-										<< endl;
+									 << endl;
 								cin >> number;
 								cleanBuffer();
 								joinRace(dni, id, number);
@@ -148,7 +159,8 @@ int main(void) {
 
 							scanf("%c", &opcionCorredor);
 							cleanBuffer();
-							switch (opcionCorredor) {
+							switch (opcionCorredor)
+							{
 							case '1':
 								showJoinedRaces(dni);
 								break;
@@ -174,10 +186,12 @@ int main(void) {
 							break;
 						default:
 							cout << "ERROR. La opcion elegida no es correcta."
-									<< endl;
+								 << endl;
 						}
 					} while (opcionCorredor != '5');
-				} else {
+				}
+				else
+				{
 					cout << "Contraseña incorrecta." << endl;
 				}
 				if (intentosRunner != 3)
@@ -190,8 +204,10 @@ int main(void) {
 			nss = new char[strlen(str) + 1];
 			strcpy(nss, str);
 			cleanBuffer();
-			if (foundEmployee(nss) == SQLITE_OK) {
-				do {
+			if (foundEmployee(nss) == SQLITE_OK)
+			{
+				do
+				{
 					cout << "\nMENU TRABAJADOR" << endl;
 					cout << "------------------" << endl;
 					cout << "1.- Ver tu tarea." << endl;
@@ -203,14 +219,15 @@ int main(void) {
 
 					scanf("%c", &opcionWorker);
 					cleanBuffer();
-					switch (opcionWorker) {
+					switch (opcionWorker)
+					{
 					case '1':
 						cout << "\nTarea" << endl;
 						cout << "-----" << endl;
 						showTask(nss);
 						break;
 					case '2':
-						cout << "Introduzca una breve descripci�n del motivo de su baja: " << endl;
+						cout << "Introduzca una breve descripci�n del motivo de su baja: " << endl;
 						getline(cin, s);
 						strcpy(desc, s.c_str());
 						cleanBuffer();
@@ -219,7 +236,7 @@ int main(void) {
 					case '3':
 						employee.modifyEmployee(nss);
 					case '4':
-						cout << "Introduzca una breve descripci�n del motivo: " << endl;
+						cout << "Introduzca una breve descripci�n del motivo: " << endl;
 						getline(cin, s);
 						strcpy(desc, s.c_str());
 						sendNotification(nss, "CAMBIO TAREA", desc);
@@ -231,37 +248,44 @@ int main(void) {
 						cleanBuffer();
 						find = false;
 						num = 0;
-						if ((f = fopen("races.dat", "rb")) != NULL) {
+						if ((f = fopen("races.dat", "rb")) != NULL)
+						{
 							int num = fgetc(f);
 							races = new Race[num];
 							fread(races, sizeof(Race), num, f);
 							find = true;
-						} else {
+						}
+						else
+						{
 							cout
-									<< "No se ha encontrado el fichero de carreras."
-									<< endl;
+								<< "No se ha encontrado el fichero de carreras."
+								<< endl;
 						}
 						fclose(f);
-						if (find) {
-							for (int i = 0; i < num; i++) {
-								if (races[i].getId() == id) {
+						if (find)
+						{
+							for (int i = 0; i < num; i++)
+							{
+								if (races[i].getId() == id)
+								{
 									Participant *participants =
-											races[i].getParticipants();
-									for (int j = 0; j < races[i].getNP(); j++) {
+										races[i].getParticipants();
+									for (int j = 0; j < races[i].getNP(); j++)
+									{
 										cout << "Corredor "
-												<< participants[j].getName()
-												<< ":" << endl;
+											 << participants[j].getName()
+											 << ":" << endl;
 										cout
-												<< "Introduzca la posición en la que llego el corredor: "
-												<< endl;
+											<< "Introduzca la posición en la que llego el corredor: "
+											<< endl;
 
 										int pos;
 										scanf("%i", &pos);
 										cleanBuffer();
 										participants[j].setNumber(pos);
 										cout
-												<< "Introduzca el tiempo que hizo (hh:mm:ss): "
-												<< endl;
+											<< "Introduzca el tiempo que hizo (hh:mm:ss): "
+											<< endl;
 										cin >> str;
 										participants[j].setTime(str);
 										cleanBuffer();
@@ -281,27 +305,32 @@ int main(void) {
 						break;
 					default:
 						cout << "ERROR. La opcion elegida no es correcta."
-								<< endl;
+							 << endl;
 					}
 				} while (opcionWorker != '6' || intentosWorker != 3);
-			} else {
+			}
+			else
+			{
 				cout << "Contraseña incorrecta." << endl;
 			}
 			if (intentosWorker != 3)
 				intentosWorker++;
 			break;
 		case '3':
-			do {
+			do
+			{
 				cout << "Introduzca la contraseña de administrador: " << endl;
 
 				cin >> str;
-				passAdmin = new char[strlen(str)+1];
+				passAdmin = new char[strlen(str) + 1];
 				strcpy(passAdmin, str);
 				cleanBuffer();
-				char* key = "alpharunners";
-				if (strcmp(key, passAdmin) == 0) {
+				char *key = "alpharunners";
+				if (strcmp(key, passAdmin) == 0)
+				{
 					checkNotifications();
-					do {
+					do
+					{
 						cout << "\nMENU ADMINISTRADOR" << endl;
 						cout << "------------------" << endl;
 						cout << "1.- Administrar carreras." << endl;
@@ -311,27 +340,30 @@ int main(void) {
 
 						scanf("%c", &opcionAdmin);
 						cleanBuffer();
-						switch (opcionAdmin) {
+						switch (opcionAdmin)
+						{
 						case '1':
-							do {
+							do
+							{
 								cout << "\nADMINISTRACION DE CARRERAS" << endl;
 								cout << "--------------------------" << endl;
 								cout << "1.- Crear una carrera." << endl;
 								cout << "2.- Modificar carrera." << endl;
 								cout << "3.- Eliminar una carrera." << endl;
 								cout << "4.- Añadir resultados de una carrera."
-										<< endl;
+									 << endl;
 								cout << "5.- Atrás." << endl;
 
 								scanf("%c", &opcionAdmin);
 								cleanBuffer();
-								switch (opcionAdmin) {
+								switch (opcionAdmin)
+								{
 								case '1':
-									//createRace();
+									rc.createRace();
 									break;
 								case '2':
 									cout << "Introduzca el id de la carrera: "
-											<< endl;
+										 << endl;
 
 									scanf("%i", &id);
 									cleanBuffer();
@@ -339,7 +371,7 @@ int main(void) {
 									break;
 								case '3':
 									cout << "Introduzca el id de la carrera: "
-											<< endl;
+										 << endl;
 
 									scanf("%i", &id);
 									cleanBuffer();
@@ -347,7 +379,7 @@ int main(void) {
 									break;
 								case '4':
 									cout << "Introduzca el id de la carrera: "
-											<< endl;
+										 << endl;
 
 									scanf("%i", &id);
 									cleanBuffer();
@@ -357,15 +389,16 @@ int main(void) {
 									break;
 								default:
 									cout
-											<< "ERROR. La opcion elegida no es correcta."
-											<< endl;
+										<< "ERROR. La opcion elegida no es correcta."
+										<< endl;
 								}
 							} while (opcionAdmin != '5');
 							break;
 						case '2':
-							do {
+							do
+							{
 								cout << "\nADMINISTRACION DE CORREDORES"
-										<< endl;
+									 << endl;
 								cout << "--------------------------" << endl;
 								cout << "1.- Registrar un corredor." << endl;
 								cout << "2.- Modificar un corredor." << endl;
@@ -373,7 +406,8 @@ int main(void) {
 
 								scanf("%c", &opcionAdmin);
 								cleanBuffer();
-								switch (opcionAdmin) {
+								switch (opcionAdmin)
+								{
 								case '1':
 									cout << "REGISTRO DE CORREDOR" << endl;
 									cout << "--------------------" << endl;
@@ -382,8 +416,8 @@ int main(void) {
 									break;
 								case '2':
 									cout
-											<< "Introduzca el DNI del corredor del que quieres modificar sus datos: "
-											<< endl;
+										<< "Introduzca el DNI del corredor del que quieres modificar sus datos: "
+										<< endl;
 
 									cin >> str;
 									dni = new char[strlen(str) + 1];
@@ -395,28 +429,30 @@ int main(void) {
 									break;
 								default:
 									cout
-											<< "ERROR. La opcion elegida no es correcta."
-											<< endl;
+										<< "ERROR. La opcion elegida no es correcta."
+										<< endl;
 								}
 							} while (opcionAdmin != '3');
 							break;
 						case '3':
-							do {
+							do
+							{
 								cout << "\nADMINISTRACION DE TRABAJADORES"
-										<< endl;
+									 << endl;
 								cout << "------------------------------"
-										<< endl;
+									 << endl;
 								cout << "1.- Dar de alta a un trabajador."
-										<< endl;
+									 << endl;
 								cout << "2.- Modificar datos de trabajador."
-										<< endl;
+									 << endl;
 								cout << "3.- Dar de baja a un trabajador."
-										<< endl;
+									 << endl;
 								cout << "4.- Atrás." << endl;
 
 								scanf("%c", &opcionAdmin);
 								cleanBuffer();
-								switch (opcionAdmin) {
+								switch (opcionAdmin)
+								{
 								case '1':
 									cout << "REGISTRO DE EMPLEADO" << endl;
 									cout << "--------------------" << endl;
@@ -425,7 +461,7 @@ int main(void) {
 									break;
 								case '2':
 									cout << "Introduzca el nss del trabajador:"
-											<< endl;
+										 << endl;
 
 									cin >> str;
 									nss = new char[strlen(str) + 1];
@@ -436,7 +472,7 @@ int main(void) {
 									cout << "\nBAJA DE TRABAJADOR" << endl;
 									cout << "------------------" << endl;
 									cout << "Introduzca el nss del trabajador:"
-											<< endl;
+										 << endl;
 
 									cin >> str;
 									nss = new char[strlen(str) + 1];
@@ -446,48 +482,56 @@ int main(void) {
 									num = 0;
 									Employee *employees;
 
-									if ((f = fopen("employees.dat", "rb"))
-											!= NULL) {
+									if ((f = fopen("employees.dat", "rb")) != NULL)
+									{
 										num = fgetc(f);
 										employees = new Employee[num];
 										fread(employees, sizeof(Employee), num,
-												f);
+											  f);
 										find = true;
-									} else {
+									}
+									else
+									{
 										cout
-												<< "No se ha encontrado el fichero de empleados."
-												<< endl;
+											<< "No se ha encontrado el fichero de empleados."
+											<< endl;
 										find = false;
 									}
 									fclose(f);
 
-									if (find) {
-										for (int i = 0; i < num; i++) {
+									if (find)
+									{
+										for (int i = 0; i < num; i++)
+										{
 											if (strcmp(employees[i].getNss(),
-													nss) == 0) {
+													   nss) == 0)
+											{
 												strcpy(employees[i].getState(),
-														"BAJA");
+													   "BAJA");
 												cout
-														<< "Se ha dado de baja correctamente al trabajador "
-														<< employees[i].getName()
-														<< "." << endl;
+													<< "Se ha dado de baja correctamente al trabajador "
+													<< employees[i].getName()
+													<< "." << endl;
 												find = true;
 												break;
-											} else {
+											}
+											else
+											{
 												find = false;
 											}
 										}
 
-										if (!find) {
+										if (!find)
+										{
 											cout
-													<< "No se ha podido encontrar al trabajador."
-													<< endl;
+												<< "No se ha podido encontrar al trabajador."
+												<< endl;
 										}
 
 										f = fopen("employees.dat", "wb");
 										fputc(num, f);
 										fwrite(employees, sizeof(Employee), num,
-												f);
+											   f);
 										fclose(f);
 										free(employees);
 									}
@@ -497,8 +541,8 @@ int main(void) {
 									break;
 								default:
 									cout
-											<< "ERROR. La opcion elegida no es correcta."
-											<< endl;
+										<< "ERROR. La opcion elegida no es correcta."
+										<< endl;
 								}
 							} while (opcionAdmin != '4');
 							opcionAdmin = '3';
@@ -507,10 +551,12 @@ int main(void) {
 							break;
 						default:
 							cout << "ERROR. La opcion elegida no es correcta."
-									<< endl;
+								 << endl;
 						}
 					} while (opcionAdmin != '4');
-				} else {
+				}
+				else
+				{
 					cout << "Contraseña erronea." << endl;
 				}
 				cout << "�Desea volver al menú inicial? S/N" << endl;

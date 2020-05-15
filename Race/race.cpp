@@ -8,10 +8,17 @@
 #include "../Users/Employee.h"
 #include "../Users/Runner.h"
 #include "race.h"
+#include "../SQLite/DBManager.h"
 using namespace race;
 using namespace users;
 #include <stdio.h>
 #include <string.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <limits>
+#include <iostream>
 
 /*CONSTRUCTORES Y DESTRUCTOR*/
 Race::Race()
@@ -33,7 +40,7 @@ Race::Race()
 	this->nP = 0;
 	this->participants = new Participant[nP];
 }
-Race::Race(const Race & r)
+Race::Race(const Race &r)
 {
 	this->id = r.id;
 	this->name = new char[strlen(r.name) + 1];
@@ -48,20 +55,20 @@ Race::Race(const Race & r)
 	this->organizer = r.organizer;
 	this->nW = r.nW;
 	this->workers = new Employee[nW];
-	for(int i = 0; i < r.nW; i++)
+	for (int i = 0; i < r.nW; i++)
 	{
 		this->workers[i] = r.workers[i];
 	}
 	this->nP = r.nP;
 	this->participants = new Participant[nP];
-	for(int i = 0; i < r.nW; i++)
+	for (int i = 0; i < r.nW; i++)
 	{
 		this->participants[i] = r.participants[i];
 	}
 }
-Race::Race(int id, char* name, char* date, char* time, char* location,
-		int km, Employee organizer, int nW, Employee *workers, int nP,
-		Participant *participants)
+Race::Race(int id, char *name, char *date, char *time, char *location,
+		   int km, Employee organizer, int nW, Employee *workers, int nP,
+		   Participant *participants)
 {
 	this->id = id;
 	this->name = new char[strlen(name) + 1];
@@ -76,13 +83,13 @@ Race::Race(int id, char* name, char* date, char* time, char* location,
 	this->organizer = organizer;
 	this->nW = nW;
 	this->workers = new Employee[nW];
-	for(int i = 0; i < nW; i++)
+	for (int i = 0; i < nW; i++)
 	{
 		this->workers[i] = workers[i];
 	}
 	this->nP = nP;
 	this->participants = new Participant[nP];
-	for(int i = 0; i < nW; i++)
+	for (int i = 0; i < nW; i++)
 	{
 		this->participants[i] = participants[i];
 	}
@@ -101,19 +108,19 @@ int Race::getId()
 {
 	return this->id;
 }
-char* Race::getName()
+char *Race::getName()
 {
 	return this->name;
 }
-char* Race::getDate()
+char *Race::getDate()
 {
 	return this->date;
 }
-char* Race::getTime()
+char *Race::getTime()
 {
 	return this->time;
 }
-char* Race::getLocation()
+char *Race::getLocation()
 {
 	return this->location;
 }
@@ -129,7 +136,7 @@ int Race::getNW()
 {
 	return this->nW;
 }
-Employee* Race::getWorkers()
+Employee *Race::getWorkers()
 {
 	return this->workers;
 }
@@ -137,7 +144,7 @@ int Race::getNP()
 {
 	return this->nP;
 }
-Participant* Race::getParticipants()
+Participant *Race::getParticipants()
 {
 	return this->participants;
 }
@@ -147,22 +154,22 @@ void Race::setId(int id)
 }
 void Race::setName(char *name)
 {
-	this->name = new char[strlen(name)+ 1];
+	this->name = new char[strlen(name) + 1];
 	strcpy(this->name, name);
 }
 void Race::setDate(char *date)
 {
-	this->date = new char[strlen(date)+ 1];
+	this->date = new char[strlen(date) + 1];
 	strcpy(this->date, date);
 }
 void Race::setTime(char *time)
 {
-	this->time = new char[strlen(time)+ 1];
+	this->time = new char[strlen(time) + 1];
 	strcpy(this->time, time);
 }
 void Race::setLocation(char *location)
 {
-	this->location = new char[strlen(location)+ 1];
+	this->location = new char[strlen(location) + 1];
 	strcpy(this->location, location);
 }
 void Race::setKm(int km)
@@ -180,7 +187,7 @@ void Race::setNW(int nW)
 void Race::setWorkers(int nW, Employee *workers)
 {
 	this->workers = new Employee[nW];
-	for(int i = 0; i < nW; i++)
+	for (int i = 0; i < nW; i++)
 	{
 		this->workers[i] = workers[i];
 	}
@@ -192,8 +199,40 @@ void Race::setNP(int nP)
 void Race::setParticipants(int nP, Participant *participants)
 {
 	this->participants = new Participant[nP];
-	for(int i = 0; i < nW; i++)
+	for (int i = 0; i < nW; i++)
 	{
 		this->participants[i] = participants[i];
 	}
+}
+void Race::createRace()
+{
+	// TODO Name S; Date S; Time S; Location S; Km int; Organizer int;
+	string str;
+	char *name, *date, *time, *location, *nss;
+	int km;
+	cin.clear();
+	cout << "Introduce el tipo de carrera:";
+	getline(cin, str);
+	name = new char[strlen(str.c_str()) + 1];
+	strcpy(name, str.c_str());
+	cout << "Introduce la fecha YYYY-MM-DD:";
+	cin >> str;
+	date = new char[strlen(str.c_str()) + 1];
+	strcpy(date, str.c_str());
+	cout << "Introduce la hora HH:MM:SS:";
+	cin >> str;
+	time = new char[strlen(str.c_str()) + 1];
+	strcpy(time, str.c_str());
+	cout << "Introduce la ubicación:";
+	cin >> str;
+	location = new char[strlen(str.c_str()) + 1];
+	strcpy(location, str.c_str());
+	cout << "Introduce los kilometos:";
+	cin >> km;
+	cout << "NSS del encargado:";
+	cin >> str;
+	nss = new char[strlen(str.c_str()) + 1];
+	strcpy(nss, str.c_str());
+	int result = insertRace(name, date, time, location, km, nss);
+	cout << result << endl;
 }
