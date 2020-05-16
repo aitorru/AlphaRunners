@@ -215,7 +215,7 @@ void Race::createRace()
 	getline(cin, str);
 	name = new char[strlen(str.c_str()) + 1];
 	strcpy(name, str.c_str());
-	cout << "Introduce la fecha YYYY-MM-DD:";
+	cout << "Introduce la fecha DD-MM-YYYY:";
 	cin >> str;
 	date = new char[strlen(str.c_str()) + 1];
 	strcpy(date, str.c_str());
@@ -235,4 +235,103 @@ void Race::createRace()
 	strcpy(nss, str.c_str());
 	int result = insertRace(name, date, time, location, km, nss);
 	cout << result << endl;
+}
+void Race::deleteRace(int id)
+{
+	cout << "Borrando carrera con id: " << id << endl;
+	deleteRacedb(id);
+}
+void Race::modifyRace(int id)
+{
+	string str;
+	char *datos;
+	cout << "Que quieres modificar:" << endl;
+	cout << "------------------" << endl;
+	cout << "2: Nombre" << endl;
+	cout << "3: Fecha" << endl;
+	cout << "4: Hora" << endl;
+	cout << "5: Ubicación" << endl;
+	cout << "6: KM" << endl;
+	cout << "7: Organizador" << endl;
+	cout << ">";
+	cout.flush();
+	char opcionCorredor;
+	scanf("%c", &opcionCorredor);
+	switch (opcionCorredor)
+		{
+		case '2':
+			cout << "\nIntroduce nombre: " << endl;
+			cout.flush();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin.clear();
+			getline(cin, str);
+			datos =  new char[strlen(str.c_str())+1];
+			strcpy(datos, str.c_str());
+			cout << "Updating" << endl;
+			updateRace(2,datos,id);
+			break;
+		
+		case '3':
+			cout << "\nIntroduce Fecha: " << endl;
+			cout.flush();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin.clear();
+			getline(cin, str);
+			datos =  new char[strlen(str.c_str())+1];
+			strcpy(datos, str.c_str());
+			cout << "Updating" << endl;
+			updateRace(3,datos,id);
+			break;
+		
+		case '4':
+			cout << "\nIntroduce Hora: " << endl;
+			cout.flush();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin.clear();
+			getline(cin, str);
+			datos =  new char[strlen(str.c_str())+1];
+			strcpy(datos, str.c_str());
+			cout << "Updating" << endl;
+			updateRace(4,datos,id);
+			break;
+
+		case '5':
+			cout << "\nIntroduce Ubicación: " << endl;
+			cout.flush();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin.clear();
+			getline(cin, str);
+			datos =  new char[strlen(str.c_str())+1];
+			strcpy(datos, str.c_str());
+			cout << "Updating" << endl;
+			updateRace(5,datos,id);
+			break;
+
+		case '6':
+			cout << "\nIntroduce km: " << endl;
+			cout.flush();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin.clear();
+			getline(cin, str);
+			datos =  new char[strlen(str.c_str())+1];
+			strcpy(datos, str.c_str());
+			cout << "Updating" << endl;
+			updateRace(6,datos,id);
+			break;
+
+		case '7':
+			cout << "\nIntroduce Organizador: " << endl;
+			cout.flush();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin.clear();
+			getline(cin, str);
+			datos =  new char[strlen(str.c_str())+1];
+			strcpy(datos, str.c_str());
+			cout << "Updating" << endl;
+			updateRace(7,datos,id);
+			break;
+
+		default:
+			break;
+		}
 }

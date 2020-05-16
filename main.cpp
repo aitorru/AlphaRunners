@@ -367,7 +367,7 @@ int main(void)
 
 									scanf("%i", &id);
 									cleanBuffer();
-									//modifyRace(id);
+									rc.modifyRace(id);
 									break;
 								case '3':
 									cout << "Introduzca el id de la carrera: "
@@ -375,7 +375,7 @@ int main(void)
 
 									scanf("%i", &id);
 									cleanBuffer();
-									//deleteRace(id);
+									rc.deleteRace(id);
 									break;
 								case '4':
 									cout << "Introduzca el id de la carrera: "
@@ -423,7 +423,7 @@ int main(void)
 									dni = new char[strlen(str) + 1];
 									strcpy(dni, str);
 									cleanBuffer();
-									//modifyRunner(dni);
+									r.modifyRunner(dni);
 									break;
 								case '3':
 									break;
@@ -466,7 +466,7 @@ int main(void)
 									cin >> str;
 									nss = new char[strlen(str) + 1];
 									strcpy(nss, str);
-									//modifyEmployeeA(nss);
+									employee.modifyEmployee(nss);
 									break;
 								case '3':
 									cout << "\nBAJA DE TRABAJADOR" << endl;

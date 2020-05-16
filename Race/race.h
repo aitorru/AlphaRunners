@@ -58,6 +58,8 @@ public:
 	void setNP(int nP);
 	void setParticipants(int nP, Participant *participants);
 	void createRace();
+	void deleteRace(int id);
+	void modifyRace(int id);
 };
 }
 
