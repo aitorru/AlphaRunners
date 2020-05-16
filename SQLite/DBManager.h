@@ -31,6 +31,7 @@ int updateRace(int entrada, char *datos, int id);
 int joinRace(char* dni, int id, int number);
 int showJoinedRaces(char* dni);
 int deleteParticipant(char* dni, int idRace);
+int introduceResults(int id);
 int selectTiempos(char *dni, vector<string> *tiempos);
 int selectPosiciones(char *dni, vector<int> *pos);
 //TABLA TASK

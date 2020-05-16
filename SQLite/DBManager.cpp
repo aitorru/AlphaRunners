@@ -6,6 +6,7 @@
  */
 #include <stdio.h>
 #include <string.h>
+#include <limits>
 #include <iostream>
 using namespace std;
 #include "../Users/Runner.h"
@@ -668,6 +669,119 @@ int showJoinedRaces(char *dni)
 	{
 		printf("Error finalizing statement (SELECT)\n");
 		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_close(db);
+	return SQLITE_OK;
+}
+int introduceResults(int id)
+{
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+	if (result != SQLITE_OK) {
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_stmt *stmt;
+	const char sql[] = "select dni from participant where idRace = ?";
+
+	result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	if (result != SQLITE_OK) {
+		printf("Error preparing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+	result = sqlite3_bind_int(stmt, 1, id);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << "Linea 1" << endl;
+		cout << sqlite3_errmsg(db);
+		return result;
+	}
+
+	bool found = false;
+	do {
+		result = sqlite3_step(stmt);
+		if (result == SQLITE_ROW) {
+			char dni[100];
+			strcpy(dni, (char *)sqlite3_column_text(stmt, 0));
+			sqlite3_stmt *stmt2;
+			const char sql2[] =
+					"UPDATE PARTICIPANT SET POSITION = ?, TIME = ? WHERE idRace = ? AND DNI = ?";
+			result = sqlite3_prepare_v2(db, sql2, -1, &stmt2, NULL);
+			if (result != SQLITE_OK) {
+				printf("Error preparing statement (SELECT)\n");
+				printf("%s\n", sqlite3_errmsg(db));
+				return result;
+			}
+			int position;
+			char* time;
+			string str;
+			cout << "Introduzca la posicion de la persona con dni: " << dni << endl;
+			cin >> position;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			result = sqlite3_bind_int(stmt2, 1, position);
+			if (result != SQLITE_OK) {
+				cout << "Error binding parameters" << endl;
+				cout << "Linea 1" << endl;
+				cout << sqlite3_errmsg(db);
+				return result;
+			}
+			cout << "Introduzca el tiempo (hh:mm:ss) de la persona con dni: " << dni << endl;
+			getline(cin, str);
+			time = new char[strlen(str.c_str())+1];
+			strcpy(time, str.c_str());
+			result = sqlite3_bind_text(stmt2, 2, time, strlen(time),
+			SQLITE_STATIC);
+			if (result != SQLITE_OK) {
+				cout << "Error binding parameters" << endl;
+				cout << "Linea 2" << endl;
+				cout << sqlite3_errmsg(db);
+				return result;
+			}
+			result = sqlite3_bind_int(stmt2, 3, id);
+			if (result != SQLITE_OK) {
+				cout << "Error binding parameters" << endl;
+				cout << "Linea 1" << endl;
+				cout << sqlite3_errmsg(db);
+				return result;
+			}
+			result = sqlite3_bind_text(stmt2, 4, dni, strlen(dni),
+			SQLITE_STATIC);
+			if (result != SQLITE_OK) {
+				cout << "Error binding parameters" << endl;
+				cout << "Linea 2" << endl;
+				cout << sqlite3_errmsg(db);
+				return result;
+			}
+			result = sqlite3_step(stmt2);
+			if (result != SQLITE_DONE) {
+				cout << "Error inserting new data into table" << endl;
+				cout << sqlite3_errmsg(db) << endl;
+				return result;
+			}
+
+			result = sqlite3_finalize(stmt2);
+			if (result != SQLITE_OK) {
+				cout << "Error finalizing statement (INSERT)" << endl;
+				cout << sqlite3_errmsg(db) << endl;
+				return result;
+			}
+			found = true;
+		} else if (!found) {
+			cout << "No se ha encontrado ninguna." << endl;
+		}
+	} while (result == SQLITE_ROW);
+
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		cout << "Error finalizing statement (INSERT)" << endl;
+		cout << sqlite3_errmsg(db) << endl;
 		return result;
 	}
 

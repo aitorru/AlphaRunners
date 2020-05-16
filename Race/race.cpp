@@ -196,7 +196,7 @@ void Race::setNP(int nP)
 {
 	this->nP = nP;
 }
-void Race::setParticipants(int nP, Participant *participants)
+void Race::setParticipants()
 {
 	this->participants = new Participant[nP];
 	for (int i = 0; i < nW; i++)

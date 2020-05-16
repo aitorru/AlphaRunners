@@ -179,7 +179,6 @@ int main(void)
 							break;
 						case '4':
 							r.verEstadisticas(dni);
-							//TODO
 							break;
 						case '5':
 							intentosRunner = 3;
@@ -242,63 +241,11 @@ int main(void)
 						sendNotification(nss, "CAMBIO TAREA", desc);
 						break;
 					case '5':
-						cout << "Introduzca el id de la carrera: " << endl;
-
-						scanf("%i", &id);
+						cout << "Introduzca el id de la carrera:" << endl;
+						cin >> id;
 						cleanBuffer();
-						find = false;
-						num = 0;
-						if ((f = fopen("races.dat", "rb")) != NULL)
-						{
-							int num = fgetc(f);
-							races = new Race[num];
-							fread(races, sizeof(Race), num, f);
-							find = true;
-						}
-						else
-						{
-							cout
-								<< "No se ha encontrado el fichero de carreras."
-								<< endl;
-						}
-						fclose(f);
-						if (find)
-						{
-							for (int i = 0; i < num; i++)
-							{
-								if (races[i].getId() == id)
-								{
-									Participant *participants =
-										races[i].getParticipants();
-									for (int j = 0; j < races[i].getNP(); j++)
-									{
-										cout << "Corredor "
-											 << participants[j].getName()
-											 << ":" << endl;
-										cout
-											<< "Introduzca la posiciÃ³n en la que llego el corredor: "
-											<< endl;
-
-										int pos;
-										scanf("%i", &pos);
-										cleanBuffer();
-										participants[j].setNumber(pos);
-										cout
-											<< "Introduzca el tiempo que hizo (hh:mm:ss): "
-											<< endl;
-										cin >> str;
-										participants[j].setTime(str);
-										cleanBuffer();
-									}
-								}
-							}
-
-							f = fopen("races.dat", "wb");
-							fputc(num, f);
-							fwrite(races, sizeof(Race), num, f);
-							fclose(f);
-							free(races);
-						}
+						introduceResults(id);
+						cout << "Introducción de datos completada." << endl;
 						break;
 					case '6':
 						intentosWorker = 3;
@@ -384,12 +331,12 @@ int main(void)
 									deleteRace(id);
 									break;
 								case '5':
-									cout << "Introduzca el id de la carrera: "
-										 << endl;
-
+									cout << "Introduzca el id de la carrera:"
+											<< endl;
 									cin >> id;
 									cleanBuffer();
-									//introduceResults(id);
+									introduceResults(id);
+									cout << "Introducción de datos completada." << endl;
 									break;
 								case '6':
 									break;
@@ -447,13 +394,15 @@ int main(void)
 									 << endl;
 								cout << "------------------------------"
 									 << endl;
-								cout << "1.- Dar de alta a un trabajador."
+								cout << "1.- Registrar un trabajador."
 									 << endl;
 								cout << "2.- Modificar datos de trabajador."
 									 << endl;
 								cout << "3.- Dar de baja a un trabajador."
 									 << endl;
-								cout << "4.- AtrÃ¡s." << endl;
+								cout << "4.- Dar de alta a un trabajador."
+										<< endl;
+								cout << "5.- AtrÃ¡s." << endl;
 
 								scanf("%c", &opcionAdmin);
 								cleanBuffer();
@@ -475,82 +424,19 @@ int main(void)
 									employee.modifyEmployee(nss);
 									break;
 								case '3':
-									cout << "\nBAJA DE TRABAJADOR" << endl;
-									cout << "------------------" << endl;
-									cout << "Introduzca el nss del trabajador:"
-										 << endl;
-
-									cin >> str;
-									nss = new char[strlen(str) + 1];
-									strcpy(nss, str);
-									cleanBuffer();
-
-									num = 0;
-									Employee *employees;
-
-									if ((f = fopen("employees.dat", "rb")) != NULL)
-									{
-										num = fgetc(f);
-										employees = new Employee[num];
-										fread(employees, sizeof(Employee), num,
-											  f);
-										find = true;
-									}
-									else
-									{
-										cout
-											<< "No se ha encontrado el fichero de empleados."
-											<< endl;
-										find = false;
-									}
-									fclose(f);
-
-									if (find)
-									{
-										for (int i = 0; i < num; i++)
-										{
-											if (strcmp(employees[i].getNss(),
-													   nss) == 0)
-											{
-												strcpy(employees[i].getState(),
-													   "BAJA");
-												cout
-													<< "Se ha dado de baja correctamente al trabajador "
-													<< employees[i].getName()
-													<< "." << endl;
-												find = true;
-												break;
-											}
-											else
-											{
-												find = false;
-											}
-										}
-
-										if (!find)
-										{
-											cout
-												<< "No se ha podido encontrar al trabajador."
-												<< endl;
-										}
-
-										f = fopen("employees.dat", "wb");
-										fputc(num, f);
-										fwrite(employees, sizeof(Employee), num,
-											   f);
-										fclose(f);
-										free(employees);
-									}
-
+									//BAJA
 									break;
 								case '4':
+									//ALTA
+									break;
+								case '5':
 									break;
 								default:
 									cout
 										<< "ERROR. La opcion elegida no es correcta."
 										<< endl;
 								}
-							} while (opcionAdmin != '4');
+							} while (opcionAdmin != '5');
 							opcionAdmin = '3';
 							break;
 						case '4':

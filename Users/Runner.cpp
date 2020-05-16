@@ -282,10 +282,3 @@ void Runner::verEstadisticas(char *DNI)
 	}
 
 }
-
-void apuntarteACarrera() {
-	//TODO
-}
-void desapuntarteDeCarrera() {
-	//TODO
-}

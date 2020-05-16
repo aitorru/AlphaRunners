@@ -44,8 +44,6 @@ public:
 	void getInformation();
 	void modifyRunner(char *DNI);
 	void verEstadisticas(char *DNI);
-	void apuntarteACarrera();
-	void desapuntarteDeCarrera();
 
 };
 }
