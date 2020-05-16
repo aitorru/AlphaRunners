@@ -206,7 +206,6 @@ void Race::setParticipants(int nP, Participant *participants)
 }
 void Race::createRace()
 {
-	// TODO Name S; Date S; Time S; Location S; Km int; Organizer int;
 	string str;
 	char *name, *date, *time, *location, *nss;
 	int km;
@@ -215,7 +214,7 @@ void Race::createRace()
 	getline(cin, str);
 	name = new char[strlen(str.c_str()) + 1];
 	strcpy(name, str.c_str());
-	cout << "Introduce la fecha DD-MM-YYYY:";
+	cout << "Introduce la fecha (YYYY-MM-DD):";
 	cin >> str;
 	date = new char[strlen(str.c_str()) + 1];
 	strcpy(date, str.c_str());
@@ -233,13 +232,7 @@ void Race::createRace()
 	cin >> str;
 	nss = new char[strlen(str.c_str()) + 1];
 	strcpy(nss, str.c_str());
-	int result = insertRace(name, date, time, location, km, nss);
-	cout << result << endl;
-}
-void Race::deleteRace(int id)
-{
-	cout << "Borrando carrera con id: " << id << endl;
-	deleteRacedb(id);
+	insertRace(name, date, time, location, km, nss);
 }
 void Race::modifyRace(int id)
 {

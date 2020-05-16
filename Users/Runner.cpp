@@ -226,7 +226,7 @@ void Runner::modifyRunner(char *DNI) {
 			strcpy(datos, str.c_str());
 			cout << "Updating" << endl;
 			updateRunner(6,datos,DNI);
-
+			break;
 		default:
 			break;
 		}
@@ -235,46 +235,52 @@ void Runner::modifyRunner(char *DNI) {
 void Runner::verEstadisticas(char *DNI)
 {	
 	vector<string> tiempos;
-	selectTiempos(DNI, &tiempos);
-	vector<int> horas;
-	vector<int> minutos;
-	vector<int> segundos;
-	for (int i = 0; i < tiempos.size(); i++)
-	{
-		char *time = (char*) malloc(8*sizeof(char));
-		strcpy(time, tiempos.at(i).c_str());
-		char horaCH[] = {time[0], time[1]};
-		int horaIN = atoi(horaCH);
-		horas.push_back(horaIN);
-		char minutosCH[] = {time[3], time[4]};
-		int minutosIN = atoi(minutosCH);
-		minutos.push_back(minutosIN);
-		char segundosCH[] = {time[6], time[7]};
-		int segundosIN = atoi(segundosCH);
-		segundos.push_back(segundosIN);
+	int result = selectTiempos(DNI, &tiempos);
+	if(result == SQLITE_OK){
+		cout << "me emto dentro" << endl;
+		vector<int> horas;
+		vector<int> minutos;
+		vector<int> segundos;
+		for (int i = 0; i < tiempos.size(); i++) {
+			char *time = (char*) malloc(8 * sizeof(char));
+			strcpy(time, tiempos.at(i).c_str());
+			char horaCH[] = { time[0], time[1] };
+			int horaIN = atoi(horaCH);
+			horas.push_back(horaIN);
+			char minutosCH[] = { time[3], time[4] };
+			int minutosIN = atoi(minutosCH);
+			minutos.push_back(minutosIN);
+			char segundosCH[] = { time[6], time[7] };
+			int segundosIN = atoi(segundosCH);
+			segundos.push_back(segundosIN);
+		}
+		int mediaHoras = 0, mediaMinutos = 0, mediaSegundos = 0;
+		for (int i = 0; i < tiempos.size(); i++) {
+			mediaHoras = mediaHoras + horas.at(i);
+			mediaMinutos = mediaMinutos + minutos.at(i);
+			mediaSegundos = mediaSegundos + segundos.at(i);
+		}
+		mediaHoras = mediaHoras / tiempos.size();
+		mediaMinutos = mediaMinutos / tiempos.size();
+		mediaSegundos = mediaSegundos / tiempos.size();
+		cout << "Tus tiempos en las carreras han sido de media: " << mediaHoras
+				<< "h|" << mediaMinutos << "m|" << mediaSegundos << "s" << endl;
 	}
-	int mediaHoras = 0,mediaMinutos = 0,mediaSegundos = 0;
-	for(int i = 0; i<tiempos.size(); i++)
-	{
-		mediaHoras = mediaHoras + horas.at(i);
-		mediaMinutos = mediaMinutos + minutos.at(i);
-		mediaSegundos = mediaSegundos + segundos.at(i);
-	}
-	mediaHoras = mediaHoras/tiempos.size();
-	mediaMinutos = mediaMinutos/tiempos.size();
-	mediaSegundos = mediaSegundos/tiempos.size();
-	cout << "Tus tiempos en las carreras han sido de media: " << mediaHoras << "h|" << mediaMinutos << "m|" << mediaSegundos << "s" << endl;
 
 
 	vector<int> pos;
-	selectPosiciones(DNI, &pos);
-	int mediaPosiciones = 0;
-	for(int i = 0; i<pos.size();i++)
-	{
-		mediaPosiciones = mediaPosiciones + pos.at(i);
+	result = selectPosiciones(DNI, &pos);
+	if(result == SQLITE_OK){
+		int mediaPosiciones = 0;
+		for (int i = 0; i < pos.size(); i++) {
+			mediaPosiciones = mediaPosiciones + pos.at(i);
+		}
+		mediaPosiciones = mediaPosiciones / pos.size();
+		cout << "Has quedado de media en la posicion: " << mediaPosiciones << endl;
+	}else{
+		cout << "No se han encontrado los resultados de tus carreras." << endl;
 	}
-	mediaPosiciones = mediaPosiciones/pos.size();
-	cout << "Has quedado de media en la posicion: " << mediaPosiciones << endl;
+
 }
 
 void apuntarteACarrera() {

@@ -1140,6 +1140,7 @@ int selectTiempos(char *dni, vector<string> *tiempos)
 		printf("%s\n", sqlite3_errmsg(db));
 		return result;
 	}
+
 	result = sqlite3_bind_text(stmt, 1, dni, strlen(dni), SQLITE_STATIC);
 	if (result != SQLITE_OK)
 	{
@@ -1147,16 +1148,34 @@ int selectTiempos(char *dni, vector<string> *tiempos)
 		cout << sqlite3_errmsg(db);
 		return result;
 	}
+	bool found = false;
 	do
 	{
 		result = sqlite3_step(stmt);
 		if (result == SQLITE_ROW)
 		{
-			string s = string(reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0)));
-			tiempos->push_back(s);
+			if(sqlite3_column_bytes(stmt, 0) != 0){
+				found = true;
+				string s = string(reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0)));
+				tiempos->push_back(s);
+			}
 		}
 	} while (result == SQLITE_ROW);
-	return SQLITE_OK;
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		cout << "Error finalizing statement (INSERT)" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+
+	sqlite3_close(db);
+
+	if (found) {
+		return SQLITE_OK;
+	} else {
+		return SQLITE_ERROR;
+	}
 }
 int selectPosiciones(char *dni, vector<int> *pos)
 {
@@ -1185,16 +1204,35 @@ int selectPosiciones(char *dni, vector<int> *pos)
 		cout << sqlite3_errmsg(db);
 		return result;
 	}
+	bool found = false;
 	do
 	{
 		result = sqlite3_step(stmt);
 		if (result == SQLITE_ROW)
 		{
-			int posTMP = sqlite3_column_int(stmt, 0);
-			pos->push_back(posTMP);
+			if(sqlite3_column_bytes(stmt, 0) != 0){
+				found = true;
+				int posTMP = sqlite3_column_int(stmt, 0);
+				pos->push_back(posTMP);
+			}
 		}
 	} while (result == SQLITE_ROW);
-	return SQLITE_OK;
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		cout << "Error finalizing statement (INSERT)" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+
+	sqlite3_close(db);
+
+	if(found){
+		return SQLITE_OK;
+	}else{
+		return SQLITE_ERROR;
+	}
+
 }
 /*
  * TABLA NOTIFICATION
@@ -1428,7 +1466,7 @@ int insertRace(char *name, char *date, char *time, char *location, int km, char 
 
 	return SQLITE_OK;
 }
-int deleteRacedb(int id)
+int deleteRace(int id)
 {
 	sqlite3 *db;
 	int result = sqlite3_open(dir, &db);

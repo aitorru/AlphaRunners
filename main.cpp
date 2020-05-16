@@ -347,52 +347,58 @@ int main(void)
 							{
 								cout << "\nADMINISTRACION DE CARRERAS" << endl;
 								cout << "--------------------------" << endl;
-								cout << "1.- Crear una carrera." << endl;
-								cout << "2.- Modificar carrera." << endl;
-								cout << "3.- Eliminar una carrera." << endl;
-								cout << "4.- Añadir resultados de una carrera."
+								cout << "2.- Visualizar todas las carreras." << endl;
+								cout << "2.- Crear una carrera." << endl;
+								cout << "3.- Modificar carrera." << endl;
+								cout << "4.- Eliminar una carrera." << endl;
+								cout << "5.- Añadir resultados de una carrera."
 									 << endl;
-								cout << "5.- Atrás." << endl;
+								cout << "6.- Atrás." << endl;
 
 								scanf("%c", &opcionAdmin);
 								cleanBuffer();
 								switch (opcionAdmin)
 								{
 								case '1':
-									rc.createRace();
+									showAllRaces();
 									break;
 								case '2':
-									cout << "Introduzca el id de la carrera: "
-										 << endl;
-
-									scanf("%i", &id);
+									rc.createRace();
 									cleanBuffer();
-									rc.modifyRace(id);
 									break;
 								case '3':
 									cout << "Introduzca el id de la carrera: "
 										 << endl;
 
-									scanf("%i", &id);
+									cin >> id;
 									cleanBuffer();
-									rc.deleteRace(id);
+									rc.modifyRace(id);
 									break;
 								case '4':
 									cout << "Introduzca el id de la carrera: "
 										 << endl;
 
-									scanf("%i", &id);
+									cin >> id;
+									cleanBuffer();
+									cout << "Borrando carrera con id: " << id << endl;
+									deleteRace(id);
+									break;
+								case '5':
+									cout << "Introduzca el id de la carrera: "
+										 << endl;
+
+									cin >> id;
 									cleanBuffer();
 									//introduceResults(id);
 									break;
-								case '5':
+								case '6':
 									break;
 								default:
 									cout
 										<< "ERROR. La opcion elegida no es correcta."
 										<< endl;
 								}
-							} while (opcionAdmin != '5');
+							} while (opcionAdmin != '6');
 							break;
 						case '2':
 							do
