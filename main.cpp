@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <string>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <limits>
@@ -245,7 +246,7 @@ int main(void)
 						cin >> id;
 						cleanBuffer();
 						introduceResults(id);
-						cout << "Introducción de datos completada." << endl;
+						cout << "Introducciï¿½n de datos completada." << endl;
 						break;
 					case '6':
 						intentosWorker = 3;
@@ -336,7 +337,7 @@ int main(void)
 									cin >> id;
 									cleanBuffer();
 									introduceResults(id);
-									cout << "Introducción de datos completada." << endl;
+									cout << "Introducciï¿½n de datos completada." << endl;
 									break;
 								case '6':
 									break;
