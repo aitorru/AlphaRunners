@@ -42,8 +42,8 @@ public:
 	void setPassword(const char *password);
 	/*RESTO DE M�TODOS*/
 	void getInformation();
-	void modifyRunner(char *DNI);
-	void verEstadisticas(char *DNI);
+	void modifyRunner();
+	void verEstadisticas();
 
 };
 }

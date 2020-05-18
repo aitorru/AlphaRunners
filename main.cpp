@@ -110,6 +110,9 @@ int main(void)
 				}
 				if (strcmp(passRunner, pass) == 0)
 				{
+					r.setDni(dni);
+					delete dni;
+					delete passRunner;
 					do
 					{
 						cout << "\nMENU CORREDORES" << endl;
@@ -145,7 +148,7 @@ int main(void)
 									 << endl;
 								cin >> number;
 								cleanBuffer();
-								joinRace(dni, id, number);
+								joinRace(r.getDni(), id, number);
 								break;
 							case '3':
 								break;
@@ -163,23 +166,23 @@ int main(void)
 							switch (opcionCorredor)
 							{
 							case '1':
-								showJoinedRaces(dni);
+								showJoinedRaces(r.getDni());
 								break;
 							case '2':
 								cout << "Cual es el id de la carrera de la que te quieres desapuntar:" << endl;
 								scanf("%i", &id);
 								cleanBuffer();
-								deleteParticipant(dni, id);
+								deleteParticipant(r.getDni(), id);
 								break;
 							case '3':
 								break;
 							}
 							break;
 						case '3':
-							r.modifyRunner(dni);
+							r.modifyRunner();
 							break;
 						case '4':
-							r.verEstadisticas(dni);
+							r.verEstadisticas();
 							break;
 						case '5':
 							intentosRunner = 3;
@@ -206,6 +209,8 @@ int main(void)
 			cleanBuffer();
 			if (foundEmployee(nss) == SQLITE_OK)
 			{
+				employee.setNss(nss);
+				delete nss;
 				do
 				{
 					cout << "\nMENU TRABAJADOR" << endl;
@@ -224,22 +229,22 @@ int main(void)
 					case '1':
 						cout << "\nTarea" << endl;
 						cout << "-----" << endl;
-						showTask(nss);
+						showTask(employee.getNss());
 						break;
 					case '2':
 						cout << "Introduzca una breve descripci�n del motivo de su baja: " << endl;
 						getline(cin, s);
 						strcpy(desc, s.c_str());
 						cleanBuffer();
-						sendNotification(nss, "BAJA", desc);
+						sendNotification(employee.getNss(), "BAJA", desc);
 						break;
 					case '3':
-						employee.modifyEmployee(nss);
+						employee.modifyEmployee();
 					case '4':
 						cout << "Introduzca una breve descripci�n del motivo: " << endl;
 						getline(cin, s);
 						strcpy(desc, s.c_str());
-						sendNotification(nss, "CAMBIO TAREA", desc);
+						sendNotification(employee.getNss(), "CAMBIO TAREA", desc);
 						break;
 					case '5':
 						cout << "Introduzca el id de la carrera:" << endl;
@@ -276,6 +281,7 @@ int main(void)
 				char *key = "alpharunners";
 				if (strcmp(key, passAdmin) == 0)
 				{
+					delete passAdmin;
 					checkNotifications();
 					do
 					{
@@ -377,7 +383,9 @@ int main(void)
 									dni = new char[strlen(str) + 1];
 									strcpy(dni, str);
 									cleanBuffer();
-									r.modifyRunner(dni);
+									r.setDni(dni);
+									r.modifyRunner();
+									delete dni;
 									break;
 								case '3':
 									break;
@@ -424,13 +432,30 @@ int main(void)
 									strcpy(nss, str);
 									employee.setNss(nss);
 									employee.modifyEmployee();
+									delete nss;
 									break;
 								case '3':
+									cout << "Introduzca el nss del trabajador:"
+											<< endl;
+
+									cin >> str;
+									nss = new char[strlen(str) + 1];
+									strcpy(nss, str);
+									employee.setNss(nss);
 									employee.setState("BAJA");
 									removeNotification(employee.getNss(), "BAJA");
+									delete nss;
 									break;
 								case '4':
+									cout << "Introduzca el nss del trabajador:"
+											<< endl;
+
+									cin >> str;
+									nss = new char[strlen(str) + 1];
+									strcpy(nss, str);
+									employee.setNss(nss);
 									employee.setState("ALTA");
+									delete nss;
 									break;
 								case '5':
 									break;

@@ -155,7 +155,7 @@ void Runner::getInformation() {
 	strcpy(this->password, str.c_str());
 }
 
-void Runner::modifyRunner(char *DNI) {
+void Runner::modifyRunner() {
 	string str;
 	char *datos;
 	cout << "Que quieres modificar:" << endl;
@@ -180,7 +180,7 @@ void Runner::modifyRunner(char *DNI) {
 			datos =  new char[strlen(str.c_str())+1];
 			strcpy(datos, str.c_str());
 			cout << "Updating" << endl;
-			updateRunner(2,datos,DNI);
+			updateRunner(2,datos,this->dni);
 			break;
 		
 		case '3':
@@ -192,8 +192,9 @@ void Runner::modifyRunner(char *DNI) {
 			datos =  new char[strlen(str.c_str())+1];
 			strcpy(datos, str.c_str());
 			cout << "Updating" << endl;
-			updateRunner(3,datos,DNI);
-		
+			updateRunner(3,datos,this->dni);
+			break;
+
 		case '4':
 			cout << "\nIntroduce Email: " << endl;
 			cout.flush();
@@ -203,8 +204,8 @@ void Runner::modifyRunner(char *DNI) {
 			datos =  new char[strlen(str.c_str())+1];
 			strcpy(datos, str.c_str());
 			cout << "Updating" << endl;
-			updateRunner(4,datos,DNI);
-
+			updateRunner(4,datos,this->dni);
+			break;
 		case '5':
 			cout << "\nIntroduce Birthdate (DD/MM/AAAA): " << endl;
 			cout.flush();
@@ -214,7 +215,7 @@ void Runner::modifyRunner(char *DNI) {
 			datos =  new char[strlen(str.c_str())+1];
 			strcpy(datos, str.c_str());
 			cout << "Updating" << endl;
-			updateRunner(5,datos,DNI);
+			updateRunner(5,datos,this->dni);
 
 		case '6':
 			cout << "\nIntroduce contraseña: " << endl;
@@ -225,17 +226,17 @@ void Runner::modifyRunner(char *DNI) {
 			datos =  new char[strlen(str.c_str())+1];
 			strcpy(datos, str.c_str());
 			cout << "Updating" << endl;
-			updateRunner(6,datos,DNI);
+			updateRunner(6,datos,this->dni);
 			break;
 		default:
 			break;
 		}
 }
 
-void Runner::verEstadisticas(char *DNI)
+void Runner::verEstadisticas()
 {	
 	vector<string> tiempos;
-	int result = selectTiempos(DNI, &tiempos);
+	int result = selectTiempos(this->dni, &tiempos);
 	if(result == SQLITE_OK){
 		cout << "me emto dentro" << endl;
 		vector<int> horas;
@@ -269,7 +270,7 @@ void Runner::verEstadisticas(char *DNI)
 
 
 	vector<int> pos;
-	result = selectPosiciones(DNI, &pos);
+	result = selectPosiciones(this->dni, &pos);
 	if(result == SQLITE_OK){
 		int mediaPosiciones = 0;
 		for (int i = 0; i < pos.size(); i++) {
