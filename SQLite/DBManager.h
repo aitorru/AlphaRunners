@@ -21,6 +21,7 @@ int getPassword(char* dni, char* password);
 int insertNewEmployee(Employee e);
 int foundEmployee(char* nss);
 int updateEmployee(int campo, char *dato, char *nss);
+int modifyState(char* nss, char* state);
 //TABLA RACE
 int showAllRaces();
 int showRace(sqlite3 *db, int idRace);
@@ -40,6 +41,7 @@ int showTask(sqlite3 *db, char* nss);
 //TABLA NOTIFICATION
 int sendNotification(char* nss, char* title, char* desc);
 int checkNotifications();
+int removeNotification(char* nss, char* title);
 // UTILS
 
 #endif /* DBMANAGER_H_ */

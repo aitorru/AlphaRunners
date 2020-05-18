@@ -422,13 +422,15 @@ int main(void)
 									cin >> str;
 									nss = new char[strlen(str) + 1];
 									strcpy(nss, str);
-									employee.modifyEmployee(nss);
+									employee.setNss(nss);
+									employee.modifyEmployee();
 									break;
 								case '3':
-									//BAJA
+									employee.setState("BAJA");
+									removeNotification(employee.getNss(), "BAJA");
 									break;
 								case '4':
-									//ALTA
+									employee.setState("ALTA");
 									break;
 								case '5':
 									break;

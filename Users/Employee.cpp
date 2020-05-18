@@ -81,6 +81,7 @@ void Employee::setState(char *state) {
 	delete[] state;
 	this->state = new char[strlen(state) + 1];
 	strcpy(this->state, state);
+	modifyState(this->nss, this->state);
 }
 void Employee::getInformation()
 {
@@ -99,7 +100,7 @@ void Employee::getInformation()
 	cout << "Introduzca el salario: " << endl;
 	cin >> this->salary;
 }
-void Employee::modifyEmployee(char *nss) {
+void Employee::modifyEmployee() {
 	string str;
 	char *datos;
 	cout << "Que quieres modificar:" << endl;
@@ -120,7 +121,7 @@ void Employee::modifyEmployee(char *nss) {
 		datos = new char[strlen(str.c_str()) + 1];
 		strcpy(datos, str.c_str());
 		cout << "Updating" << endl;
-		updateEmployee(1, datos, nss);
+		updateEmployee(1, datos, this->nss);
 		break;
 	case '2':
 		cout << "\nIntroduce nombre: " << endl;
@@ -131,7 +132,7 @@ void Employee::modifyEmployee(char *nss) {
 		datos = new char[strlen(str.c_str()) + 1];
 		strcpy(datos, str.c_str());
 		cout << "Updating" << endl;
-		updateEmployee(2, datos, nss);
+		updateEmployee(2, datos, this->nss);
 		break;
 	default:
 		break;

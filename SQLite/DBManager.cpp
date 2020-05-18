@@ -431,6 +431,58 @@ int updateEmployee(int campo, char *dato, char *nss)
 	}
 	return 0;
 }
+int modifyState(char* nss, char* state)
+{
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+	if (result != SQLITE_OK) {
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_stmt *stmt;
+
+	const char sql2[] = "UPDATE EMPLOYEE SET STATE = ? WHERE NSS = ?";
+	result = sqlite3_prepare_v2(db, sql2, -1, &stmt, NULL);
+	if (result != SQLITE_OK) {
+		printf("Error preparing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+	result = sqlite3_bind_text(stmt, 1, state, strlen(state),
+	SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << "Linea 1" << endl;
+		cout << sqlite3_errmsg(db);
+		return result;
+	}
+	result = sqlite3_bind_text(stmt, 2, nss, strlen(nss),
+	SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << "Linea 2" << endl;
+		cout << sqlite3_errmsg(db);
+		return result;
+	}
+	result = sqlite3_step(stmt);
+	if (result != SQLITE_DONE) {
+		cout << "Error inserting new data into table" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		cout << "Error finalizing statement (INSERT)" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+
+	sqlite3_close (db);
+	return SQLITE_OK;
+}
 
 /*
  * TABLA RACE
@@ -1928,4 +1980,56 @@ int updateRace(int campo, char *dato, int id)
 	break;
 	}
 	return 0;
+}
+int removeNotification(char* nss, char* title)
+ {
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+	if (result != SQLITE_OK) {
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_stmt *stmt;
+
+	char sql[] = "delete from Notification where NSS = ? and title = ?";
+
+	result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	if (result != SQLITE_OK) {
+		printf("Error preparing statement (DELETE)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	result = sqlite3_bind_text(stmt, 1, nss, strlen(nss), SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << sqlite3_errmsg(db);
+		return result;
+	}
+
+	result = sqlite3_bind_text(stmt, 2, title, strlen(title), SQLITE_STATIC);
+	if (result != SQLITE_OK) {
+		cout << "Error binding parameters" << endl;
+		cout << sqlite3_errmsg(db);
+		return result;
+	}
+
+	result = sqlite3_step(stmt);
+	if (result != SQLITE_DONE) {
+		cout << "Error deleting data from table" << endl;
+		cout << sqlite3_errmsg(db) << endl;
+		return result;
+	}
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK) {
+		printf("Error finalizing statement (DELETE)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_close(db);
+	return SQLITE_OK;
 }

@@ -32,7 +32,7 @@ public:
 	void setState(char *state);
 	/*RESTO DE MÉTODOS*/
 	void getInformation();
-	void modifyEmployee(char* nss);
+	void modifyEmployee();
 };
 }
 
