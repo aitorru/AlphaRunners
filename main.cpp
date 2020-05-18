@@ -29,11 +29,6 @@ void cleanBuffer()
 }
 int main(void)
 {
-	//Variables para los ficheros
-	FILE *f;
-	int num;
-	bool find = false;
-
 	//Variables para navegar a traves de los menus
 	char opcionIni;
 	char opcionAdmin;
@@ -65,7 +60,7 @@ int main(void)
 	int id;
 	Employee employee;
 	Employee organizer;
-	Runner runner;
+	Runner r;
 	Race rc;
 
 	//Variables para alta/baja de un trabajador
@@ -84,7 +79,6 @@ int main(void)
 
 		scanf("%c", &opcionIni);
 		cleanBuffer();
-		Runner r;
 		switch (opcionIni)
 		{
 		case '1':
@@ -238,6 +232,7 @@ int main(void)
 						break;
 					case '3':
 						employee.modifyEmployee();
+						break;
 					case '4':
 						cout << "Introduzca una breve descripci�n del motivo: " << endl;
 						getline(cin, s);
@@ -257,6 +252,7 @@ int main(void)
 					default:
 						cout << "ERROR. La opcion elegida no es correcta."
 							 << endl;
+						break;
 					}
 				} while (opcionWorker != '6' || intentosWorker != 3);
 			}
@@ -369,8 +365,8 @@ int main(void)
 								case '1':
 									cout << "REGISTRO DE CORREDOR" << endl;
 									cout << "--------------------" << endl;
-									runner.getInformation();
-									insertNewRunner(runner);
+									r.getInformation();
+									insertNewRunner(r);
 									break;
 								case '2':
 									cout
@@ -489,8 +485,8 @@ int main(void)
 		case '4':
 			cout << "REGISTRO DE CORREDOR" << endl;
 			cout << "--------------------" << endl;
-			runner.getInformation();
-			insertNewRunner(runner);
+			r.getInformation();
+			insertNewRunner(r);
 			break;
 		case 'q':
 			break;
