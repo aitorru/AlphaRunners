@@ -66,7 +66,6 @@ int main(void)
 	Employee employee;
 	Employee organizer;
 	Runner runner;
-	Race *races;
 	Race rc;
 
 	//Variables para alta/baja de un trabajador
@@ -235,7 +234,6 @@ int main(void)
 						cout << "Introduzca una breve descripci�n del motivo de su baja: " << endl;
 						getline(cin, s);
 						strcpy(desc, s.c_str());
-						cleanBuffer();
 						sendNotification(employee.getNss(), "BAJA", desc);
 						break;
 					case '3':
@@ -430,6 +428,7 @@ int main(void)
 									cin >> str;
 									nss = new char[strlen(str) + 1];
 									strcpy(nss, str);
+									cleanBuffer();
 									employee.setNss(nss);
 									employee.modifyEmployee();
 									delete nss;
@@ -441,6 +440,7 @@ int main(void)
 									cin >> str;
 									nss = new char[strlen(str) + 1];
 									strcpy(nss, str);
+									cleanBuffer();
 									employee.setNss(nss);
 									employee.setState("BAJA");
 									removeNotification(employee.getNss(), "BAJA");
@@ -453,6 +453,7 @@ int main(void)
 									cin >> str;
 									nss = new char[strlen(str) + 1];
 									strcpy(nss, str);
+									cleanBuffer();
 									employee.setNss(nss);
 									employee.setState("ALTA");
 									delete nss;
@@ -497,5 +498,6 @@ int main(void)
 			cout << "ERROR. La opcion elegida no es correcta." << endl;
 		}
 	} while (opcionIni != 'q');
+
 	return 0;
 }

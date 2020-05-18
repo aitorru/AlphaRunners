@@ -796,6 +796,7 @@ int introduceResults(int id)
 				cout << sqlite3_errmsg(db);
 				return result;
 			}
+			delete time;
 			result = sqlite3_bind_int(stmt2, 3, id);
 			if (result != SQLITE_OK) {
 				cout << "Error binding parameters" << endl;
@@ -839,6 +840,7 @@ int introduceResults(int id)
 	}
 
 	sqlite3_close(db);
+
 	return SQLITE_OK;
 }
 /*
@@ -1930,7 +1932,7 @@ int updateRace(int campo, char *dato, int id)
 		}
 
 		sqlite3_close(db);
-	}
+	} break;
 	case 7:
 	{
 		// Edit de organizador
