@@ -803,7 +803,7 @@ int showAllRaces()
 
 	sqlite3_stmt *stmt;
 
-	char sql[] = "select idRace, name, date, location, km from Race";
+	char sql[] = "select idRace, name, date, location, km from Race where date>date('now')";
 
 	result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 	if (result != SQLITE_OK)
