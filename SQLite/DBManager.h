@@ -31,10 +31,11 @@ int updateRace(int entrada, char *datos, int id);
 //TABLA PARTICIPANT
 int joinRace(char* dni, int id, int number);
 int showJoinedRaces(char* dni);
-int deleteParticipant(char* dni, int idRace);
 int introduceResults(int id);
+int deleteParticipant(char* dni, int idRace);
 int selectTiempos(char *dni, vector<string> *tiempos);
 int selectPosiciones(char *dni, vector<int> *pos);
+int isJoined(char* dni, int idRace, bool & joined);
 //TABLA TASK
 int showTask(char* nss);
 int showTask(sqlite3 *db, char* nss);
