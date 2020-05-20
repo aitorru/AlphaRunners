@@ -846,6 +846,62 @@ int incomingRaces()
 	sqlite3_close(db);
 	return SQLITE_OK;
 }
+int showAllRaces()
+{
+	sqlite3 *db;
+	int result = sqlite3_open(dir, &db);
+	if (result != SQLITE_OK)
+	{
+		printf("Error opening DB\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_stmt *stmt;
+
+	char sql[] = "select idRace, name, date, location, km from Race";
+
+	result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	if (result != SQLITE_OK)
+	{
+		printf("Error preparing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	int idRace;
+	char name[100];
+	char date[100];
+	char location[100];
+	int km;
+
+	printf("Lista de carreras\n");
+	printf("-----------------\n");
+	do
+	{
+		result = sqlite3_step(stmt);
+		if (result == SQLITE_ROW)
+		{
+			idRace = sqlite3_column_int(stmt, 0);
+			strcpy(name, (char *)sqlite3_column_text(stmt, 1));
+			strcpy(date, (char *)sqlite3_column_text(stmt, 2));
+			strcpy(location, (char *)sqlite3_column_text(stmt, 3));
+			km = sqlite3_column_int(stmt, 4);
+			printf("Carrera %d: %s(%dkm) (%s) (%s)\n", idRace, name, km, date, location);
+		}
+	} while (result == SQLITE_ROW);
+
+	result = sqlite3_finalize(stmt);
+	if (result != SQLITE_OK)
+	{
+		printf("Error finalizing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	sqlite3_close(db);
+	return SQLITE_OK;
+}
 int showRace(sqlite3 *db, int idRace)
 {
 	sqlite3_stmt *stmt;
