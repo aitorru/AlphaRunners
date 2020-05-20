@@ -38,6 +38,7 @@ int selectPosiciones(char *dni, vector<int> *pos);
 //TABLA TASK
 int showTask(char* nss);
 int showTask(sqlite3 *db, char* nss);
+int insertTask(char* nss, int idRace);
 //TABLA NOTIFICATION
 int sendNotification(char* nss, char* title, char* desc);
 int checkNotifications();

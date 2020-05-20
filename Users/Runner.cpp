@@ -216,7 +216,7 @@ void Runner::modifyRunner() {
 			strcpy(datos, str.c_str());
 			cout << "Updating" << endl;
 			updateRunner(5,datos,this->dni);
-
+			break;
 		case '6':
 			cout << "\nIntroduce contraseña: " << endl;
 			cout.flush();
@@ -238,7 +238,8 @@ void Runner::verEstadisticas()
 	vector<string> tiempos;
 	int result = selectTiempos(this->dni, &tiempos);
 	if(result == SQLITE_OK){
-		cout << "me emto dentro" << endl;
+		cout << "Estadisticas" << endl;
+		cout << "------------" << endl;
 		vector<int> horas;
 		vector<int> minutos;
 		vector<int> segundos;

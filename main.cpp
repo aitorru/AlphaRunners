@@ -394,18 +394,19 @@ int main(void)
 							do
 							{
 								cout << "\nADMINISTRACION DE TRABAJADORES"
-									 << endl;
+										<< endl;
 								cout << "------------------------------"
-									 << endl;
-								cout << "1.- Registrar un trabajador."
-									 << endl;
+										<< endl;
+								cout << "1.- Registrar un trabajador." << endl;
 								cout << "2.- Modificar datos de trabajador."
-									 << endl;
+										<< endl;
 								cout << "3.- Dar de baja a un trabajador."
-									 << endl;
+										<< endl;
 								cout << "4.- Dar de alta a un trabajador."
 										<< endl;
-								cout << "5.- Atrás." << endl;
+								cout << "5.- Asignar tarea a un trabajador."
+										<< endl;
+								cout << "6.- Atrás." << endl;
 
 								scanf("%c", &opcionAdmin);
 								cleanBuffer();
@@ -445,7 +446,6 @@ int main(void)
 								case '4':
 									cout << "Introduzca el nss del trabajador:"
 											<< endl;
-
 									cin >> str;
 									nss = new char[strlen(str) + 1];
 									strcpy(nss, str);
@@ -455,6 +455,20 @@ int main(void)
 									delete nss;
 									break;
 								case '5':
+									cout << "Introduzca el nss del trabajador:"
+											<< endl;
+									cin >> str;
+									nss = new char[strlen(str) + 1];
+									strcpy(nss, str);
+									cleanBuffer();
+									cout << "Introduzca el id de la carrera:"
+											<< endl;
+									cin >> id;
+									cleanBuffer();
+									insertTask(nss, id);
+									delete nss;
+									break;
+								case '6':
 									break;
 								default:
 									cout
