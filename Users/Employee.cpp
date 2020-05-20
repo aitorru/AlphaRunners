@@ -86,10 +86,7 @@ void Employee::setState(char *state) {
 void Employee::getInformation()
 {
 	string str;
-	getline(cin, str);
-
 	cout << "Introduzca el NSS: " << endl;
-	cout.flush();
 	getline(cin, str);
 	this->nss = new char[strlen(str.c_str()) + 1];
 	strcpy(this->nss, str.c_str());

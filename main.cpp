@@ -295,7 +295,7 @@ int main(void)
 							{
 								cout << "\nADMINISTRACION DE CARRERAS" << endl;
 								cout << "--------------------------" << endl;
-								cout << "2.- Visualizar todas las carreras." << endl;
+								cout << "1.- Visualizar todas las carreras." << endl;
 								cout << "2.- Crear una carrera." << endl;
 								cout << "3.- Modificar carrera." << endl;
 								cout << "4.- Eliminar una carrera." << endl;
@@ -417,6 +417,7 @@ int main(void)
 									cout << "--------------------" << endl;
 									employee.getInformation();
 									insertNewEmployee(employee);
+									cleanBuffer();
 									break;
 								case '2':
 									cout << "Introduzca el nss del trabajador:"
@@ -475,7 +476,7 @@ int main(void)
 										<< "ERROR. La opcion elegida no es correcta."
 										<< endl;
 								}
-							} while (opcionAdmin != '5');
+							} while (opcionAdmin != '6');
 							opcionAdmin = '3';
 							break;
 						case '4':
