@@ -8,6 +8,7 @@
 #include "Employee.h"
 #include <stdio.h>
 #include <string.h>
+#include <string>
 #include <stdlib.h>
 #include <limits>
 #include "../SQLite/DBManager.h"
@@ -16,7 +17,8 @@ using namespace users;
 using namespace std;
 
 /*CONSTRUCTORES Y DESTRUCTOR*/
-Employee::Employee() {
+Employee::Employee()
+{
 	this->nss = new char[1];
 	this->nss[0] = '\0';
 	this->name = new char[1];
@@ -25,7 +27,7 @@ Employee::Employee() {
 	this->state = new char[1];
 	this->state[0] = '\0';
 }
-Employee::Employee(const Employee & e)
+Employee::Employee(const Employee &e)
 {
 	this->nss = new char[strlen(e.nss) + 1];
 	strcpy(this->nss, e.nss);
@@ -35,7 +37,8 @@ Employee::Employee(const Employee & e)
 	this->state = new char[strlen(e.state) + 1];
 	strcpy(this->state, e.state);
 }
-Employee::Employee(char *nss, char *name, int salary, char *state) {
+Employee::Employee(char *nss, char *name, int salary, char *state)
+{
 
 	this->nss = new char[strlen(nss) + 1];
 	strcpy(this->nss, nss);
@@ -45,39 +48,48 @@ Employee::Employee(char *nss, char *name, int salary, char *state) {
 	this->state = new char[strlen(state) + 1];
 	strcpy(this->state, state);
 }
-Employee::~Employee() {
+Employee::~Employee()
+{
 	delete[] nss;
 	delete[] name;
 	delete[] state;
 }
 
 /*GET Y SET*/
-char* Employee::getNss() {
+char *Employee::getNss()
+{
 	return this->nss;
 }
-char* Employee::getName() {
+char *Employee::getName()
+{
 	return this->name;
 }
-int Employee::getSalary() {
+int Employee::getSalary()
+{
 	return this->salary;
 }
-char* Employee::getState() {
+char *Employee::getState()
+{
 	return this->state;
 }
-void Employee::setNss(char *nss) {
+void Employee::setNss(char *nss)
+{
 	delete[] nss;
 	this->nss = new char[strlen(nss) + 1];
 	strcpy(this->nss, nss);
 }
-void Employee::setName(char *name) {
+void Employee::setName(char *name)
+{
 	delete[] name;
 	this->name = new char[strlen(name) + 1];
 	strcpy(this->name, name);
 }
-void Employee::setSalary(int salary) {
+void Employee::setSalary(int salary)
+{
 	this->salary = salary;
 }
-void Employee::setState(char *state) {
+void Employee::setState(char *state)
+{
 	delete[] state;
 	this->state = new char[strlen(state) + 1];
 	strcpy(this->state, state);
@@ -97,41 +109,101 @@ void Employee::getInformation()
 	cout << "Introduzca el salario: " << endl;
 	cin >> this->salary;
 }
-void Employee::modifyEmployee() {
+void Employee::modifyEmployee(bool isAdminCalling)
+{
 	string str;
 	char *datos;
-	cout << "Que quieres modificar:" << endl;
-	cout << "------------------" << endl;
-	cout << "1: NSS" << endl;
-	cout << "2: Nombre" << endl;
-	cout << ">";
-	cout.flush();
+	if (isAdminCalling)
+	{
+		cout << "Que quieres modificar:" << endl;
+		cout << "------------------" << endl;
+		cout << "1: NSS" << endl;
+		cout << "2: Nombre" << endl;
+		cout << "3: Salario" << endl;
+		cout << ">";
+		cout.flush();
+	}
+	else
+	{
+		cout << "Que quieres modificar:" << endl;
+		cout << "------------------" << endl;
+		cout << "1: NSS" << endl;
+		cout << "2: Nombre" << endl;
+		cout << ">";
+		cout.flush();
+	}
+
 	char opcionCorredor;
 	scanf("%c", &opcionCorredor);
-	switch (opcionCorredor) {
-	case '1':
-		cout << "\nIntroduce el nss corregido: " << endl;
-		cout.flush();
-		cin.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
-		cin.clear();
-		getline(cin, str);
-		datos = new char[strlen(str.c_str()) + 1];
-		strcpy(datos, str.c_str());
-		cout << "Updating" << endl;
-		updateEmployee(1, datos, this->nss);
-		break;
-	case '2':
-		cout << "\nIntroduce nombre: " << endl;
-		cout.flush();
-		cin.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
-		cin.clear();
-		getline(cin, str);
-		datos = new char[strlen(str.c_str()) + 1];
-		strcpy(datos, str.c_str());
-		cout << "Updating" << endl;
-		updateEmployee(2, datos, this->nss);
-		break;
-	default:
-		break;
+	if (isAdminCalling)
+	{
+		switch (opcionCorredor)
+		{
+		case '1':
+			cout << "\nIntroduce el nss corregido: " << endl;
+			cout.flush();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin.clear();
+			getline(cin, str);
+			datos = new char[strlen(str.c_str()) + 1];
+			strcpy(datos, str.c_str());
+			cout << "Updating" << endl;
+			updateEmployee(1, datos, this->nss);
+			break;
+		case '2':
+			cout << "\nIntroduce nombre: " << endl;
+			cout.flush();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin.clear();
+			getline(cin, str);
+			datos = new char[strlen(str.c_str()) + 1];
+			strcpy(datos, str.c_str());
+			cout << "Updating" << endl;
+			updateEmployee(2, datos, this->nss);
+			break;
+		case '3':
+			cout << "\nIntroduce salario: " << endl;
+			cout.flush();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin.clear();
+			getline(cin, str);
+			datos = new char[strlen(str.c_str()) + 1];
+			strcpy(datos, str.c_str());
+			cout << "Updating" << endl;
+			updateEmployee(3, datos, this->nss);
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		switch (opcionCorredor)
+		{
+		case '1':
+			cout << "\nIntroduce el nss corregido: " << endl;
+			cout.flush();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin.clear();
+			getline(cin, str);
+			datos = new char[strlen(str.c_str()) + 1];
+			strcpy(datos, str.c_str());
+			cout << "Updating" << endl;
+			updateEmployee(1, datos, this->nss);
+			break;
+		case '2':
+			cout << "\nIntroduce nombre: " << endl;
+			cout.flush();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin.clear();
+			getline(cin, str);
+			datos = new char[strlen(str.c_str()) + 1];
+			strcpy(datos, str.c_str());
+			cout << "Updating" << endl;
+			updateEmployee(2, datos, this->nss);
+			break;
+		default:
+			break;
+		}
 	}
 }

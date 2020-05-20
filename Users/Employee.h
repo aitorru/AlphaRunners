@@ -30,9 +30,9 @@ public:
 	void setName(char *name);
 	void setSalary(int salary);
 	void setState(char *state);
-	/*RESTO DE MÉTODOS*/
+	/*RESTO DE Mï¿½TODOS*/
 	void getInformation();
-	void modifyEmployee();
+	void modifyEmployee(bool isAdminCalling);
 };
 }
 

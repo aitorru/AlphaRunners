@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <string>
 #include <limits>
 #include <iostream>
 using namespace std;
@@ -685,6 +686,51 @@ int updateEmployee(int campo, char *dato, char *nss)
 
 		break;
 	}
+	case 3:
+	// Edit del salario
+		const char sql2[] = "UPDATE EMPLOYEE SET SALARY = ? WHERE NSS = ?";
+		result = sqlite3_prepare_v2(db, sql2, -1, &stmt, NULL);
+		if (result != SQLITE_OK)
+		{
+			printf("Error preparing statement (SELECT)\n");
+			printf("%s\n", sqlite3_errmsg(db));
+			return result;
+		}
+		result = sqlite3_bind_int(stmt, 1, atoi(dato));
+		if (result != SQLITE_OK)
+		{
+			cout << "Error binding parameters" << endl;
+			cout << "Linea 1" << endl;
+			cout << sqlite3_errmsg(db);
+			return result;
+		}
+		result = sqlite3_bind_text(stmt, 2, nss, strlen(nss),
+								   SQLITE_STATIC);
+		if (result != SQLITE_OK)
+		{
+			cout << "Error binding parameters" << endl;
+			cout << "Linea 2" << endl;
+			cout << sqlite3_errmsg(db);
+			return result;
+		}
+		result = sqlite3_step(stmt);
+		if (result != SQLITE_DONE)
+		{
+			cout << "Error inserting new data into table" << endl;
+			cout << sqlite3_errmsg(db) << endl;
+			return result;
+		}
+
+		result = sqlite3_finalize(stmt);
+		if (result != SQLITE_OK)
+		{
+			cout << "Error finalizing statement (INSERT)" << endl;
+			cout << sqlite3_errmsg(db) << endl;
+			return result;
+		}
+
+		sqlite3_close(db);
+		break;
 	}
 	return 0;
 }

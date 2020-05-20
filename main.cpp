@@ -231,7 +231,7 @@ int main(void)
 						sendNotification(employee.getNss(), "BAJA", desc);
 						break;
 					case '3':
-						employee.modifyEmployee();
+						employee.modifyEmployee(false);
 						break;
 					case '4':
 						cout << "Introduzca una breve descripci�n del motivo: " << endl;
@@ -428,7 +428,7 @@ int main(void)
 									strcpy(nss, str);
 									cleanBuffer();
 									employee.setNss(nss);
-									employee.modifyEmployee();
+									employee.modifyEmployee(true);
 									delete nss;
 									break;
 								case '3':
