@@ -790,7 +790,7 @@ int modifyState(char* nss, char* state)
 /*
  * TABLA RACE
  */
-int showAllRaces()
+int incomingRaces()
 {
 	sqlite3 *db;
 	int result = sqlite3_open(dir, &db);

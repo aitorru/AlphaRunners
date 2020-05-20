@@ -24,6 +24,7 @@ int updateEmployee(int campo, char *dato, char *nss);
 int modifyState(char* nss, char* state);
 //TABLA RACE
 int showAllRaces();
+int incomingRaces();
 int showRace(sqlite3 *db, int idRace);
 int insertRace(char *name, char *date, char *time, char *location, int km, char *nss);
 int deleteRace(int id);

@@ -131,7 +131,7 @@ int main(void)
 							switch (opcionCorredor)
 							{
 							case '1':
-								showAllRaces();
+								incomingRaces();
 								break;
 							case '2':
 								cout << "Cual es el id de la carrera a la que te quieres apuntar:" << endl;
